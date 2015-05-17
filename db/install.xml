@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="course/format/menutopic/db" VERSION="20120904" COMMENT="XMLDB file for Moodle contribution course/format/menutopic"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="format_menutopic" COMMENT="Menu course format configuration">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="course"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="config"/>
+        <FIELD NAME="config" TYPE="text" NOTNULL="false" SEQUENCE="false" PREVIOUS="course" NEXT="css"/>
+        <FIELD NAME="css" TYPE="text" NOTNULL="false" SEQUENCE="false" PREVIOUS="config" NEXT="js"/>
+        <FIELD NAME="js" TYPE="text" NOTNULL="false" SEQUENCE="false" PREVIOUS="css" NEXT="html"/>
+        <FIELD NAME="html" TYPE="text" NOTNULL="false" SEQUENCE="false" PREVIOUS="js" NEXT="tree"/>
+        <FIELD NAME="tree" TYPE="text" NOTNULL="false" SEQUENCE="false" PREVIOUS="html"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
