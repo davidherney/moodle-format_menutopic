@@ -2,7 +2,7 @@
 COURSE FORMATS menutopic
 ============================
 
-Package tested in: moodle 2.3+
+Package tested in: moodle 2.7+
 
 QUICK INSTALL
 ==============
@@ -15,6 +15,10 @@ Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.
 
 IN VERSION
 =============
+
+2015043002:
+- Compatibility with moodle 2.7.
+- Added functionality: Templates
 
 2013200102:
 - Added CSS class to current section
