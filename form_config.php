@@ -97,6 +97,7 @@ class config_menutopic_form extends moodleform {
         $mform->addElement('text', 'nodesnavigation', get_string('nodesnavigation', 'format_menutopic'));
         $mform->addHelpButton('nodesnavigation', 'nodesnavigation', 'format_menutopic');
         $mform->setDefault('nodesnavigation', $config->nodesnavigation);
+        $mform->setType('nodesnavigation', PARAM_RAW);
 
         $mform->addElement('header','template_topic', get_string('config_template_topic_title', 'format_menutopic'));
 
