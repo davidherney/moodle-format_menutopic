@@ -160,3 +160,8 @@ $string['tree_struct_help'] = '<p>La base del menú es una estructura de árbol 
     <li><strong>Destino del enlace:</strong> Indica si se desea abrir el enlace, sea de la sección o de la URL externa, en una nueva ventana o en la misma ventana. Si no se selecciona una opción, el enlace se abre en la misma ventana.</li>
 </ul>
 <p>Los cambios hechos en el menú solo son almacenados al seleccionar la opción <strong>&quot;Guardar cambios&quot;</strong> en la parte inferior de la página.</p>';
+
+$string['coursedisplay'] = 'Modo de visualización de la sección 0';
+$string['coursedisplay_help'] = 'Define como se muestra la sección 0: como un elemento del menú o como una sección encima del menú.';
+$string['coursedisplay_single'] = 'Como elemento del menú';
+$string['coursedisplay_multi'] = 'Arriba del menú';

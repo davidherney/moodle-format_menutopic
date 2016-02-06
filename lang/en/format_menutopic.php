@@ -158,3 +158,9 @@ $string['tree_struct_help'] = '<p>The basis of the menu is a tree structure wher
     <li><strong>Link target:</strong> Indicates if you want to open the link, the section or the external URL, in a new window or in the same window. If an option is not selected, the link will open in the same window.</li>
 </ul>
 <p>The changes realized in the menu are stored only to select the option <strong>&quot;Save changes&quot;</strong> at the bottom of the page.</p>';
+
+$string['coursedisplay'] = 'Visualization mode of section 0';
+$string['coursedisplay_help'] = 'This define as display the section 0: as a menu element or as section before the menu bar.';
+$string['coursedisplay_single'] = 'As a menu element';
+$string['coursedisplay_multi'] = 'Before the menu';
+
