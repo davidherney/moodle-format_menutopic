@@ -231,16 +231,16 @@ class format_menutopic extends format_base {
                     ),
                 ),
                 'coursedisplay' => array(
-                    'label' => new lang_string('coursedisplay'),
+                    'label' => new lang_string('coursedisplay', 'format_onetopic'),
                     'element_type' => 'select',
                     'element_attributes' => array(
                         array(
-                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single'),
-                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
+                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single', 'format_menutopic'),
+                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi', 'format_menutopic')
                         )
                     ),
                     'help' => 'coursedisplay',
-                    'help_component' => 'moodle',
+                    'help_component' => 'format_menutopic',
                 )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
