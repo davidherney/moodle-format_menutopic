@@ -231,7 +231,7 @@ class format_menutopic extends format_base {
                     ),
                 ),
                 'coursedisplay' => array(
-                    'label' => new lang_string('coursedisplay', 'format_onetopic'),
+                    'label' => new lang_string('coursedisplay', 'format_menutopic'),
                     'element_type' => 'select',
                     'element_attributes' => array(
                         array(
