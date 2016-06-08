@@ -53,3 +53,5 @@
 .format-menutopic .menutopic_hideicons .activityicon { display: none; }
 .format-menutopic .availability_info_box { display: inline; }
 .format-menutopic .summary img.activityicon { margin-right: 3px; vertical-align: text-bottom; }
+
+#format_menutopic_menu.format-menutopic-menu li.menuitem.menu-withsubitems { position: relative; }
