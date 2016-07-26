@@ -31,20 +31,20 @@ class jstemplate_menutopic_form extends moodleform {
     function definition() {
         global $USER, $CFG, $course;
 
-		$jscode = '';
+        $jscode = '';
 
-		if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'js')) {
-			$jscode = stripslashes($this->_customdata['format_data']->js);
-		}
-		
+        if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'js')) {
+            $jscode = stripslashes($this->_customdata['format_data']->js);
+        }
+        
         $mform =& $this->_form;
-		
+        
         $mform->addElement('header','general', get_string('jstemplate', 'format_menutopic'));
         $mform->addHelpButton('general', 'jstemplate', 'format_menutopic');
 
         $mform->addElement('textarea','jscode', get_string('jscode', 'format_menutopic'), array('rows'=> '20', 'cols'=>'65'));
         $mform->setType('jscode', PARAM_RAW);
-		$mform->setDefault('jscode', $jscode);
+        $mform->setDefault('jscode', $jscode);
 
         $mform->addElement('hidden', 'id', $course->id);
         $mform->setType('id', PARAM_INT);
@@ -58,7 +58,7 @@ class jstemplate_menutopic_form extends moodleform {
         $mform->addElement('hidden', 'menuaction', 'jstemplate');
         $mform->setType('menuaction', PARAM_ALPHA);
 
-		$this->add_action_buttons(false);
+        $this->add_action_buttons(false);
     }
 }
 
@@ -66,18 +66,18 @@ class jstemplate_menutopic_form extends moodleform {
 $display_form = new jstemplate_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
 
 if ($display_form->is_cancelled()){
-	redirect($course_cancel_link);
+    redirect($course_cancel_link);
 }
 else if ($data = $display_form->get_data()) {
 
-	$format_data->js = stripcslashes($data->jscode);
+    $format_data->js = stripcslashes($data->jscode);
 
-	if (!$DB->update_record('format_menutopic', $format_data)){
-	    notify (get_string('notsaved', 'format_menutopic'));
-	}
-	else {
-        notify (get_string('savecorrect', 'format_menutopic'));
-	}
+    if (!$DB->update_record('format_menutopic', $format_data)){
+        echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
+    }
+    else {
+        echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
+    }
 }
 
 $display_form->display();

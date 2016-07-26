@@ -30,7 +30,7 @@ class config_menutopic_form extends moodleform {
     function definition() {
         global $USER, $CFG, $course, $format_data;
 
-        $config = new object();
+        $config = new stdClass();
         $config->cssdefault = true;
         $config->menuposition = 'middle';
         $config->linkinparent = false;
@@ -44,7 +44,7 @@ class config_menutopic_form extends moodleform {
             $config_saved = @unserialize($this->_customdata['format_data']->config);
             
             if (!is_object($config_saved)) {
-                $config_saved = new object();
+                $config_saved = new stdClass();
             }
             
             if (isset($config_saved->cssdefault)) { $config->cssdefault = $config_saved->cssdefault; }
@@ -77,6 +77,7 @@ class config_menutopic_form extends moodleform {
         $choices['left'] = get_string('menuposition_left', 'format_menutopic');
         $choices['middle'] = get_string('menuposition_middle', 'format_menutopic');
         $choices['right'] = get_string('menuposition_right', 'format_menutopic');
+
         $mform->addElement('select', 'menuposition', get_string('menuposition', 'format_menutopic'), $choices);
         $mform->addHelpButton('menuposition', 'menuposition', 'format_menutopic');
         $mform->setDefault('menuposition', $config->menuposition);
@@ -143,10 +144,10 @@ else if ($data = $display_form->get_data()) {
     $format_data->config = $values;
 
     if (!$DB->update_record('format_menutopic', $format_data)){
-        notify (get_string('notsaved', 'format_menutopic'));
+        echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     }
     else {
-        notify (get_string('savecorrect', 'format_menutopic'));
+        echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 
