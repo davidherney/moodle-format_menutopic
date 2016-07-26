@@ -316,6 +316,10 @@ class format_menutopic extends format_base {
         }
         return $this->update_format_options($data);
     }
+
+    public function course_content_header() {
+        return new format_menutopic_header();
+    }
 }
 
 
@@ -367,3 +371,5 @@ class format_menutopic_replace_regularexpression {
         return $term;
     }
 }
+
+class format_menutopic_header implements renderable {}

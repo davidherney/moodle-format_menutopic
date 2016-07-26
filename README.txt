@@ -2,7 +2,7 @@
 COURSE FORMATS menutopic
 ============================
 
-Package tested in: moodle 3.0+
+Package tested in: moodle 3.1+
 
 QUICK INSTALL
 ==============
@@ -15,6 +15,10 @@ Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.
 
 IN VERSION
 =============
+2016072300:
+- Compatibility with moodle 3.1.
+- Show the menu in all course pages
+
 2016020600:
 - Compatibility with moodle 3.0.
 

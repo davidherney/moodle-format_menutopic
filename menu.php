@@ -36,7 +36,7 @@ class format_menutopic_menu {
             $this->_config    = $config;
         }
         else {
-            $this->_config = new object();
+            $this->_config = new stdClass();
             $this->_config->cssdefault = true;
             $this->_config->usehtml = false;
             $this->_config->menuposition = 'middle';
