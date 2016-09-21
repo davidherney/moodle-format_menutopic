@@ -15,6 +15,9 @@ Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.
 
 IN VERSION
 =============
+2016072301:
+- Fixed error with $course variable in lowercase
+
 2016072300:
 - Compatibility with moodle 3.1.
 - Show the menu in all course pages
