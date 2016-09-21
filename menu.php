@@ -102,8 +102,8 @@ class format_menutopic_menu {
 
         if (empty($menunode->url)) {
             if (!empty($menunode->topicnumber) || $menunode->topicnumber === "0" || $menunode->topicnumber === 0) {
-                global $course, $CFG;
-                $url = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$course->id, 'section'=>$menunode->topicnumber));
+                global $COURSE, $CFG;
+                $url = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$COURSE->id, 'section'=>$menunode->topicnumber));
             }
             else {
                 $url = 'javascript:;';

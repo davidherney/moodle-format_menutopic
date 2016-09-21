@@ -460,7 +460,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
     private function replace_resources ($section) {
 
-        global $CFG, $USER, $course;
+        global $CFG, $USER, $COURSE;
 
         static $initialised;
 
@@ -470,7 +470,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         static $usetracking;
         static $groupings;
 
-        //$course = $this->_course;
+        $course = course_get_format($COURSE)->get_course();
 
         $completioninfo = new completion_info($course);
 
@@ -861,11 +861,11 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
     //Load configuration data
     protected function load_formatdata() {
-        global $course, $DB;
+        global $COURSE, $DB;
 
-        if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$course->id)))){
+        if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$COURSE->id)))){
             $format_data = new stdClass();
-            $format_data->course    = $course->id;
+            $format_data->course    = $COURSE->id;
 
             if (!($format_data->id = $DB->insert_record('format_menutopic', $format_data))) {
                 debugging('Not is possible save the course format data in menutopic format', DEBUG_DEVELOPER);
@@ -886,13 +886,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $format_data->autobuild_tree = true;
         }
 
-/*        if (!property_exists($course, 'realcoursedisplay')) {
-            $course->realcoursedisplay = $course->coursedisplay;
+/*        if (!property_exists($COURSE, 'realcoursedisplay')) {
+            $COURSE->realcoursedisplay = $COURSE->coursedisplay;
         }
 
-        $real_course_display = $course->realcoursedisplay;*/
-        $modinfo = get_fast_modinfo($course);
-        $course = course_get_format($course)->get_course();
+        $real_course_display = $COURSE->realcoursedisplay;*/
+        $modinfo = get_fast_modinfo($COURSE);
+        $course = course_get_format($COURSE)->get_course();
         $course->realcoursedisplay = $course->coursedisplay;
         $course->coursedisplay = COURSE_DISPLAY_MULTIPAGE;
         $format_data->sections = $modinfo->get_section_info_all();
@@ -991,9 +991,10 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     protected function render_format_menutopic_header (format_menutopic_header $header) {
-        global $PAGE, $course, $USER;
+        global $PAGE, $COURSE, $USER;
 
         $format_data = $this->load_formatdata();
+        $course = course_get_format($COURSE)->get_course();
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
         if (!$inpopup && $PAGE->pagetype !== 'course-view-menutopic') {
