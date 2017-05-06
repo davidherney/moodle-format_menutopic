@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,7 +17,7 @@
 /**
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Custom tree control.
+ *
+ * @package format_menutopic
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class tree_menutopic_form extends moodleform {
 
     function definition() {
@@ -34,15 +42,14 @@ class tree_menutopic_form extends moodleform {
         $PAGE->requires->js_module(array(
             'name' => 'format_menutopic',
             'fullpath' => '/course/format/menutopic/module.js',
-            'requires' => array('yui2-treeview', 'panel', 'dd-plugin'),//'base', 'dom', 'event-delegate', 'event-key',
-                    //'json-parse', 'yui2-treeview', 'container', 'dragdrop', 'panel'),
+            'requires' => array('yui2-treeview', 'panel', 'dd-plugin'),
             'strings' => array(
                 array('error_jsontree', 'format_menutopic'),
                 array('title_panel_sheetedit', 'format_menutopic')
             ),
         ));
         $PAGE->requires->js_init_call('M.format_menutopic.init_tree');
-        
+
         $treecode = '';
 
         if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'tree') && !empty($this->_customdata['format_data']->tree)) {
@@ -83,7 +90,7 @@ class tree_menutopic_form extends moodleform {
 
         $mform->addElement('hidden', 'editmenumode', 'true');
         $mform->setType('editmenumode', PARAM_BOOL);
-        
+
         $mform->addElement('hidden', 'menuaction', 'tree');
         $mform->setType('menuaction', PARAM_ALPHA);
 
@@ -91,7 +98,7 @@ class tree_menutopic_form extends moodleform {
     }
 }
 
-//$displaysection, $format_data and $course_cancel_link are loaded in the render function
+// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
 $display_form = new tree_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
 
 if ($display_form->is_cancelled()){
@@ -104,7 +111,7 @@ else if ($data = $display_form->get_data()) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     }
     else {
-        //ToDo: Delete html cache if exists
+        // ToDo: Delete html cache if exists.
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
@@ -121,30 +128,30 @@ $display_form->display();
         border: 1px solid #CCC;
         background-color: #FFF;
     }
-    
+
     .select_topics{
         border: solid 1px #FFF;
     }
-    
+
     .img_action {
         cursor: pointer;
         margin-right: 10px;
     }
-    
+
     .yui3-widget-hd {
         font-weight: bold;
         cursor: move;
     }
-    
+
 </style>
 <div id="tree_container"><!--El div debe estar antes del script para que pueda ser referenciado como contenedor del árbol --></div>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot; ?>/course/format/menutopic/lib.js"></script>
 <script language="javascript" type="text/javascript">
     var _SHEETS = new Array();
     var _GLOBAL_VARS = new Array();
-    
+
     YUI.namespace("tree_admin");
-    
+
 </script>
 <div id="panel_container_editsheet" class="yui3-skin-sam">
     <div id="panel_edit_sheet">

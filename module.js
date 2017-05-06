@@ -28,7 +28,7 @@ M.format_menutopic.init_tree = function (Y) {
         return;
     }
 
-    // Instantiate a Panel from markup
+    // Instantiate a Panel from markup.
     YUI.tree_admin.panel_edit_sheet = new Y.Panel({
         srcNode      : "#panel_edit_sheet", 
         visible      : false,
@@ -39,4 +39,28 @@ M.format_menutopic.init_tree = function (Y) {
     YUI.tree_admin.panel_edit_sheet.render();
 
     Y.one('#id_submitbutton').on('click', save_tree_config);
+};
+
+M.format_menutopic.move_menu_left = function (Y) {
+
+    if (Y.one('#nav-drawer')) {
+        Y.one('#nav-drawer').prepend(Y.one('#format_menutopic_menu'));
+    } else if (Y.one('#block-region-side-pre')) {
+        Y.one('#block-region-side-pre').prepend(Y.one('#format_menutopic_menu'));
+        if (Y.one('body.empty-region-side-pre')) {
+            Y.one('body.empty-region-side-pre').removeClass('empty-region-side-pre');
+        }
+    }
+};
+
+M.format_menutopic.move_menu_right = function (Y) {
+
+    if (Y.one('#nav-drawer')) {
+        Y.one('#nav-drawer').prepend(Y.one('#format_menutopic_menu'));
+    } else if (Y.one('#block-region-side-post')) {
+        Y.one('#block-region-side-post').prepend(Y.one('#format_menutopic_menu'));
+        if (Y.one('body.empty-region-side-post')) {
+            Y.one('body.empty-region-side-post').removeClass('empty-region-side-post');
+        }
+    }
 };
