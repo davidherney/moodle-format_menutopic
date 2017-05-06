@@ -19,5 +19,3 @@ M.course.format.show_info = function(id) {
     Y.Node.one('#' + id).show();
 
 }
-
-//Y.Node.one(this)

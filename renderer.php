@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,7 +17,7 @@
 /**
  *
  * @since 2.4
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,13 +28,14 @@ require_once($CFG->dirroot.'/course/format/renderer.php');
 /**
  * Basic renderer for menutopic format.
  *
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_menutopic_renderer extends format_section_renderer_base {
 
     private static $_format_data;
-    private $_course;
+    private static $_course;
     private $_displaysection;
 
     /**
@@ -109,7 +111,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Generate next/previous section links for navigation according to menu configuration
+     * Generate next/previous section links for navigation according to menu configuration.
      *
      * @param stdClass $course The course entry from DB
      * @param array $sections The course_sections entries from the DB
@@ -140,16 +142,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
             if ($pos >= count($ids_topics)) {
                 $previous_topic = $next_topic = null;
-            }
-            else if ($pos == 0) {
+            } else if ($pos == 0) {
                 $previous_topic = null;
                 $next_topic = $ids_topics[1];
-            }
-            else if ($pos == (count($ids_topics) - 1)) {
+            } else if ($pos == (count($ids_topics) - 1)) {
                 $previous_topic = $ids_topics[$pos - 1];
                 $next_topic = null;
-            }
-            else {
+            } else {
                 $previous_topic = $ids_topics[$pos - 1];
                 $next_topic = $ids_topics[$pos + 1];
             }
@@ -162,14 +161,11 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $previouslink = html_writer::tag('span', $this->output->larrow(), array('class' => 'larrow'));
                 $previouslink .= get_section_name($course, $sections[$previous_topic]);
                 $previous_url = course_get_url($course, $previous_topic);
-                /*if ($previous_topic === 0) {
-                    str_replace('#section-0', '&section=0', $previous_url);
-                }*/
-                
+
                 $links['previous'] = html_writer::link($previous_url, $previouslink, $params);
-                
+
             }
-            
+
             if (($canviewhidden || $sections[$next_topic]->visible) && isset($sections[$next_topic])) {
                 $params = array();
                 if (!$sections[$next_topic]->visible) {
@@ -184,7 +180,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Output the html for a single section page .
+     * Output the html for a single section page.
      *
      * @param stdClass $course The course entry from DB
      * @param array $sections The course_sections entries from the DB
@@ -196,11 +192,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
     public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
         global $PAGE, $DB;
 
-        //Load configuration data
+        // Load configuration data.
         $format_data = self::$_format_data;
         $format_data->mods = $mods;
         $config_menu = $format_data->config_menu;
         $sections = $format_data->sections;
+        $course = self::$_course;
 
         if ($displaysection === 0 && $course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
             foreach($sections as $id=>$sec) {
@@ -216,13 +213,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $canviewhidden = has_capability('moodle/course:viewhiddensections', $context);
 
         if (!isset($sections[$displaysection])) {
-            // This section doesn't exist
+            // This section doesn't exist.
             print_error('unknowncoursesection', 'error', null, $course->fullname);
             return;
         }
 
         $this->_displaysection = $displaysection;
-        //END OF Load Menu configuration
+        // END OF Load Menu configuration.
 
         if ($PAGE->user_is_editing()) {
 
@@ -233,7 +230,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             echo html_writer::end_tag('form');
         }
 
-        // Copy activity clipboard..
+        // Copy activity clipboard.
         echo $this->course_activity_clipboard($course, $displaysection);
 
         // General section if non-empty and course_display is multiple.
@@ -242,13 +239,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
             if ((($thissection->visible && $thissection->available) || $canviewhidden) && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
                 echo $this->start_section_list();
                 echo $this->section_header($thissection, $course, true);
-                //echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+
                 if ($config_menu->templatetopic) {
                     if ($config_menu->displaynousedmod || $PAGE->user_is_editing()) {
                         echo $this->custom_course_section_cm_list($course, $thissection, $displaysection);
                     }
-                }
-                else {
+                } else {
                     echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
                 }
 
@@ -260,14 +256,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         $this->print_menu($format_data, $displaysection);
 
-        // Start single-section div
+        // Start single-section div.
         echo html_writer::start_tag('div', array('class' => 'single-section menutopic'));
 
         // Title with section navigation links.
         if (empty($format_data->config_menu->nodesnavigation)) {
             $sectionnavlinks = $this->get_nav_links($course, $sections, $displaysection);
-        }
-        else {
+        } else {
             $sectionnavlinks = $this->get_custom_nav_links($course, $sections, $displaysection, $format_data->config_menu->nodesnavigation);
         }
 
@@ -278,7 +273,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $sectiontitle .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
             $sectiontitle .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
         }
-        // Title attributes
+
+        // Title attributes.
         $titleattr = 'mdl-align title';
         if (!$sections[$displaysection]->visible) {
             $titleattr .= ' dimmed_text';
@@ -286,7 +282,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $sectiontitle .= html_writer::tag('div', get_section_name($course, $sections[$displaysection]), array('class' => $titleattr));
         $sectiontitle .= html_writer::end_tag('div');
 
-        // Now the list of sections..
+        // Now the list of sections.
         echo $this->start_section_list();
 
         // The requested section page.
@@ -296,13 +292,11 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $completioninfo = new completion_info($course);
         echo $completioninfo->display_help_icon();
 
-         //|| $config_menu->displaynousedmod || $PAGE->user_is_editing()
         if ($config_menu->templatetopic) {
             if ($config_menu->displaynousedmod || $PAGE->user_is_editing()) {
                 echo $this->custom_course_section_cm_list($course, $thissection, $displaysection);
             }
-        }
-        else {
+        } else {
             echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
         }
 
@@ -320,10 +314,10 @@ class format_menutopic_renderer extends format_section_renderer_base {
             echo $sectionbottomnav;
         }
 
-        // close single-section div.
+        // Close single-section div.
         echo html_writer::end_tag('div');
-        
-        // Include course format js module
+
+        // Include course format js module.
         $PAGE->requires->js('/course/format/menutopic/format.js');
     }
 
@@ -375,7 +369,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         print_tabs(array($tabs), "tab_configmenu_" . $menuaction);
 
-        // Start box container
+        // Start box container.
         echo html_writer::start_tag('div', array('class' => 'box generalbox'));
 
         if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$course->id)))){
@@ -390,12 +384,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         include $CFG->dirroot . '/course/format/menutopic/form_' . $menuaction . '.php';
 
-        // close box container
+        // Close box container.
         echo html_writer::end_tag('div');
     }
 
     /**
-     * Print the custom menu
+     * Print the custom menu.
      *
      * @param stdClass $format_data Data used to create menu and other functionality in the format
      * @param stdClass $course The course entry from DB
@@ -430,13 +424,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
             $html = $print_for_menu;
 
-            //HTML code for load the menu
+            // HTML code for load the menu.
             $html .= $menu->script_menu($format_data->config_menu, $displaysection, $format_data->config_menu->cssdefault);
 
             if ($return) {
                 return $html;
-            }
-            else {
+            } else {
                 echo $html;
             }
 
@@ -444,7 +437,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Generate html for a section summary text
+     * Generate html for a section summary text.
      *
      * @param stdClass $section The course_section entry from DB
      * @return string HTML to output.
@@ -458,6 +451,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
         return parent::format_summary_text($section);
     }
 
+    /**
+     * Replace resources into summary text.
+     *
+     * @param stdClass $section The course_section entry from DB
+     * @return string HTML to output.
+     */
     private function replace_resources ($section) {
 
         global $CFG, $USER, $COURSE;
@@ -487,7 +486,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $labelformatoptions = new stdClass();
         $labelformatoptions->noclean = true;
 
-        /// Casting $course->modinfo to string prevents one notice when the field is null
+        // Casting $course->modinfo to string prevents one notice when the field is null.
         $modinfo = self::$_format_data->modinfo;
 
         $summary = $section->summary;
@@ -511,77 +510,16 @@ class format_menutopic_renderer extends format_section_renderer_base {
                     continue;
                 }
 
-                /*if (isset($modinfo->cms[$modnumber])) {
-                    if (!$modinfo->cms[$modnumber]->uservisible) {
-                        $instancename = format_string($modinfo->cms[$modnumber]->name, true,  $course->id);
-                        //Replace the link in pattern: [[resource name]]
-                        $summary = preg_replace("/(\[\[)(([<][^>]*>)*)((" . preg_quote($instancename, '/') . ")(:?))([^\]]*)\]\]/i", '<span class="conditionalhidden">' . $instancename . '</span>', $summary);
-                        continue;
-                    }
-                }
-                else {
-                    if (!file_exists("$CFG->dirroot/mod/$mod->modname/lib.php")) {
-                        // module not installed
-                        continue;
-                    }
-                    if (!coursemodule_visible_for_user($mod)) {
-                        // full visibility check
-                        continue;
-                    }
-                }*/
-
                 $instancename = format_string($modinfo->cms[$modnumber]->name, true, $course->id);
 
-                /*$html_resource =  '<span class="context_activity activity '.$mod->modname.'">';
-
-                $extra = '';
-                if (!empty($modinfo->cms[$modnumber]->extra)) {
-                    $extra = $modinfo->cms[$modnumber]->extra;
-                }
-
-
-                if (!empty($modinfo->cms[$modnumber]->icon)) {
-                    $icon = $this->output->pix_url($modinfo->cms[$modnumber]->icon);
-                } else {
-                    $icon = $this->output->pix_url('icon', 'mod_' . $mod->modname);
-                }
-
-                //Accessibility: for files get description via icon.
-                $altname = '';
-                if ('resource' == $mod->modname) {
-                    if (!empty($modinfo->cms[$modnumber]->icon)) {
-                        $possaltname = $modinfo->cms[$modnumber]->icon;
-
-                        $instancename = $mod->get_formatted_name();
-                        $altname = $mod->modfullname;
-                    }
-                    else {
-                        $altname = $mod->modfullname;
-                    }
-                }
-                else {
-                    $altname = $mod->modfullname;
-                }
-                // Avoid unnecessary duplication.
-                if (false!==stripos($instancename, $altname)) {
-                    $altname = '';
-                }
-                // File type after name, for alphabetic lists (screen reader).
-                if ($altname) {
-                    $altname = get_accesshide(' '.$altname);
-                }
-
-                $linkcss = $mod->visible ? "" : " class=\"dimmed\" ";*/
-
-                // Display the link to the module (or do nothing if module has no url)
+                // Display the link to the module (or do nothing if module has no url).
                 $cmname = $this->courserenderer->course_section_cm_name($mod);
 
                 if (!empty($cmname)) {
                     $cmname = str_replace('<div ', '<span ', $cmname);
                     $cmname = str_replace('</div>', '</span>', $cmname);
                     $html_resource = $cmname . $mod->afterlink;
-                }
-                else {
+                } else {
                     $html_resource = '';
                 }
 
@@ -596,7 +534,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $url = $mod->url;
                 if (!empty($url)) {
                     // If there is content AND a link, then display the content here
-                    // (AFTER any icons). Otherwise it was displayed before
+                    // (AFTER any icons). Otherwise it was displayed before.
                     $html_resource .= $contentpart;
                 }
 
@@ -609,7 +547,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
                     $html_more .= '<div id="' . $unique_id . '" class="availability_info_box" style="display: none;">' . $availability_text . '</div>';
                 }
 
-                //Replace the link in pattern: [[resource name]]
+                // Replace the link in pattern: [[resource name]].
                 $obj_replace->_string_replace = $html_resource;
                 $obj_replace->_string_search = $instancename;
 
@@ -633,7 +571,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Customization of core_course_renderer->course_section_cm_list
+     * Customization of core_course_renderer->course_section_cm_list.
      *
      *
      * @param stdClass $course course object
@@ -654,28 +592,28 @@ class format_menutopic_renderer extends format_section_renderer_base {
         }
         $completioninfo = new completion_info($course);
 
-        // check if we are currently in the process of moving a module with JavaScript disabled
+        // Check if we are currently in the process of moving a module with JavaScript disabled.
         $ismoving = $this->courserenderer->page->user_is_editing() && ismoving($course->id);
         if ($ismoving) {
             $movingpix = new pix_icon('movehere', get_string('movehere'), 'moodle', array('class' => 'movetarget'));
             $strmovefull = strip_tags(get_string("movefull", "", "'$USER->activitycopyname'"));
         }
 
-        // Get the list of modules visible to user (excluding the module being moved if there is one)
+        // Get the list of modules visible to user (excluding the module being moved if there is one).
         $moduleshtml = array();
         if (!empty($modinfo->sections[$section->section])) {
             foreach ($modinfo->sections[$section->section] as $modnumber) {
 
-                //Custom modification in order to hide resources if they are shown in summary
+                // Custom modification in order to hide resources if they are shown in summary.
                 if (!$this->courserenderer->page->user_is_editing() && !isset(self::$_format_data->mods[$modnumber])) {
                     continue;
                 }
-                //End of custom modification
+                // End of custom modification.
 
                 $mod = $modinfo->cms[$modnumber];
 
                 if ($ismoving and $mod->id == $USER->activitycopy) {
-                    // do not display moving mod
+                    // Do not display moving mod.
                     continue;
                 }
 
@@ -713,36 +651,43 @@ class format_menutopic_renderer extends format_section_renderer_base {
         return $output;
     }
 
-    private function _remove_topic_in_tree ($topics, $section, $only_hide = false, $remove_topic = true) {
+    /**
+     * Change visibility options for menu items printing.
+     *
+     * @param array $topics The list of menu topics
+     * @param int $section The linked section
+     * @param bool $onlyhide true if show item but disabled
+     * @param bool $removetopic true if remove item from the menu
+     */
+    private function _remove_topic_in_tree ($topics, $section, $onlyhide = false, $removetopic = true) {
 
         foreach ($topics as $key=>$topic) {
 
             if ($topic->topicnumber == $section) {
-                if ($only_hide) {
+                if ($onlyhide) {
                     $topic->hidden = true;
                     if (isset($topic->subtopics) && is_array($topic->subtopics) && count($topic->subtopics) > 0) {
-                        $this->_remove_topic_in_tree($topic->subtopics, $section, $only_hide, $remove_topic);
+                        $this->_remove_topic_in_tree($topic->subtopics, $section, $onlyhide, $removetopic);
                     }
-                }
-                else {
+                } else {
                     $topic->visible = false;
                     $topic->subtopics = array();
                 }
 
-                if ($remove_topic) {
+                if ($removetopic) {
                     $topic->topicnumber = null;
                     $topic->subtopics = array();
                 }
-            }
-            else if (isset($topic->subtopics) && is_array($topic->subtopics) && count($topic->subtopics) > 0) {
-                $this->_remove_topic_in_tree($topic->subtopics, $section, $only_hide, $remove_topic);
+            } else if (isset($topic->subtopics) && is_array($topic->subtopics) && count($topic->subtopics) > 0) {
+                $this->_remove_topic_in_tree($topic->subtopics, $section, $onlyhide, $removetopic);
             }
         }
 
     }
+
     /**
      * Generate the display of the header part of a section before
-     * course modules are included
+     * course modules are included.
      *
      * @param stdClass $section The course_section entry from DB
      * @param stdClass $course The course entry from DB
@@ -752,11 +697,11 @@ class format_menutopic_renderer extends format_section_renderer_base {
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
         global $PAGE;
-    
+
         $o = '';
         $currenttext = '';
         $sectionstyle = '';
-    
+
         if ($section->section != 0) {
             // Only in the non-general sections.
             if (!$section->visible) {
@@ -765,26 +710,27 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $sectionstyle = ' current';
             }
         }
-    
+
         $o.= html_writer::start_tag('li', array('id' => 'section-'.$section->section,
                 'class' => 'section main clearfix'.$sectionstyle, 'role'=>'region',
                 'aria-label'=> get_section_name($course, $section)));
-    
+
         $leftcontent = $this->section_left_content($section, $course, $onsectionpage);
         $o.= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
-    
+
         $rightcontent = $this->section_right_content($section, $course, $onsectionpage);
         $o.= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
         $o.= html_writer::start_tag('div', array('class' => 'content'));
 
-        $sectionname = html_writer::tag('span', get_section_name($course, $section));
-
-        $o.= $this->output->heading($sectionname, 3, 'sectionname');
+        if ((string)$section->name !== '') {
+            $sectionname = html_writer::tag('span', get_section_name($course, $section));
+            $o.= $this->output->heading($sectionname, 3, 'sectionname');
+        }
 
         $o.= html_writer::start_tag('div', array('class' => 'summary'));
         $o.= $this->format_summary_text($section);
         $o.= html_writer::end_tag('div');
-    
+
         $context = context_course::instance($course->id);
         $o .= $this->section_availability_message($section,
             has_capability('moodle/course:viewhiddensections', $context));
@@ -793,7 +739,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Generate the edit control items of a section
+     * Generate the edit control items of a section.
      *
      * @param stdClass $course The course entry from DB
      * @param stdClass $section The course_section entry from DB
@@ -819,7 +765,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $isstealth = $section->section > $course->numsections;
         $controls = array();
         if (!$isstealth && $section->section && has_capability('moodle/course:setcurrentsection', $coursecontext)) {
-            if ($course->marker == $section->section) {  // Show the "light globe" on/off.
+            // Show the "light globe" on/off.
+            if ($course->marker == $section->section) {
                 $url->param('marker', 0);
                 $markedthistopic = get_string('markedthistopic');
                 $highlightoff = get_string('highlightoff');
@@ -859,9 +806,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
         }
     }
 
-    //Load configuration data
+    /**
+     * Load configuration data.
+     *
+     * @return stdClass Configuration data from current course format.
+     */
     protected function load_formatdata() {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $PAGE;
 
         if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$COURSE->id)))){
             $format_data = new stdClass();
@@ -879,18 +830,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
         if (!empty($format_data->tree)) {
             $format_data->tree = json_decode(stripslashes($format_data->tree));
             $format_data->autobuild_tree = false;
-        }
-        else {
+        } else {
             $format_data->tree = new stdClass();
             $format_data->tree->topics = array();
             $format_data->autobuild_tree = true;
         }
 
-/*        if (!property_exists($COURSE, 'realcoursedisplay')) {
-            $COURSE->realcoursedisplay = $COURSE->coursedisplay;
-        }
-
-        $real_course_display = $COURSE->realcoursedisplay;*/
         $modinfo = get_fast_modinfo($COURSE);
         $course = course_get_format($COURSE)->get_course();
         $course->realcoursedisplay = $course->coursedisplay;
@@ -898,7 +843,18 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $format_data->sections = $modinfo->get_section_info_all();
         $format_data->modinfo = $modinfo;
 
-        //Load Menu configuration
+        // Make sure all sections are created.
+        if (count($format_data->sections) <= $course->numsections) {
+            course_create_sections_if_missing($course, range(0, $course->numsections));
+            $modinfo = get_fast_modinfo($COURSE);
+            $course = course_get_format($COURSE)->get_course();
+            $course->realcoursedisplay = $course->coursedisplay;
+            $course->coursedisplay = COURSE_DISPLAY_MULTIPAGE;
+            $format_data->sections = $modinfo->get_section_info_all();
+            $format_data->modinfo = $modinfo;
+        }
+
+        // Load Menu configuration.
         $config_menu = new stdClass();
         $config_menu->cssdefault = true;
         $config_menu->menuposition = 'middle';
@@ -943,15 +899,22 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 continue;
             }
 
+            if (count($format_data->sections) <= $section) {
+                $section++;
+                continue;
+            }
+
             $thissection = $format_data->sections[$section];
 
             $showsection = true;
             if (!$thissection->visible || !$thissection->available) {
                 $showsection = false;
-            }
-            else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())){
+            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())){
                 $showsection = false;
             }
+
+            $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($course->id))
+                || !$course->hiddensections;
 
             if ($showsection || $canviewhidden || !$course->hiddensections) {
                 if ($format_data->autobuild_tree) {
@@ -962,20 +925,17 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
                     if ($showsection || $canviewhidden) {
                         $topic->topicnumber = $section;
-                    }
-                    else {
+                    } else {
                         $topic->topicnumber = null;
                     }
 
                     $topic->url = "";
                     $topic->target = "";
                     $format_data->tree->topics[] = $topic;
-                }
-                else if (!$showsection) {
+                } else if (!$showsection) {
                     $this->_remove_topic_in_tree ($format_data->tree->topics, $section, (!$course->hiddensections || $canviewhidden), !$canviewhidden);
                 }
-            }
-            else {
+            } else {
                 if (!$format_data->autobuild_tree) {
                     $this->_remove_topic_in_tree ($format_data->tree->topics, $section, false, true);
                 }
@@ -984,16 +944,22 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $section++;
         }
 
-        $this->_course = $course;
+        self::$_course = $course;
         self::$_format_data = $format_data;
 
         return $format_data;
     }
 
+    /**
+     * Content to be output above content on any course page
+     *
+     * @param format_menutopic_header Object renderable with data for plugin header renderer
+     * @return string HTML for build the menu
+     */
     protected function render_format_menutopic_header (format_menutopic_header $header) {
         global $PAGE, $COURSE, $USER;
 
-        $format_data = $this->load_formatdata();
+        $formatdata = $this->load_formatdata();
         $course = course_get_format($COURSE)->get_course();
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
@@ -1003,40 +969,40 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
             if (isset($section) && $section >= 0) {
                 $displaysection = $section;
-            } 
-            else {
+            } else {
                 if (isset($USER->display[$course->id])) {
                     $displaysection = $USER->display[$course->id];
-                }
-                else {
+                } else {
                     $displaysection = 0;
                 }
             }
 
+            $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($course->id))
+                || !$course->hiddensections;
+
+            $htmlsection0 = '';
             // General section if non-empty and course_display is multiple.
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
-                $thissection = $format_data->sections[0];
+                $thissection = $formatdata->sections[0];
                 if ((($thissection->visible && $thissection->available) || $canviewhidden) && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
-                    echo $this->start_section_list();
-                    echo $this->section_header($thissection, $course, true);
+                    $htmlsection0 = $this->start_section_list();
+                    $htmlsection0 .= $this->section_header($thissection, $course, true);
 
-                    $format_data->mods = $format_data->modinfo->get_cms();
-                    if ($format_data->config_menu->templatetopic) {
-                        if ($format_data->config_menu->displaynousedmod || $PAGE->user_is_editing()) {
-                            echo $this->custom_course_section_cm_list($course, $thissection, $displaysection);
+                    $formatdata->mods = $formatdata->modinfo->get_cms();
+                    if ($formatdata->config_menu->templatetopic) {
+                        if ($formatdata->config_menu->displaynousedmod || $PAGE->user_is_editing()) {
+                            $htmlsection0 .= $this->custom_course_section_cm_list($course, $thissection, $displaysection);
                         }
+                    } else {
+                        $htmlsection0 .= $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
                     }
-                    else {
-                        echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
-                    }
-                    echo $this->section_footer();
-                    echo $this->end_section_list();
+                    $htmlsection0 .= $this->section_footer();
+                    $htmlsection0 .= $this->end_section_list();
                 }
             }
 
-            $menu = $this->print_menu($format_data, $displaysection);
-        }
-        else {
+            $menu = $htmlsection0 . $this->print_menu($formatdata, $displaysection, true);
+        } else {
             $menu = '';
         }
 

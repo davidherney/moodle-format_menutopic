@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,7 +17,7 @@
 /**
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,17 +43,17 @@ class config_menutopic_form extends moodleform {
 
         if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'config') && !empty($this->_customdata['format_data']->config)) {
             $config_saved = @unserialize($this->_customdata['format_data']->config);
-            
+
             if (!is_object($config_saved)) {
                 $config_saved = new stdClass();
             }
-            
+
             if (isset($config_saved->cssdefault)) { $config->cssdefault = $config_saved->cssdefault; }
 
             if (isset($config_saved->menuposition)) { $config->menuposition = $config_saved->menuposition; }
-            
+
             if (isset($config_saved->linkinparent)) { $config->linkinparent = $config_saved->linkinparent; }
-            
+
             if (isset($config_saved->templatetopic)) { $config->templatetopic = $config_saved->templatetopic; }
 
             if (isset($config_saved->icons_templatetopic)) { $config->icons_templatetopic = $config_saved->icons_templatetopic; }
@@ -65,7 +66,7 @@ class config_menutopic_form extends moodleform {
         }
 
         $mform =& $this->_form;
-        
+
         $mform->addElement('header','general', get_string('config_editmenu_title', 'format_menutopic'));
 
         $mform->addElement('selectyesno', 'cssdefault', get_string('cssdefault', 'format_menutopic'));
@@ -130,15 +131,12 @@ class config_menutopic_form extends moodleform {
     }
 }
 
-//$displaysection, $format_data and $course_cancel_link are loaded in the render function
+// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
 $display_form = new config_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
 
 if ($display_form->is_cancelled()){
     redirect($course_cancel_link);
-}
-else if ($data = $display_form->get_data()) {
-    //$data->wwwroot = $CFG->wwwroot;
-    //$data->courseid = $course->id;
+} else if ($data = $display_form->get_data()) {
     $values = serialize($data);
 
     $format_data->config = $values;

@@ -7,7 +7,7 @@ function load_tree(idtreecode) {
     if ($(idtreecode)) {
         var control_container = $(idtreecode);
         var json_string = control_container.value;
-        
+
         var container_tree = document.createElement('div');
         control_container.parentNode.appendChild(container_tree);
 
@@ -16,31 +16,30 @@ function load_tree(idtreecode) {
 
             Y.use('yui2-treeview', function(Y) {
                 var tree = new Y.YUI2.widget.TreeView(container_tree);
-            
 
                 _GLOBAL_VARS['id_menu_tree'] = tree.id;
-    
+
                 var sheet;
-    
+
                  if (json_object.topics && json_object.topics.length > 0) {
                     for (var i = 0; i < json_object.topics.length; i++) {
                         create_sheet(tree.getRoot(), json_object.topics[i]);
                     }
                 }
-    
+
                 tree.render();
                 tree.subscribe('dblClickEvent',tree.onEventEditNode); 
                 tree.subscribe("labelClick", function(node) {
                     sheet_click (node);
                 });
             });
-    
+
         }
         catch (e) {
             alert(e);
             return false;
         }
-        
+
         return true;
     }
 }
@@ -48,7 +47,7 @@ function load_tree(idtreecode) {
 function create_sheet (node_root, obj) {
     var node = new Y.YUI2.widget.TextNode({label: obj.name}, node_root, true);
     _SHEETS[node.index] = obj;
-    
+
     if (obj.subtopics) {
         for (var i = 0; i < obj.subtopics.length; i++) {
             create_sheet(node, obj.subtopics[i]);
@@ -78,7 +77,7 @@ function sheet_click (node) {
     $('url_text').value = _SHEETS[node.index].url;
     $('select_target').value = _SHEETS[node.index].target;
     _GLOBAL_VARS['active_node'] = node;
-    
+
     config_menu_actions (node);
 }
 
@@ -133,7 +132,7 @@ function move_sheet_left() {
     targetNode.expanded = true;
 
     targetNode.parent.refresh();
-    
+
     config_menu_actions (node);
 }
 
@@ -149,7 +148,7 @@ function move_sheet_right() {
     targetNode.expanded = true;
 
     targetNode.parent.refresh();
-    
+
     config_menu_actions (node);
 }
 
@@ -163,7 +162,7 @@ function move_sheet_up() {
     node.insertBefore(targetNode);
 
     targetNode.parent.refresh();
-    
+
     config_menu_actions (node);
 }
 
@@ -177,7 +176,7 @@ function move_sheet_down() {
     node.insertAfter(targetNode);
 
     targetNode.parent.refresh();
-    
+
     config_menu_actions (node);
 }
 
@@ -189,7 +188,7 @@ function delete_sheet() {
 
     tree.removeNode(node);
     root.refresh();
-    
+
     YUI.tree_admin.panel_edit_sheet.hide();
 }
 
@@ -205,7 +204,7 @@ function config_menu_actions (node) {
     else {
         $('btn_move_left_sheet').style.display = '';
     }
-    
+
     if (node.previousSibling == null) {
         $('btn_move_right_sheet').style.display = 'none';
         $('btn_move_up_sheet').style.display = 'none';
@@ -246,7 +245,7 @@ function save_tree_config () {
 function tree_code_from_node(rootNode) {
     var treecode = '';
     var obj;
-    
+
     if (rootNode.children) {
         var node = rootNode.children[0];
         while (node != null) {
@@ -261,7 +260,7 @@ function tree_code_from_node(rootNode) {
             treecode += '         "url": "' + obj.url + '",';
             treecode += '         "target": "' + obj.target + '"';
             treecode += '}';
-            
+
             node = node.nextSibling;
         }
     }

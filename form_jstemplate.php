@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,7 +17,7 @@
 /**
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Class to manage the custom javascript.
+ *
+ * @package format_menutopic
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class jstemplate_menutopic_form extends moodleform {
 
     function definition() {
@@ -36,9 +44,9 @@ class jstemplate_menutopic_form extends moodleform {
         if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'js')) {
             $jscode = stripslashes($this->_customdata['format_data']->js);
         }
-        
+
         $mform =& $this->_form;
-        
+
         $mform->addElement('header','general', get_string('jstemplate', 'format_menutopic'));
         $mform->addHelpButton('general', 'jstemplate', 'format_menutopic');
 
@@ -54,7 +62,7 @@ class jstemplate_menutopic_form extends moodleform {
 
         $mform->addElement('hidden', 'editmenumode', 'true');
         $mform->setType('editmenumode', PARAM_BOOL);
-        
+
         $mform->addElement('hidden', 'menuaction', 'jstemplate');
         $mform->setType('menuaction', PARAM_ALPHA);
 
@@ -62,23 +70,20 @@ class jstemplate_menutopic_form extends moodleform {
     }
 }
 
-//$displaysection, $format_data and $course_cancel_link are loaded in the render function
+// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
 $display_form = new jstemplate_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
 
 if ($display_form->is_cancelled()){
     redirect($course_cancel_link);
-}
-else if ($data = $display_form->get_data()) {
+} else if ($data = $display_form->get_data()) {
 
     $format_data->js = stripcslashes($data->jscode);
 
     if (!$DB->update_record('format_menutopic', $format_data)){
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
-    }
-    else {
+    } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 
 $display_form->display();
-

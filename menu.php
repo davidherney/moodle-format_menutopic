@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,13 +17,20 @@
 /**
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class to build the menu
+ *
+ * @package format_menutopic
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class format_menutopic_menu {
 
     public $tree;
@@ -30,12 +38,14 @@ class format_menutopic_menu {
     public $current = 0;
     public $displaysection;
 
-    // Object construct
+    /**
+     * Object construct.
+     *
+     */
     public function __construct($config = null) {
         if (!empty($config) && is_object($config)) {
             $this->_config    = $config;
-        }
-        else {
+        } else {
             $this->_config = new stdClass();
             $this->_config->cssdefault = true;
             $this->_config->usehtml = false;
@@ -45,6 +55,8 @@ class format_menutopic_menu {
     }
 
     public function list_code_horizontal_menu ($with_styles) {
+
+        global $PAGE;
 
         if (empty($this->tree)){
             return '';
@@ -73,20 +85,19 @@ class format_menutopic_menu {
             $content .= html_writer::end_tag('div');
 
             if ($this->_config->menuposition == 'left') {
-                $content .= "<script>Y.on('contentready', function () { Y.Node.one('#block-region-side-pre').prepend(Y.Node.one('#format_menutopic_menu')); }, '#block-region-side-pre'); Y.one('body.empty-region-side-pre').removeClass('empty-region-side-pre');</script>";
-            }
-            else if ($this->_config->menuposition == 'right') {
-                $content .= "<script>Y.on('contentready', function () { Y.Node.one('#block-region-side-post').prepend(Y.Node.one('#format_menutopic_menu')); }, '#block-region-side-post'); Y.one('body.empty-region-side-post').removeClass('empty-region-side-post');</script>";
+                $PAGE->requires->js_init_call('M.format_menutopic.move_menu_left', null, true);
+            } else if ($this->_config->menuposition == 'right') {
+                $PAGE->requires->js_init_call('M.format_menutopic.move_menu_right', null, true);
             }
 
         }
 
-        // Return the menu
+        // Return the menu.
         return $content;
     }
 
     /**
-     * Renders a menu node as part of a submenu
+     * Renders a menu node as part of a submenu.
      *
      */
     private function list_item_menu ($menunode, $level) {
@@ -103,13 +114,16 @@ class format_menutopic_menu {
         if (empty($menunode->url)) {
             if (!empty($menunode->topicnumber) || $menunode->topicnumber === "0" || $menunode->topicnumber === 0) {
                 global $COURSE, $CFG;
-                $url = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$COURSE->id, 'section'=>$menunode->topicnumber));
-            }
-            else {
+
+                if (isset($menunode->hidden) && $menunode->hidden && !has_capability('moodle/course:viewhiddensections', context_course::instance($COURSE->id))) {
+                    $url = 'javascript:;';
+                } else {
+                    $url = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$COURSE->id, 'section'=>$menunode->topicnumber));
+                }
+            } else {
                 $url = 'javascript:;';
             }
-        }
-        else {
+        } else {
             $url = $menunode->url;
         }
 
@@ -144,8 +158,7 @@ class format_menutopic_menu {
             }
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::end_tag('li');
-        }
-        else {
+        } else {
 
             $link_properties = array('class'=>'menuitem-content');
             $li_properties = array('class'=>'menuitem menu-level-' . $level);
@@ -162,7 +175,7 @@ class format_menutopic_menu {
                 $li_properties['class'] .= ' disabled';
             }
 
-            // The node doesn't have children so produce a final menuitem
+            // The node doesn't have children so produce a final menuitem.
             $content = html_writer::start_tag('li', $li_properties);
             $content .= html_writer::link($url, $menunode->name, $link_properties);
             $content .= html_writer::end_tag('li');
