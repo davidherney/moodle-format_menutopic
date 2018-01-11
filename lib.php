@@ -60,7 +60,28 @@ class format_menutopic extends format_base {
             return format_string($section->name, true,
                     array('context' => context_course::instance($this->courseid)));
         } else {
-            return get_string('sectionname', 'format_menutopic') . ' ' . $section->section;
+            return $this->get_default_section_name($section);
+        }
+    }
+
+    /**
+     * Returns the default section name for the topics course format.
+     *
+     * If the section number is 0, it will use the string with key = section0name from the course format's lang file.
+     * If the section number is not 0, the base implementation of format_base::get_default_section_name which uses
+     * the string with the key = 'sectionname' from the course format's lang file + the section number will be used.
+     *
+     * @param stdClass $section Section object from database or just field course_sections section
+     * @return string The default value for the section name.
+     */
+    public function get_default_section_name($section) {
+        if ($section->section == 0) {
+            // Return the general section.
+            return get_string('section0name', 'format_topics');
+        } else {
+            // Use format_base::get_default_section_name implementation which
+            // will display the section name in "Topic n" format.
+            return parent::get_default_section_name($section);
         }
     }
 
@@ -146,7 +167,7 @@ class format_menutopic extends format_base {
      *
      * @return array This will be passed in ajax respose
      */
-    function ajax_section_move() {
+    public function ajax_section_move() {
         global $PAGE;
         $titles = array();
         $course = $this->get_course();
@@ -272,7 +293,7 @@ class format_menutopic extends format_base {
             $numsections = $numsections[0];
             if ($numsections > $maxsections) {
                 $element = $mform->getElement('numsections');
-                for ($i = $maxsections+1; $i <= $numsections; $i++) {
+                for ($i = $maxsections + 1; $i <= $numsections; $i++) {
                     $element->addOption("$i", $i);
                 }
             }
@@ -305,8 +326,8 @@ class format_menutopic extends format_base {
                         // If previous format does not have the field 'numsections'
                         // and $data['numsections'] is not set,
                         // we fill it with the maximum section number from the DB.
-                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections}
-                            WHERE course = ?', array($this->courseid));
+                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?',
+                                        array($this->courseid));
                         if ($maxsection) {
                             // If there are no sections, or just default 0-section, 'numsections' will be set to default.
                             $data['numsections'] = $maxsection;
@@ -316,6 +337,18 @@ class format_menutopic extends format_base {
             }
         }
         return $this->update_format_options($data);
+    }
+
+    /**
+     * Whether this format allows to delete sections
+     *
+     * Do not call this function directly, instead use {@link course_can_delete_section()}
+     *
+     * @param int|stdClass|section_info $section
+     * @return bool
+     */
+    public function can_delete_section($section) {
+        return true;
     }
 
     /**
@@ -337,15 +370,78 @@ class format_menutopic extends format_base {
     public function supports_news() {
         return true;
     }
+
+    /**
+     * Returns whether this course format allows the activity to
+     * have "triple visibility state" - visible always, hidden on course page but available, hidden.
+     *
+     * @param stdClass|cm_info $cm course module (may be null if we are displaying a form for adding a module)
+     * @param stdClass|section_info $section section where this module is located or will be added to
+     * @return bool
+     */
+    public function allow_stealth_module_visibility($cm, $section) {
+        // Allow the third visibility state inside visible sections or in section 0.
+        return !$section->section || $section->visible;
+    }
+
+    /**
+     * Callback used in WS core_course_edit_section when teacher performs an AJAX action on a section (show/hide)
+     *
+     * Access to the course is already validated in the WS but the callback has to make sure
+     * that particular action is allowed by checking capabilities
+     *
+     * Course formats should register
+     *
+     * @param stdClass|section_info $section
+     * @param string $action
+     * @param int $sr
+     * @return null|array|stdClass any data for the Javascript post-processor (must be json-encodeable)
+     */
+    public function section_action($section, $action, $sr) {
+        global $PAGE;
+
+        if ($section->section && ($action === 'setmarker' || $action === 'removemarker')) {
+            // Format 'topics' allows to set and remove markers in addition to common section actions.
+            require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
+            course_set_marker($this->courseid, ($action === 'setmarker') ? $section->section : 0);
+            return null;
+        }
+
+        // For show/hide actions call the parent method and return the new content for .section_availability element.
+        $rv = parent::section_action($section, $action, $sr);
+        $renderer = $PAGE->get_renderer('format_topics');
+        $rv['section_availability'] = $renderer->section_availability($this->get_section($section));
+        return $rv;
+    }
 }
 
 
+/**
+ * Class used in order to replace tags into text. It is a part of templates functionality.
+ *
+ * Called by preg_replace_callback in renderer.php.
+ *
+ * @since 2.0
+ * @package format_menutopic
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class format_menutopic_replace_regularexpression {
+    /** @var string Text to search */
     public $_string_search;
+
+    /** @var string Text to replace */
     public $_string_replace;
 
+    /** @var string Temporal key */
     public $_tag_string = '{label_tag_replace}';
 
+    /**
+     * Replace a tag into a text.
+     *
+     * @param array $match
+     * @return array
+     */
     public function replace_tag_in_expresion ($match) {
 
         $term = $match[0];
@@ -359,10 +455,10 @@ class format_menutopic_replace_regularexpression {
             $pattern = '/([^:])+:/i';
             $text = preg_replace($pattern, '', $text);
 
-            //Change text for alternative text
-            $new_replace = str_replace($this->_string_search, $text, $this->_string_replace);
+            // Change text for alternative text.
+            $newreplace = str_replace($this->_string_search, $text, $this->_string_replace);
 
-            //posible html tags position
+            // Posible html tags position.
             $pattern = '/([>][^<]*:[^<]*[<])+/i';
             $term = preg_replace($pattern, '><:><', $term);
 
@@ -378,15 +474,23 @@ class format_menutopic_replace_regularexpression {
             $pattern = '/([>][^<^:]*[<])+/i';
             $term = preg_replace($pattern, '><', $term);
 
-            $term = str_replace('<:>', $new_replace, $term);
-        }
-        else {
-            //Change tag for resource or mod name
-            $new_replace = str_replace($this->_tag_string, $this->_string_search, $this->_string_replace);
-            $term = str_replace($this->_string_search, $new_replace, $term);
+            $term = str_replace('<:>', $newreplace, $term);
+        } else {
+            // Change tag for resource or mod name.
+            $newreplace = str_replace($this->_tag_string, $this->_string_search, $this->_string_replace);
+            $term = str_replace($this->_string_search, $newreplace, $term);
         }
         return $term;
     }
 }
 
-class format_menutopic_header implements renderable {}
+/**
+ * Class used to render the header content in each course page.
+ *
+ *
+ * @package format_menutopic
+ * @copyright 2016 David Herney Bernal - cirano
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class format_menutopic_header implements renderable {
+}

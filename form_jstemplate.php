@@ -36,7 +36,7 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class jstemplate_menutopic_form extends moodleform {
 
-    function definition() {
+    public function definition() {
         global $USER, $CFG, $course;
 
         $jscode = '';
@@ -47,10 +47,10 @@ class jstemplate_menutopic_form extends moodleform {
 
         $mform =& $this->_form;
 
-        $mform->addElement('header','general', get_string('jstemplate', 'format_menutopic'));
+        $mform->addElement('header', 'general', get_string('jstemplate', 'format_menutopic'));
         $mform->addHelpButton('general', 'jstemplate', 'format_menutopic');
 
-        $mform->addElement('textarea','jscode', get_string('jscode', 'format_menutopic'), array('rows'=> '20', 'cols'=>'65'));
+        $mform->addElement('textarea', 'jscode', get_string('jscode', 'format_menutopic'), array('rows' => '20', 'cols' => '65'));
         $mform->setType('jscode', PARAM_RAW);
         $mform->setDefault('jscode', $jscode);
 
@@ -70,16 +70,16 @@ class jstemplate_menutopic_form extends moodleform {
     }
 }
 
-// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new jstemplate_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
+// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
+$display_form = new jstemplate_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()){
+if ($display_form->is_cancelled()) {
     redirect($course_cancel_link);
 } else if ($data = $display_form->get_data()) {
 
     $format_data->js = stripcslashes($data->jscode);
 
-    if (!$DB->update_record('format_menutopic', $format_data)){
+    if (!$DB->update_record('format_menutopic', $format_data)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');

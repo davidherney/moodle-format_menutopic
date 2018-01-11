@@ -2,7 +2,7 @@
 COURSE FORMATS menutopic
 ============================
 
-Package tested in: moodle 3.1+ and moodle 3.2+
+Package tested in: moodle 3.3+
 
 QUICK INSTALL
 ==============
@@ -15,6 +15,11 @@ Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.
 
 IN VERSION
 =============
+2018011000:
+- Compatibility with moodle 3.3
+- Supports "stealth" activities mode
+- Rebuilded tree config feature
+
 2016072302:
 - Compatibility with moodle 3.2.
 - Fixed errors
