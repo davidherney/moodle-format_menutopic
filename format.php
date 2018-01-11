@@ -41,7 +41,7 @@ if ($topic = optional_param('topic', 0, PARAM_INT)) {
 
 $context = context_course::instance($course->id);
 
-if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
+if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
     $course->marker = $marker;
     course_set_marker($course->id, $marker);
 }
@@ -58,8 +58,7 @@ $course->editmenumode = optional_param('editmenumode', false, PARAM_BOOL);
 if (isset($section) && $section >= 0) {
      $USER->display[$course->id] = $section;
      $displaysection = $section;
-} 
-else {
+} else {
     if (isset($USER->display[$course->id])) {
         $displaysection = $USER->display[$course->id];
     } else {
@@ -70,10 +69,10 @@ else {
 
 if ($course->editmenumode) {
     $renderer->print_edition_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection);
-}
-else {
+} else {
     $renderer->print_single_section_page($course, null, $mods, $modnames, $modnamesused, $displaysection);
 }
 
 // Include course format js module.
 $PAGE->requires->js('/course/format/topics/format.js');
+$PAGE->requires->js('/course/format/menutopic/format.js');

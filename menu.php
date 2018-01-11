@@ -58,14 +58,14 @@ class format_menutopic_menu {
 
         global $PAGE;
 
-        if (empty($this->tree)){
+        if (empty($this->tree)) {
             return '';
         }
 
         $content = '';
 
-        if (isset($this->tree->topics) && is_array($this->tree->topics)){
-            $properties = array('id'=>'format_menutopic_menu');
+        if (isset($this->tree->topics) && is_array($this->tree->topics)) {
+            $properties = array('id' => 'format_menutopic_menu');
 
             $properties['class'] = $this->_config->menuposition;
 
@@ -74,20 +74,22 @@ class format_menutopic_menu {
             }
 
             $content = html_writer::start_tag('div', $properties);
-            $content .= html_writer::start_tag('ul', array('class'=>'menu-body-content menu-level-0'));
-            // Render each child
+            $content .= html_writer::start_tag('ul', array('class' => 'menu-body-content menu-level-0'));
+            // Render each child.
             foreach ($this->tree->topics as $item) {
                 $content .= $this->list_item_menu($item, 0);
             }
-            // Close the open tags
+            // Close the open tags.
             $content .= html_writer::end_tag('ul');
             $content .= html_writer::tag('div', '', array('class' => 'clearfix'));
             $content .= html_writer::end_tag('div');
 
             if ($this->_config->menuposition == 'left') {
-                $PAGE->requires->js_init_call('M.format_menutopic.move_menu_left', null, true);
+                $PAGE->requires->js('/course/format/menutopic/format.js');
+                $PAGE->requires->js_init_call('M.course.format.moveMenuLeft', null, true);
             } else if ($this->_config->menuposition == 'right') {
-                $PAGE->requires->js_init_call('M.format_menutopic.move_menu_right', null, true);
+            $PAGE->requires->js('/course/format/menutopic/format.js');
+                $PAGE->requires->js_init_call('M.course.format.moveMenuRight', null, true);
             }
 
         }
@@ -115,10 +117,12 @@ class format_menutopic_menu {
             if (!empty($menunode->topicnumber) || $menunode->topicnumber === "0" || $menunode->topicnumber === 0) {
                 global $COURSE, $CFG;
 
-                if (isset($menunode->hidden) && $menunode->hidden && !has_capability('moodle/course:viewhiddensections', context_course::instance($COURSE->id))) {
+                if (isset($menunode->hidden) && $menunode->hidden
+                        && !has_capability('moodle/course:viewhiddensections', context_course::instance($COURSE->id))) {
                     $url = 'javascript:;';
                 } else {
-                    $url = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$COURSE->id, 'section'=>$menunode->topicnumber));
+                    $url = new moodle_url($CFG->wwwroot.'/course/view.php',
+                            array('id' => $COURSE->id, 'section' => $menunode->topicnumber));
                 }
             } else {
                 $url = 'javascript:;';
@@ -133,7 +137,7 @@ class format_menutopic_menu {
                 $url = 'javascript:;';
             }
 
-            $li_properties = array('class'=>"menuitem menu-withsubitems");
+            $li_properties = array('class' => "menuitem menu-withsubitems");
 
             if ($this->displaysection == $topic_number) {
                 $li_properties['class'] .= ' current';
@@ -145,14 +149,14 @@ class format_menutopic_menu {
 
             $content = html_writer::start_tag('li', $li_properties);
 
-            $link_properties = array('class'=>'menu-label');
+            $link_properties = array('class' => 'menu-label');
 
             if (!empty($menunode->target)) {
                 $link_properties['target'] = $menunode->target;
             }
 
             $content .= html_writer::link($url, $menunode->name, $link_properties);
-            $content .= html_writer::start_tag('ul', array('class'=>'submenu-body-content menu-level-' . ($level + 1)));
+            $content .= html_writer::start_tag('ul', array('class' => 'submenu-body-content menu-level-' . ($level + 1)));
             foreach ($menunode->subtopics as $node) {
                 $content .= $this->list_item_menu($node, $level + 1);
             }
@@ -160,8 +164,8 @@ class format_menutopic_menu {
             $content .= html_writer::end_tag('li');
         } else {
 
-            $link_properties = array('class'=>'menuitem-content');
-            $li_properties = array('class'=>'menuitem menu-level-' . $level);
+            $link_properties = array('class' => 'menuitem-content');
+            $li_properties = array('class' => 'menuitem menu-level-' . $level);
 
             if (!empty($menunode->target)) {
                 $link_properties['target'] = $menunode->target;
@@ -180,7 +184,7 @@ class format_menutopic_menu {
             $content .= html_writer::link($url, $menunode->name, $link_properties);
             $content .= html_writer::end_tag('li');
         }
-        // Return the sub menu
+        // Return the sub menu.
         return $content;
 
     }
@@ -190,8 +194,6 @@ class format_menutopic_menu {
         $this->_config = $config;
         $this->displaysection = $displaysection;
 
-        $print_for_menu = $this->list_code_horizontal_menu ($with_styles);
-
-        return $print_for_menu;
+        return $this->list_code_horizontal_menu ($with_styles);
     }
 }

@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -93,16 +94,16 @@ $string['separator_navigation'] = ' - ';
 $string['csstemplate'] = 'About: CSS styles';
 $string['jstemplate'] = 'JavaScript code';
 
-//ToDo: Hacer las ayudas como cadenas de texto
+// ToDo: Hacer las ayudas como cadenas de texto.
 $string['jsdefault_help'] = 'Defines if the Javascript functions that generate the menu are included. Disables the default javascript can be useful if you want to give another appearance to the menu using Javascript code that can be
 included in the <b>"Javascript template"</b>.';
 $string['cssdefault_help'] = 'Defines if CSS styles are included by default to the menu. Disable this option can be useful to include customised styles by the option <b>"(CSS) styles template"</b>';
 $string['menuposition_help'] = '<p>Defines the position where the menu will appear in the course. The possible options are:
 <ul>
-	<li><b>Do not show:</b> menu is not generated</li>
-	<li><b>Left:</b> menu is generated vertically in the column of the left blocks, if exist.</li>
-	<li><b>Middle:</b> menu is generated horizontally as a bar in the middle part of the course, over the section</li>
-	<li><b>Right:</b> menu is generated vertically in the column of the right blocks, if exist.</li>
+    <li><b>Do not show:</b> menu is not generated</li>
+    <li><b>Left:</b> menu is generated vertically in the column of the left blocks, if exist.</li>
+    <li><b>Middle:</b> menu is generated horizontally as a bar in the middle part of the course, over the section</li>
+    <li><b>Right:</b> menu is generated vertically in the column of the right blocks, if exist.</li>
 </ul></p>';
 
 $string['linkinparent_help'] = '<p>Defines the behavior of the menu options that act as roots or fathers of a submenu.</p>
@@ -127,7 +128,7 @@ $string['csstemplate_help'] = 'Allows to include customized CSS styles which you
 <p>With the previous code, the menu is separated 10px from the bottom, according to the position defined for the menu.</p>
 <p><strong>Note:</strong> 
 <ul>
-	<li>The identifier (id) of the layer (div) that the menu contains is <strong>id_menu_box</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
+    <li>The identifier (id) of the layer (div) that the menu contains is <strong>id_menu_box</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
     <li>It is possible that to make changes in the styles, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
 
@@ -135,27 +136,28 @@ $string['jstemplate_help'] = 'Allows to define the JavaScript code that will wor
 or even a menu structure different from the default.
 <p><b>Notes:</b> 
 <ul>
-	<li>The name <b>id_menu_box</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
+    <li>The name <b>id_menu_box</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
     <li>It is possible that to make changes in the JavaScript, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
 
 $string['tree_struct_help'] = '<p>The basis of the menu is a tree structure where each branch or tree sheet can be associated to a URL. The URL can be external or directly linked to a course section. When you sign the first time to set the section tree, the platform suggests a lineal structure, without branches, with a quantity of sheets equal to the number of course sections.</p>
-<p>To change the properties of a sheet, click on its name, and it will appear a window where you can: realize some actions to move the sheets, delete the selected sheet, create a new sheet or update the sheet data.</p>
 <p>Among the options that you can do on the sheet are:</p>
 <ul>
-    <li><strong>Move a sheet to left:</strong> is done by selecting the arrow pointing left. Converts to the sheet in sister of the sheet that contains it (parent sheet). It is only available if the sheet is daughter of another sheet, never if it is in the main branch.</li>
-    <li><strong>Move a sheet to right:</strong> is done by selecting the arrow pointing right. Converts to the sheet in daughter of the previous sheet. It is not available for the first sheet of the main branch.</li>
-    <li><strong>Up a sheet:</strong> is done by selecting the arrow pointing up. Changes the order of a sheet putting it before its brother inmediately previous. It is not available for the first sheet of a branch.</li>
-    <li><strong>Down a sheet:</strong> is done by selecting the arrow pointing down. Changes the order of a sheet putting it after its brother inmediately next. It is not available for the last sheet of a branch.</li>
-    <li><strong>Delete a sheet:</strong> is done by selecting the X. Deletes the selected sheet and all sheets that it contains.</li>
-</ul>
-<p>The option <strong>&quot;Add as a new sheet&quot;</strong>creates a copy of the selected sheet and it adds it as its daughter. Daughter sheets are not copied, only the selected.</p>
-<p>The option <strong>&quot;Change sheet data&quot; </strong>updates the select values to the properties of the selected sheet. The properties that can be modified are:</p>
-<ul>
-    <li><strong>Sheet name:</strong> the tag that appears for this sheet in the menu.</li>
-    <li><strong>Target section:</strong> If the sheet is used for a course section, this option indicates what section will be the selected. If a section is selected, an external URL could not be selected to which direct the link of the option in the menu.</li>
-    <li><strong>URL:</strong> indicates a URL to which will do reference the menu option. It is only can be especified if a target section was not selected.</li>
-    <li><strong>Link target:</strong> Indicates if you want to open the link, the section or the external URL, in a new window or in the same window. If an option is not selected, the link will open in the same window.</li>
+    <li>
+        <strong>Edit a sheet (&#9997;):</strong> updates the select values to the properties of the selected sheet. The properties that can be modified are:
+            <ul>
+                <li><strong>Sheet name:</strong> the tag that appears for this sheet in the menu.</li>
+                <li><strong>Target section:</strong> If the sheet is used for a course section, this option indicates what section will be the selected. If a section is selected, an external URL could not be selected to which direct the link of the option in the menu.</li>
+                <li><strong>URL:</strong> indicates a URL to which will do reference the menu option. It is only can be especified if a target section was not selected.</li>
+                <li><strong>Link target:</strong> Indicates if you want to open the link, the section or the external URL, in a new window or in the same window. If an option is not selected, the link will open in the same window.</li>
+            </ul>
+    </li>
+    <li><strong>Move a sheet to left (&larr;):</strong> Converts to the sheet in sister of the sheet that contains it (parent sheet). It is only available if the sheet is daughter of another sheet, never if it is in the main branch.</li>
+    <li><strong>Move a sheet to right (&rarr;):</strong> Converts to the sheet in daughter of the previous sheet. It is not available for the first sheet of the main branch.</li>
+    <li><strong>Up a sheet (&uarr;):</strong> Changes the order of a sheet putting it before its brother inmediately previous. It is not available for the first sheet of a branch.</li>
+    <li><strong>Down a sheet (&darr;):</strong> Changes the order of a sheet putting it after its brother inmediately next. It is not available for the last sheet of a branch.</li>
+    <li><strong>Delete a sheet (&#10008;):</strong> Deletes the selected sheet and all sheets that it contains.</li>
+    <li><strong>Add a sheet (&#10010;):</strong> Create a new sheet and add it as its daughter.</li>
 </ul>
 <p>The changes realized in the menu are stored only to select the option <strong>&quot;Save changes&quot;</strong> at the bottom of the page.</p>';
 
@@ -163,4 +165,3 @@ $string['coursedisplay'] = 'Visualization mode of section 0';
 $string['coursedisplay_help'] = 'This define as display the section 0: as a menu element or as section before the menu bar.';
 $string['coursedisplay_single'] = 'As a menu element';
 $string['coursedisplay_multi'] = 'Before the menu';
-

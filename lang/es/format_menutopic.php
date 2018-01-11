@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -93,7 +94,7 @@ $string['separator_navigation'] = ' - ';
 $string['csstemplate'] = 'Estilo CSS';
 $string['jstemplate'] = 'Fuentes JavaScript';
 
-//ToDo: Hacer las ayudas como cadenas de texto
+// ToDo: Hacer las ayudas como cadenas de texto.
 $string['jsdefault_help'] = '<p>Define si se incluyen las funciones de JavaScript que generan el menú. En caso de que se establezca como <b>No</b>, el menú
 se generará como una lista</p>
 <p>
@@ -105,10 +106,10 @@ $string['cssdefault_help'] = '<p>Define si se incluyen los estilos CSS por defec
 <p>Puede ser útil deshabilitar esta opción para incluir estilos personalizados mediante la opción <b>"Plantilla de estilos (CSS)"</b></p>';
 $string['menuposition_help'] = '<p>Define la posición en la cual aparecerá el menú en el curso. Las posibles opciones son:
 <ul>
-	<li><b>No mostrar:</b> no se genera el menú</li>
-	<li><b>Izquierda:</b> el menú es generado verticalmente en la columna de bloques de la izquierda, si no hay bloque al lado izquierdo entonces se ve el menú en el centro.</li>
-	<li><b>Centro:</b> el menú se genera horizontalmente como una barra en la parte central del curso</li>
-	<li><b>Derecha:</b> el menú es generado verticalmente en la columna de bloques de la derecha, si no hay bloque al lado derecho entonces se ve el menú en el centro. En esta ubicación, los submenús presentan problemas de visualización debidos a la librería de JavaScript utilizadas.</li>
+    <li><b>No mostrar:</b> no se genera el menú</li>
+    <li><b>Izquierda:</b> el menú es generado verticalmente en la columna de bloques de la izquierda, si no hay bloque al lado izquierdo entonces se ve el menú en el centro.</li>
+    <li><b>Centro:</b> el menú se genera horizontalmente como una barra en la parte central del curso</li>
+    <li><b>Derecha:</b> el menú es generado verticalmente en la columna de bloques de la derecha, si no hay bloque al lado derecho entonces se ve el menú en el centro. En esta ubicación, los submenús presentan problemas de visualización debidos a la librería de JavaScript utilizadas.</li>
 </ul></p>';
 $string['linkinparent_help'] = '<p>Define el comportamiento de las opciones del menú que actúan como raices o padres de un submenú.</p>
 <p>Si se establece en <b>Sí</b>, el ítem del menú actúa como enlace al dar clic sobre él y abre la URL que se le define en el <b>"Árbol del menú"</b>. Si se establece en <b>No</b>, el ítem del menú despliega los enlaces hijos al dar clic sobre él.</p>';
@@ -127,7 +128,7 @@ $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con
 <p>Con el anterior código se separa 10px el contenido que esté por debajo del menú, según la posición definida para el menú.</p>
 <p><strong>Nota:</strong> 
 <ul>
-	<li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
+    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
     <li>Al realizar cambios en los estilos es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 
@@ -137,27 +138,28 @@ o incluso para definir una estructura de menú diferente a la por defecto.</p>
 para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería <a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>
 <p><b>Notas:</b> 
 <ul>
-	<li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
+    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
     <li>Al realizar cambios en el JavaScript es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 
 $string['tree_struct_help'] = '<p>La base del menú es una estructura de árbol donde cada rama u hoja del árbol puede estar asociada a una URL. La URL puede ser externa o estár vinculada directamente a una sección del curso. Cuando se ingresa por primera vez a configurar el árbol, la plataforma sugiere una estructura lineal, sin ramas, con una cantidad de hojas igual al número de secciones del curso.</p>
-<p>Para cambiar las propiedades de una hoja, se da clic sobre su nombre con lo cual aparece una ventana donde se podrá: realizar algunas acciones para mover las hojas, eliminar la hoja seleccionada, crear una nueva hoja o actualizar los datos de la hoja.</p>
-<p>Entre las acciones que se pueden realizar sobre la hoja están:</p>
+<p>Al pasar el mouse sobre una hoja se ven las opciones de edición. Entre las acciones que se pueden realizar sobre la hoja están:</p>
 <ul>
-    <li><strong>Mover una hoja a la izquierda:</strong> se realiza seleccionando la flecha que apunta a la izquierda. Convierte a la hoja en hermana de la hoja que la contiene (hoja padre). Solo está disponible si la hoja es hija de otra hoja, nunca si se encuentra en la rama principal.</li>
-    <li><strong>Mover una hoja a la derecha:</strong> se realiza seleccionando la flecha que apunta a la derecha. Convierte la hoja en hija de la hoja anterior. No está disponible para la primera hoja de la rama principal.</li>
-    <li><strong>Subir una hoja:</strong> se realiza seleccionando la flecha que apunta para arriba. Cambia el orden de una hoja colocandola antes de su hermano inmediatamente anterior. No está disponible para la primera hoja de una rama.</li>
-    <li><strong>Bajar una hoja:</strong> se realiza seleccionando la flecha que apunta para abajo. Cambia el orden de una hoja colocandola despues de su hermano inmediatamente posterior. No está disponible para la última hoja de una rama.</li>
-    <li><strong>Eliminar una hoja:</strong> se realiza seleccionando la X. Elimina la hoja seleccionada y todas las hojas que contiene.</li>
-</ul>
-<p>La opción <strong>&quot;Adicionar como nueva hoja&quot;</strong>crea una copia de la hoja seleccionada y la agrega como hija de ésta. No se copian las hojas hijas, solo la seleccionada.</p>
-<p>La opción <strong>&quot;Cambiar datos de la hoja&quot; </strong>actualiza los valores asociados a las propiedades de la hoja seleccionada. Las propiedades que pueden ser modificadas son:</p>
-<ul>
-    <li><strong>Nombre de la hoja:</strong> la etiqueta que aparece para esa hoja en el menú.</li>
-    <li><strong>Sección destino:</strong> Si la hoja se utiliza como referencia a una sección del curso, esta opción indica cual sección será la seleccionada. Si se selecciona una sección no se podrá definir luego una URL externa a la cual dirigir el enlace de la opción en el menú.</li>
-    <li><strong>URL:</strong> indica una URL a la cual hará referencia la opción del menú. Solo puede ser especificada si no se seleccionó una sección destino.</li>
-    <li><strong>Destino del enlace:</strong> Indica si se desea abrir el enlace, sea de la sección o de la URL externa, en una nueva ventana o en la misma ventana. Si no se selecciona una opción, el enlace se abre en la misma ventana.</li>
+    <li>
+        <strong>Editar una hoja (&#9997;):</strong> permite modificar todos los parámetros de la hoja actual. Las propiedades que pueden ser modificadas son:
+        <ul>
+            <li><strong>Nombre de la hoja:</strong> la etiqueta que aparece para esa hoja en el menú.</li>
+            <li><strong>Sección destino:</strong> Si la hoja se utiliza como referencia a una sección del curso, esta opción indica cual sección será la seleccionada. Si se selecciona una sección no se podrá definir luego una URL externa a la cual dirigir el enlace de la opción en el menú.</li>
+            <li><strong>URL:</strong> indica una URL a la cual hará referencia la opción del menú. Solo puede ser especificada si no se seleccionó una sección destino.</li>
+            <li><strong>Destino del enlace:</strong> Indica si se desea abrir el enlace, sea de la sección o de la URL externa, en una nueva ventana o en la misma ventana. Si no se selecciona una opción, el enlace se abre en la misma ventana.</li>
+        </ul>
+    </li>
+    <li><strong>Mover una hoja a la izquierda (&larr;):</strong> convierte a la hoja en hermana de la hoja que la contiene (hoja padre). Solo está disponible si la hoja es hija de otra hoja, nunca si se encuentra en la rama principal.</li>
+    <li><strong>Mover una hoja a la derecha (&rarr;):</strong> convierte la hoja en hija de la hoja anterior. No está disponible para la primera hoja de la rama principal.</li>
+    <li><strong>Subir una hoja (&uarr;):</strong> cambia el orden de una hoja colocandola antes de su hermano inmediatamente anterior. No está disponible para la primera hoja de una rama.</li>
+    <li><strong>Bajar una hoja (&darr;):</strong> cambia el orden de una hoja colocandola despues de su hermano inmediatamente posterior. No está disponible para la última hoja de una rama.</li>
+    <li><strong>Eliminar una hoja (&#10008;):</strong> elimina la hoja seleccionada y todas las hojas que contiene.</li>
+    <li><strong>Adicionar una hoja (&#10010;):</strong> adiciona una nueva hoja como hija de la actual.</li>
 </ul>
 <p>Los cambios hechos en el menú solo son almacenados al seleccionar la opción <strong>&quot;Guardar cambios&quot;</strong> en la parte inferior de la página.</p>';
 

@@ -28,7 +28,7 @@ require_once($CFG->libdir.'/formslib.php');
 
 class config_menutopic_form extends moodleform {
 
-    function definition() {
+    public function definition() {
         global $USER, $CFG, $course, $format_data;
 
         $config = new stdClass();
@@ -48,26 +48,42 @@ class config_menutopic_form extends moodleform {
                 $config_saved = new stdClass();
             }
 
-            if (isset($config_saved->cssdefault)) { $config->cssdefault = $config_saved->cssdefault; }
+            if (isset($config_saved->cssdefault)) {
+                $config->cssdefault = $config_saved->cssdefault;
+            }
 
-            if (isset($config_saved->menuposition)) { $config->menuposition = $config_saved->menuposition; }
+            if (isset($config_saved->menuposition)) {
+                $config->menuposition = $config_saved->menuposition;
+            }
 
-            if (isset($config_saved->linkinparent)) { $config->linkinparent = $config_saved->linkinparent; }
+            if (isset($config_saved->linkinparent)) {
+                $config->linkinparent = $config_saved->linkinparent;
+            }
 
-            if (isset($config_saved->templatetopic)) { $config->templatetopic = $config_saved->templatetopic; }
+            if (isset($config_saved->templatetopic)) {
+                $config->templatetopic = $config_saved->templatetopic;
+            }
 
-            if (isset($config_saved->icons_templatetopic)) { $config->icons_templatetopic = $config_saved->icons_templatetopic; }
+            if (isset($config_saved->icons_templatetopic)) {
+                $config->icons_templatetopic = $config_saved->icons_templatetopic;
+            }
 
-            if (isset($config_saved->displaynousedmod)) { $config->displaynousedmod = $config_saved->displaynousedmod; }
+            if (isset($config_saved->displaynousedmod)) {
+                $config->displaynousedmod = $config_saved->displaynousedmod;
+            }
 
-            if (isset($config_saved->displaynavigation)) { $config->displaynavigation = $config_saved->displaynavigation; }
+            if (isset($config_saved->displaynavigation)) {
+                $config->displaynavigation = $config_saved->displaynavigation;
+            }
 
-            if (isset($config_saved->nodesnavigation)) { $config->nodesnavigation = $config_saved->nodesnavigation; }
+            if (isset($config_saved->nodesnavigation)) {
+                $config->nodesnavigation = $config_saved->nodesnavigation;
+            }
         }
 
         $mform =& $this->_form;
 
-        $mform->addElement('header','general', get_string('config_editmenu_title', 'format_menutopic'));
+        $mform->addElement('header', 'general', get_string('config_editmenu_title', 'format_menutopic'));
 
         $mform->addElement('selectyesno', 'cssdefault', get_string('cssdefault', 'format_menutopic'));
         $mform->addHelpButton('cssdefault', 'cssdefault', 'format_menutopic');
@@ -101,7 +117,7 @@ class config_menutopic_form extends moodleform {
         $mform->setDefault('nodesnavigation', $config->nodesnavigation);
         $mform->setType('nodesnavigation', PARAM_RAW);
 
-        $mform->addElement('header','template_topic', get_string('config_template_topic_title', 'format_menutopic'));
+        $mform->addElement('header', 'template_topic', get_string('config_template_topic_title', 'format_menutopic'));
 
         $mform->addElement('selectyesno', 'templatetopic', get_string('templatetopic', 'format_menutopic'));
         $mform->addHelpButton('templatetopic', 'templatetopic', 'format_menutopic');
@@ -131,20 +147,19 @@ class config_menutopic_form extends moodleform {
     }
 }
 
-// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new config_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
+// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
+$display_form = new config_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()){
+if ($display_form->is_cancelled()) {
     redirect($course_cancel_link);
 } else if ($data = $display_form->get_data()) {
     $values = serialize($data);
 
     $format_data->config = $values;
 
-    if (!$DB->update_record('format_menutopic', $format_data)){
+    if (!$DB->update_record('format_menutopic', $format_data)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
-    }
-    else {
+    } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }

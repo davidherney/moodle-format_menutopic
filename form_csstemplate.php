@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir.'/formslib.php');
 
 /**
@@ -33,7 +35,7 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class csstemplate_menutopic_form extends moodleform {
 
-    function definition() {
+    public function definition() {
         global $USER, $CFG, $course;
 
         $csscode = '';
@@ -44,10 +46,10 @@ class csstemplate_menutopic_form extends moodleform {
 
         $mform =& $this->_form;
 
-        $mform->addElement('header','general', get_string('csstemplate_editmenu_title', 'format_menutopic'));
+        $mform->addElement('header', 'general', get_string('csstemplate_editmenu_title', 'format_menutopic'));
         $mform->addHelpButton('general', 'csstemplate', 'format_menutopic');
 
-        $mform->addElement('textarea','csscode', get_string('csscode', 'format_menutopic'), array('rows'=> '20', 'cols'=>'65'));
+        $mform->addElement('textarea', 'csscode', get_string('csscode', 'format_menutopic'), array('rows' => '20', 'cols' => '65'));
         $mform->setType('csscode', PARAM_RAW);
         $mform->setDefault('csscode', $csscode);
 
@@ -67,16 +69,16 @@ class csstemplate_menutopic_form extends moodleform {
     }
 }
 
-// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new csstemplate_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
+// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
+$display_form = new csstemplate_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()){
+if ($display_form->is_cancelled()) {
     redirect($course_cancel_link);
 } else if ($data = $display_form->get_data()) {
 
     $format_data->css = stripcslashes($data->csscode);
 
-    if (!$DB->update_record('format_menutopic', $format_data)){
+    if (!$DB->update_record('format_menutopic', $format_data)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');

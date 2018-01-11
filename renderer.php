@@ -34,9 +34,11 @@ require_once($CFG->dirroot.'/course/format/renderer.php');
  */
 class format_menutopic_renderer extends format_section_renderer_base {
 
+    /** @var stdClass Local format data */
     private static $_format_data;
+
+    /** @var stdClass Reference to current course */
     private static $_course;
-    private $_displaysection;
 
     /**
      * Generate the starting container html for a list of sections
@@ -79,8 +81,9 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $links = array('previous' => '', 'next' => '');
         $back = $sectionno - 1;
 
-        while ((($back > 0 && $course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) || ($back >= 0 && $course->realcoursedisplay != COURSE_DISPLAY_MULTIPAGE)) &&
-                empty($links['previous'])) {
+        while ((($back > 0 && $course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE)
+                || ($back >= 0 && $course->realcoursedisplay != COURSE_DISPLAY_MULTIPAGE))
+                && empty($links['previous'])) {
             if ($canviewhidden || $sections[$back]->uservisible) {
                 $params = array();
                 if (!$sections[$back]->visible) {
@@ -130,7 +133,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $ids_topics = explode(',', $nodesnavigation);
 
         $pos = 0;
-        foreach($ids_topics as $id_topic) {
+        foreach ($ids_topics as $id_topic) {
             if (trim($id_topic) == $sectionno) {
                 $current_exists = true;
                 break;
@@ -138,7 +141,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $pos++;
         }
 
-        if($current_exists) {
+        if ($current_exists) {
 
             if ($pos >= count($ids_topics)) {
                 $previous_topic = $next_topic = null;
@@ -200,7 +203,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $course = self::$_course;
 
         if ($displaysection === 0 && $course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
-            foreach($sections as $id=>$sec) {
+            foreach ($sections as $id => $sec) {
                 if ($id > 0 && $sec->visible) {
                     $displaysection = $id;
                     break;
@@ -218,15 +221,14 @@ class format_menutopic_renderer extends format_section_renderer_base {
             return;
         }
 
-        $this->_displaysection = $displaysection;
         // END OF Load Menu configuration.
 
         if ($PAGE->user_is_editing()) {
 
             echo html_writer::start_tag('form', array('method' => 'post'));
-            echo html_writer::empty_tag('input', array('type' => 'submit', 'value'=>get_string('editmenu', 'format_menutopic')));
-            echo html_writer::empty_tag('input', array('type' => 'hidden', 'value'=>'true', 'name'=>'editmenumode'));
-            echo html_writer::empty_tag('input', array('type' => 'hidden', 'value'=>$course->id, 'name'=>'id'));
+            echo html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('editmenu', 'format_menutopic')));
+            echo html_writer::empty_tag('input', array('type' => 'hidden', 'value' => 'true', 'name' => 'editmenumode'));
+            echo html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $course->id, 'name' => 'id'));
             echo html_writer::end_tag('form');
         }
 
@@ -236,7 +238,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
         // General section if non-empty and course_display is multiple.
         if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE && $displaysection !== 0) {
             $thissection = $sections[0];
-            if ((($thissection->visible && $thissection->available) || $canviewhidden) && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+            if ((($thissection->visible && $thissection->available) || $canviewhidden)
+                    && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
                 echo $this->start_section_list();
                 echo $this->section_header($thissection, $course, true);
 
@@ -263,7 +266,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
         if (empty($format_data->config_menu->nodesnavigation)) {
             $sectionnavlinks = $this->get_nav_links($course, $sections, $displaysection);
         } else {
-            $sectionnavlinks = $this->get_custom_nav_links($course, $sections, $displaysection, $format_data->config_menu->nodesnavigation);
+            $sectionnavlinks = $this->get_custom_nav_links($course, $sections, $displaysection,
+                                $format_data->config_menu->nodesnavigation);
         }
 
         $sectiontitle = '';
@@ -279,7 +283,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
         if (!$sections[$displaysection]->visible) {
             $titleattr .= ' dimmed_text';
         }
-        $sectiontitle .= html_writer::tag('div', get_section_name($course, $sections[$displaysection]), array('class' => $titleattr));
+        $sectiontitle .= html_writer::tag('div', get_section_name($course, $sections[$displaysection]),
+                            array('class' => $titleattr));
         $sectiontitle .= html_writer::end_tag('div');
 
         // Now the list of sections.
@@ -316,9 +321,6 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         // Close single-section div.
         echo html_writer::end_tag('div');
-
-        // Include course format js module.
-        $PAGE->requires->js('/course/format/menutopic/format.js');
     }
 
     /**
@@ -340,9 +342,9 @@ class format_menutopic_renderer extends format_section_renderer_base {
         }
 
         echo html_writer::start_tag('form', array('method' => 'GET'));
-        echo html_writer::empty_tag('input', array('type' => 'submit', 'value'=>get_string('end_editmenu', 'format_menutopic')));
-        echo html_writer::empty_tag('input', array('type' => 'hidden', 'value'=>$displaysection, 'name'=>'section'));
-        echo html_writer::empty_tag('input', array('type' => 'hidden', 'value'=>$course->id, 'name'=>'id'));
+        echo html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('end_editmenu', 'format_menutopic')));
+        echo html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $displaysection, 'name' => 'section'));
+        echo html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $course->id, 'name' => 'id'));
         echo html_writer::end_tag('form');
 
         $menuaction = optional_param('menuaction', 'config', PARAM_ALPHA);
@@ -353,26 +355,36 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $menuaction = 'config';
         }
 
-        $course_link         = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$course->id, 'editmenumode'=>'true', 'section'=>$displaysection));
-        $course_cancel_link = new moodle_url($CFG->wwwroot.'/course/view.php', array('id'=>$course->id, 'section'=>$displaysection));
+        $course_link = new moodle_url($CFG->wwwroot.'/course/view.php',
+                        array('id' => $course->id, 'editmenumode' => 'true', 'section' => $displaysection));
+
+        $course_cancel_link = new moodle_url($CFG->wwwroot.'/course/view.php',
+                                array('id' => $course->id, 'section' => $displaysection));
 
         $tabs = array();
 
         $tabs[] = new tabobject("tab_configmenu_config", $course_link . '&menuaction=config',
-        '<div style="white-space:nowrap">' . get_string('config_editmenu', 'format_menutopic') . "</div>", get_string('config_editmenu', 'format_menutopic'));
+                        '<div style="white-space:nowrap">' . get_string('config_editmenu', 'format_menutopic') . "</div>",
+                        get_string('config_editmenu', 'format_menutopic'));
+
         $tabs[] = new tabobject("tab_configmenu_tree", $course_link . '&menuaction=tree',
-        '<div style="white-space:nowrap">' . get_string('tree_editmenu', 'format_menutopic') . "</div>", get_string('tree_editmenu', 'format_menutopic'));
+                        '<div style="white-space:nowrap">' . get_string('tree_editmenu', 'format_menutopic') . "</div>",
+                        get_string('tree_editmenu', 'format_menutopic'));
+
         $tabs[] = new tabobject("tab_configmenu_jstemplate", $course_link . '&menuaction=jstemplate',
-        '<div style="white-space:nowrap">' . get_string('jstemplate_editmenu', 'format_menutopic') . "</div>", get_string('jstemplate_editmenu', 'format_menutopic'));
+                        '<div style="white-space:nowrap">' . get_string('jstemplate_editmenu', 'format_menutopic') . "</div>",
+                        get_string('jstemplate_editmenu', 'format_menutopic'));
+
         $tabs[] = new tabobject("tab_configmenu_csstemplate", $course_link . '&menuaction=csstemplate',
-        '<div style="white-space:nowrap">' . get_string('csstemplate_editmenu', 'format_menutopic') . "</div>", get_string('csstemplate_editmenu', 'format_menutopic'));
+                        '<div style="white-space:nowrap">' . get_string('csstemplate_editmenu', 'format_menutopic') . "</div>",
+                        get_string('csstemplate_editmenu', 'format_menutopic'));
 
         print_tabs(array($tabs), "tab_configmenu_" . $menuaction);
 
         // Start box container.
         echo html_writer::start_tag('div', array('class' => 'box generalbox'));
 
-        if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$course->id)))){
+        if (!($format_data = $DB->get_record('format_menutopic', array('course' => $course->id)))) {
             $format_data = new stdClass();
             $format_data->course    = $course->id;
 
@@ -382,7 +394,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             }
         }
 
-        include $CFG->dirroot . '/course/format/menutopic/form_' . $menuaction . '.php';
+        include($CFG->dirroot . '/course/format/menutopic/form_' . $menuaction . '.php');
 
         // Close box container.
         echo html_writer::end_tag('div');
@@ -459,7 +471,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      */
     private function replace_resources ($section) {
 
-        global $CFG, $USER, $COURSE;
+        global $CFG, $USER, $COURSE, $PAGE;
 
         static $initialised;
 
@@ -491,14 +503,15 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         $summary = $section->summary;
 
-        $html_resource = '';
-        $html_more     = '';
+        $htmlresource = '';
+        $htmlmore     = '';
 
         if (!empty($section->sequence)) {
             $sectionmods = explode(",", $section->sequence);
 
             $obj_replace = new format_menutopic_replace_regularexpression();
 
+            $showyuidialogue = false;
             foreach ($sectionmods as $modnumber) {
                 if (empty(self::$_format_data->mods[$modnumber])) {
                     continue;
@@ -518,9 +531,9 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 if (!empty($cmname)) {
                     $cmname = str_replace('<div ', '<span ', $cmname);
                     $cmname = str_replace('</div>', '</span>', $cmname);
-                    $html_resource = $cmname . $mod->afterlink;
+                    $htmlresource = $cmname . $mod->afterlink;
                 } else {
-                    $html_resource = '';
+                    $htmlresource = '';
                 }
 
                 // If there is content but NO link (eg label), then display the
@@ -535,29 +548,41 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 if (!empty($url)) {
                     // If there is content AND a link, then display the content here
                     // (AFTER any icons). Otherwise it was displayed before.
-                    $html_resource .= $contentpart;
+                    $contentpart = str_replace('<div ', '<span ', $contentpart);
+                    $contentpart = str_replace('</div>', '</span>', $contentpart);
+                    $htmlresource .= $contentpart;
                 }
 
-                $availability_text = trim($this->courserenderer->course_section_cm_availability($mod));
+                $availabilitytext = trim($this->courserenderer->course_section_cm_availability($mod));
 
-                if (!empty($availability_text)) {
-                    $unique_id = 'format_menutopic_winfo_' . time() . '-' . rand(0, 1000);
-                    $html_resource .= '<img src="' . $this->output->pix_url('a/help') . '" class="iconhelp" alt="" onclick="M.course.format.show_info(\'' . $unique_id . '\')" />';
+                if (!empty($availabilitytext)) {
+                    $uniqueid = 'format_menutopic_winfo_' . time() . '-' . rand(0, 1000);
+                    $htmlresource .= '<span class="iconhelp" data-infoid="' . $uniqueid . '">' .
+                                        $this->output->pix_icon('a/help', get_string('help')) .
+                                     '</span>';
 
-                    $html_more .= '<div id="' . $unique_id . '" class="availability_info_box" style="display: none;">' . $availability_text . '</div>';
+                    $htmlmore .= '<div id="' . $uniqueid . '" class="availability_info_box" style="display: none;">' .
+                        $availabilitytext . '</div>';
+
+                    $showyuidialogue = true;
                 }
 
                 // Replace the link in pattern: [[resource name]].
-                $obj_replace->_string_replace = $html_resource;
+                $obj_replace->_string_replace = $htmlresource;
                 $obj_replace->_string_search = $instancename;
 
-                $new_summary = preg_replace_callback("/(\[\[)(([<][^>]*>)*)((" . preg_quote($obj_replace->_string_search, '/') . ")(:?))([^\]]*)\]\]/i", array($obj_replace, "replace_tag_in_expresion"), $summary); 
+                $newsummary = preg_replace_callback("/(\[\[)(([<][^>]*>)*)((" . preg_quote($obj_replace->_string_search, '/')
+                                    . ")(:?))([^\]]*)\]\]/i", array($obj_replace, "replace_tag_in_expresion"), $summary);
 
-                if ($new_summary != $summary) {
+                if ($newsummary != $summary) {
                     unset(self::$_format_data->mods[$modnumber]);
                 }
 
-                $summary = $new_summary;
+                $summary = $newsummary;
+            }
+
+            if ($showyuidialogue) {
+                $PAGE->requires->yui_module('moodle-core-notification-dialogue', 'M.course.format.dialogueinit');
             }
 
         }
@@ -566,7 +591,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $summary = '<span class="menutopic_hideicons">' . $summary . '</span>';
         }
 
-        return $summary . $html_more;
+        return $summary . $htmlmore;
 
     }
 
@@ -630,7 +655,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 if ($ismoving) {
                     $movingurl = new moodle_url('/course/mod.php', array('moveto' => $modnumber, 'sesskey' => sesskey()));
                     $sectionoutput .= html_writer::tag('li',
-                            html_writer::link($movingurl, $this->courserenderer->output->render($movingpix), array('title' => $strmovefull)),
+                            html_writer::link($movingurl, $this->courserenderer->output->render($movingpix),
+                                                array('title' => $strmovefull)),
                             array('class' => 'movehere'));
                 }
 
@@ -640,7 +666,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
             if ($ismoving) {
                 $movingurl = new moodle_url('/course/mod.php', array('movetosection' => $section->id, 'sesskey' => sesskey()));
                 $sectionoutput .= html_writer::tag('li',
-                        html_writer::link($movingurl, $this->courserenderer->output->render($movingpix), array('title' => $strmovefull)),
+                        html_writer::link($movingurl, $this->courserenderer->output->render($movingpix),
+                                            array('title' => $strmovefull)),
                         array('class' => 'movehere'));
             }
         }
@@ -661,7 +688,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      */
     private function _remove_topic_in_tree ($topics, $section, $onlyhide = false, $removetopic = true) {
 
-        foreach ($topics as $key=>$topic) {
+        foreach ($topics as $key => $topic) {
 
             if ($topic->topicnumber == $section) {
                 if ($onlyhide) {
@@ -711,25 +738,25 @@ class format_menutopic_renderer extends format_section_renderer_base {
             }
         }
 
-        $o.= html_writer::start_tag('li', array('id' => 'section-'.$section->section,
-                'class' => 'section main clearfix'.$sectionstyle, 'role'=>'region',
-                'aria-label'=> get_section_name($course, $section)));
+        $o .= html_writer::start_tag('li', array('id' => 'section-'.$section->section,
+                'class' => 'section main clearfix'.$sectionstyle, 'role' => 'region',
+                'aria-label' => get_section_name($course, $section)));
 
         $leftcontent = $this->section_left_content($section, $course, $onsectionpage);
-        $o.= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
+        $o .= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
 
         $rightcontent = $this->section_right_content($section, $course, $onsectionpage);
-        $o.= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
-        $o.= html_writer::start_tag('div', array('class' => 'content'));
+        $o .= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
+        $o .= html_writer::start_tag('div', array('class' => 'content'));
 
         if ((string)$section->name !== '') {
             $sectionname = html_writer::tag('span', get_section_name($course, $section));
-            $o.= $this->output->heading($sectionname, 3, 'sectionname');
+            $o .= $this->output->heading($sectionname, 3, 'sectionname');
         }
 
-        $o.= html_writer::start_tag('div', array('class' => 'summary'));
-        $o.= $this->format_summary_text($section);
-        $o.= html_writer::end_tag('div');
+        $o .= html_writer::start_tag('div', array('class' => 'summary'));
+        $o .= $this->format_summary_text($section);
+        $o .= html_writer::end_tag('div');
 
         $context = context_course::instance($course->id);
         $o .= $this->section_availability_message($section,
@@ -773,7 +800,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $controls['highlight'] = array('url' => $url, "icon" => 'i/marked',
                                                'name' => $highlightoff,
                                                'pixattr' => array('class' => '', 'alt' => $markedthistopic),
-                                               'attr' => array('class' => 'editing_highlight', 'title' => $markedthistopic));
+                                               'attr' => array('class' => 'editing_highlight', 'title' => $markedthistopic,
+                                                   'data-action' => 'removemarker'));
             } else {
                 $url->param('marker', $section->section);
                 $markthistopic = get_string('markthistopic');
@@ -781,7 +809,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $controls['highlight'] = array('url' => $url, "icon" => 'i/marker',
                                                'name' => $highlight,
                                                'pixattr' => array('class' => '', 'alt' => $markthistopic),
-                                               'attr' => array('class' => 'editing_highlight', 'title' => $markthistopic));
+                                               'attr' => array('class' => 'editing_highlight', 'title' => $markthistopic,
+                                                   'data-action' => 'setmarker'));
             }
         }
 
@@ -814,7 +843,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
     protected function load_formatdata() {
         global $COURSE, $DB, $PAGE;
 
-        if(!($format_data = $DB->get_record('format_menutopic', array('course'=>$COURSE->id)))){
+        if (!($format_data = $DB->get_record('format_menutopic', array('course' => $COURSE->id)))) {
             $format_data = new stdClass();
             $format_data->course    = $COURSE->id;
 
@@ -872,21 +901,37 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $config_saved = new stdClass();
             }
 
-            if (isset($config_saved->cssdefault)) { $config_menu->cssdefault = $config_saved->cssdefault; }
+            if (isset($config_saved->cssdefault)) {
+                $config_menu->cssdefault = $config_saved->cssdefault;
+            }
 
-            if (isset($config_saved->menuposition)) { $config_menu->menuposition = $config_saved->menuposition; }
+            if (isset($config_saved->menuposition)) {
+                $config_menu->menuposition = $config_saved->menuposition;
+            }
 
-            if (isset($config_saved->linkinparent)) { $config_menu->linkinparent = $config_saved->linkinparent; }
+            if (isset($config_saved->linkinparent)) {
+                $config_menu->linkinparent = $config_saved->linkinparent;
+            }
 
-            if (isset($config_saved->templatetopic)) { $config_menu->templatetopic = $config_saved->templatetopic; }
+            if (isset($config_saved->templatetopic)) {
+                $config_menu->templatetopic = $config_saved->templatetopic;
+            }
 
-            if (isset($config_saved->icons_templatetopic)) { $config_menu->icons_templatetopic = $config_saved->icons_templatetopic; }
+            if (isset($config_saved->icons_templatetopic)) {
+                $config_menu->icons_templatetopic = $config_saved->icons_templatetopic;
+            }
 
-            if (isset($config_saved->displaynousedmod)) { $config_menu->displaynousedmod = $config_saved->displaynousedmod; }
+            if (isset($config_saved->displaynousedmod)) {
+                $config_menu->displaynousedmod = $config_saved->displaynousedmod;
+            }
 
-            if (isset($config_saved->displaynavigation)) { $config_menu->displaynavigation = $config_saved->displaynavigation; }
+            if (isset($config_saved->displaynavigation)) {
+                $config_menu->displaynavigation = $config_saved->displaynavigation;
+            }
 
-            if (isset($config_saved->nodesnavigation)) { $config_menu->nodesnavigation = $config_saved->nodesnavigation; }
+            if (isset($config_saved->nodesnavigation)) {
+                $config_menu->nodesnavigation = $config_saved->nodesnavigation;
+            }
         }
 
         $format_data->config_menu = $config_menu;
@@ -909,7 +954,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $showsection = true;
             if (!$thissection->visible || !$thissection->available) {
                 $showsection = false;
-            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())){
+            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
                 $showsection = false;
             }
 
@@ -933,7 +978,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
                     $topic->target = "";
                     $format_data->tree->topics[] = $topic;
                 } else if (!$showsection) {
-                    $this->_remove_topic_in_tree ($format_data->tree->topics, $section, (!$course->hiddensections || $canviewhidden), !$canviewhidden);
+                    $this->_remove_topic_in_tree ($format_data->tree->topics, $section,
+                            (!$course->hiddensections || $canviewhidden), !$canviewhidden);
                 }
             } else {
                 if (!$format_data->autobuild_tree) {
@@ -984,7 +1030,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
             // General section if non-empty and course_display is multiple.
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
                 $thissection = $formatdata->sections[0];
-                if ((($thissection->visible && $thissection->available) || $canviewhidden) && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+                if ((($thissection->visible && $thissection->available) || $canviewhidden)
+                        && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
                     $htmlsection0 = $this->start_section_list();
                     $htmlsection0 .= $this->section_header($thissection, $course, true);
 

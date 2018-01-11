@@ -36,28 +36,19 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class tree_menutopic_form extends moodleform {
 
-    function definition() {
+    public function definition() {
         global $USER, $CFG, $course, $PAGE;
 
-        $PAGE->requires->js_module(array(
-            'name' => 'format_menutopic',
-            'fullpath' => '/course/format/menutopic/module.js',
-            'requires' => array('yui2-treeview', 'panel', 'dd-plugin'),
-            'strings' => array(
-                array('error_jsontree', 'format_menutopic'),
-                array('title_panel_sheetedit', 'format_menutopic')
-            ),
-        ));
-        $PAGE->requires->js_init_call('M.format_menutopic.init_tree');
+        $PAGE->requires->js_call_amd('format_menutopic/menutopictree', 'init');
 
         $treecode = '';
 
-        if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'tree') && !empty($this->_customdata['format_data']->tree)) {
+        if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'tree')
+                && !empty($this->_customdata['format_data']->tree)) {
             $treecode = stripslashes($this->_customdata['format_data']->tree);
-        }
-        else {
+        } else {
             $treecode = '{"topics": [';
-            for ($i = 0; $i < ($course->numsections + 1); $i++){
+            for ($i = 0; $i < ($course->numsections + 1); $i++) {
                 $treecode .= '{"name" : "' . get_string('template_namemenutopic', 'format_menutopic', $i) . '",';
                 $treecode .= '         "subtopics": [],';
                 $treecode .= '         "topicnumber": ' . $i . ',';
@@ -71,16 +62,15 @@ class tree_menutopic_form extends moodleform {
 
         $mform =& $this->_form;
 
-        $mform->addElement('header','general', get_string('tree_editmenu_title', 'format_menutopic'));
-        $mform->addHelpButton('general', 'tree_struct', 'format_menutopic');
+        $mform->addElement('header','treeeditgeneral', get_string('tree_editmenu_title', 'format_menutopic'));
+        $mform->addHelpButton('treeeditgeneral', 'tree_struct', 'format_menutopic');
 
-        $mform->addElement('textarea','treecode', get_string('tree_struct', 'format_menutopic'), array('style'=>'display:none'));
+        $mform->addElement('textarea', 'treecode', '', array('style' => 'display: none'));
         $mform->setType('treecode', PARAM_RAW);
         $mform->setDefault('treecode', $treecode);
 
-        $mform->addElement('text', 'sections', '', array('style'=>'display:none'));
-        $mform->setType('sections', PARAM_INT);
-        $mform->setDefault('sections', ($course->numsections + 1));
+        $mform->addElement('static', 'treecontainer', get_string('tree_struct', 'format_menutopic'),
+            '<div id="treecontainer"></div>');
 
         $mform->addElement('hidden', 'id', $course->id);
         $mform->setType('id', PARAM_INT);
@@ -98,19 +88,18 @@ class tree_menutopic_form extends moodleform {
     }
 }
 
-// $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new tree_menutopic_form('view.php', array('format_data' =>$format_data, 'displaysection'=>$displaysection));
+// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
+$display_form = new tree_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()){
+if ($display_form->is_cancelled()) {
     redirect($course_cancel_link);
 }
 else if ($data = $display_form->get_data()) {
     $format_data->tree = $data->treecode;
 
-    if (!$DB->update_record('format_menutopic', $format_data)){
+    if (!$DB->update_record('format_menutopic', $format_data)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
-    }
-    else {
+    } else {
         // ToDo: Delete html cache if exists.
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
@@ -119,94 +108,41 @@ else if ($data = $display_form->get_data()) {
 $display_form->display();
 
 ?>
-<style>
-    .ygtvlabel {
-        cursor: pointer;
-    }
 
-    .input_edit_control {
-        border: 1px solid #CCC;
-        background-color: #FFF;
-    }
-
-    .select_topics{
-        border: solid 1px #FFF;
-    }
-
-    .img_action {
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    .yui3-widget-hd {
-        font-weight: bold;
-        cursor: move;
-    }
-
-</style>
-<div id="tree_container"><!--El div debe estar antes del script para que pueda ser referenciado como contenedor del árbol --></div>
-<script type="text/javascript" src="<?php echo $CFG->wwwroot; ?>/course/format/menutopic/lib.js"></script>
-<script language="javascript" type="text/javascript">
-    var _SHEETS = new Array();
-    var _GLOBAL_VARS = new Array();
-
-    YUI.namespace("tree_admin");
-
-</script>
-<div id="panel_container_editsheet" class="yui3-skin-sam">
-    <div id="panel_edit_sheet">
-        <div class="bd">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <th><?php print_string('actions_sheet_sheetedit', 'format_menutopic'); ?></th>
-                    <td>
-                        &nbsp;&nbsp;
-                        <img onclick="move_sheet_left()" id="btn_move_left_sheet" class="img_action" src="<?php echo $OUTPUT->pix_url('t/left');?>" alt="<?php print_string('actionleft_sheet_sheetedit', 'format_menutopic'); ?>" title="<?php print_string('actionleft_sheet_sheetedit', 'format_menutopic'); ?>" />
-                        <img onclick="move_sheet_right()" id="btn_move_right_sheet" class="img_action" src="<?php echo $OUTPUT->pix_url('t/right');?>" alt="<?php print_string('actionright_sheet_sheetedit', 'format_menutopic'); ?>" title="<?php print_string('actionright_sheet_sheetedit', 'format_menutopic'); ?>" />
-                        <img onclick="move_sheet_up()" id="btn_move_up_sheet" class="img_action" src="<?php echo $OUTPUT->pix_url('t/up');?>" alt="<?php print_string('actionup_sheet_sheetedit', 'format_menutopic'); ?>" title="<?php print_string('actionup_sheet_sheetedit', 'format_menutopic'); ?>" />
-                        <img onclick="move_sheet_down()" id="btn_move_down_sheet" class="img_action" src="<?php echo $OUTPUT->pix_url('t/down');?>" alt="<?php print_string('actiondown_sheet_sheetedit', 'format_menutopic'); ?>" title="<?php print_string('actiondown_sheet_sheetedit', 'format_menutopic'); ?>" />
-                        <img class="img_action" id="btn_delete_sheet" src="<?php echo $OUTPUT->pix_url('t/delete');?>" alt="<?php print_string('actiondelete_sheet_sheetedit', 'format_menutopic'); ?>" title="<?php print_string('actiondelete_sheet_sheetedit', 'format_menutopic'); ?>" onclick="if(confirm('<?php print_string('actiondeleteconfirm_sheet_sheetedit', 'format_menutopic'); ?>')){ delete_sheet();}" />
-                    </td>
-                </tr>
-                <tr>
-                    <th><?php print_string('name_sheet_sheetedit', 'format_menutopic'); ?></th>
-                    <td><input id="name_text" size="20" class="input_edit_control" /></td>
-                </tr>
-                <tr>
-                    <th><?php print_string('topic_sheet_sheetedit', 'format_menutopic'); ?></th>
-                    <td>
-                        <select id="select_topic" onchange="change_topic(this)">
-                            <option></option>
-                        <?php
-                            for ($i = 0; $i < ($course->numsections + 1); $i++) {
-                                echo '<option>' . $i . '</option>';
-                            }
-                        ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th><?php print_string('url_sheet_sheetedit', 'format_menutopic'); ?></th>
-                    <td><input id="url_text" size="40" class="input_edit_control" /></td>
-                </tr>
-                <tr>
-                    <th><?php print_string('target_sheet_sheetedit', 'format_menutopic'); ?></th>
-                    <td>
-                        <select id="select_target">
-                            <option></option>
-                            <option value="_blank"><?php print_string('targetblank_sheet_sheetedit', 'format_menutopic'); ?></option>
-                            <option value="_self"><?php print_string('targetself_sheet_sheetedit', 'format_menutopic'); ?></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="button" onclick="change_sheet()" value="<?php print_string('actionsave_sheet_sheetedit', 'format_menutopic'); ?>" />
-                        <input type="button" onclick="add_sheet_daughter()" value="<?php print_string('actionadd_sheet_daughter_sheetedit', 'format_menutopic'); ?>" />
-                        <input type="button" onclick="add_sheet_sister()" value="<?php print_string('actionadd_sheet_sister_sheetedit', 'format_menutopic'); ?>" />
-                    </td>
-                </tr>
-            </table>
-        </div>
+<div id="editsheetform" style="display: none;">
+    <div class="treeeditform">
+        <table>
+            <tr>
+                <th><?php print_string('name_sheet_sheetedit', 'format_menutopic'); ?></th>
+                <td><input id="name_text" size="40" /></td>
+            </tr>
+            <tr>
+                <th><?php print_string('topic_sheet_sheetedit', 'format_menutopic'); ?></th>
+                <td>
+                    <select id="select_topic">
+                        <option></option>
+                    <?php
+                        for ($i = 0; $i < ($course->numsections + 1); $i++) {
+                            echo '<option>' . $i . '</option>';
+                        }
+                    ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><?php print_string('url_sheet_sheetedit', 'format_menutopic'); ?></th>
+                <td><input id="url_text" size="40" /></td>
+            </tr>
+            <tr>
+                <th><?php print_string('target_sheet_sheetedit', 'format_menutopic'); ?></th>
+                <td>
+                    <select id="select_target">
+                        <option></option>
+                        <option value="_blank"><?php print_string('targetblank_sheet_sheetedit', 'format_menutopic'); ?></option>
+                        <option value="_self"><?php print_string('targetself_sheet_sheetedit', 'format_menutopic'); ?></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

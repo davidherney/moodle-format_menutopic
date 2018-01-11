@@ -1,11 +1,12 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
 //
-// You can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// It is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -26,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 class restore_format_menutopic_plugin extends restore_format_plugin {
 
     /**
-     * Returns the course format information to attach to course element
+     * Returns the course format information to attach to course element.
      */
     protected function define_course_plugin_structure() {
         $paths = array();
@@ -42,20 +43,20 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
 
         return $paths;
     }
-    
+
     /**
-     * Process the 'menutopic' element
+     * Process the 'menutopic' element.
      */
     public function process_menutopic($data) {
         global $DB;
 
-        // Get data record ready to insert in database
+        // Get data record ready to insert in database.
         $data = (object)$data;
         $data->course = $this->task->get_courseid();
 
-        // See if there is an existing record for this course
+        // See if there is an existing record for this course.
         $existingid = $DB->get_field('format_menutopic', 'id',
-                array('course'=>$data->course));
+                array('course' => $data->course));
         if ($existingid) {
             $data->id = $existingid;
             $DB->update_record('format_menutopic', data);
@@ -65,5 +66,5 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
 
         // No need to record the old/new id as nothing ever refers to
         // the id of this table.
-    }    
+    }
 }

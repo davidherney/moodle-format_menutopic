@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016072302;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2016051900;        // Requires this Moodle version.
-$plugin->component = 'format_menutopic';    // Full name of the plugin (used for diagnostics)
-$plugin->maturity = MATURITY_RC;
-$plugin->release = 'mariana';
+$plugin->version = 2018011000;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2017050500;        // Requires this Moodle version.
+$plugin->component = 'format_menutopic';    // Full name of the plugin (used for diagnostics).
+$plugin->maturity = MATURITY_BETA;
+$plugin->release = 'lorena';
