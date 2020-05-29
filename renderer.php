@@ -1061,10 +1061,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
                 $thissection = $formatdata->sections[0];
                 if ((($thissection->visible && $thissection->available) || $canviewhidden)
                         && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+
+                    $formatdata->mods = $formatdata->modinfo->get_cms();
+
                     $htmlsection0 = $this->start_section_list();
                     $htmlsection0 .= $this->section_header($thissection, $course, true);
 
-                    $formatdata->mods = $formatdata->modinfo->get_cms();
                     if ($formatdata->config_menu->templatetopic) {
                         if ($formatdata->config_menu->displaynousedmod || $PAGE->user_is_editing()) {
                             $htmlsection0 .= $this->custom_course_section_cm_list($course, $thissection, $displaysection);
