@@ -1,8 +1,7 @@
-
 COURSE FORMATS menutopic
 ============================
 
-Package tested in: moodle 3.3+
+Package tested in: moodle 3.5+, 3.6+, 3.7+, 3.8+
 
 QUICK INSTALL
 ==============
@@ -11,12 +10,13 @@ Download zip package, extract the menutopic folder and upload this folder into c
 ABOUT
 =============
 Developed by: David Herney Bernal Garcia - davidherney at gmail dot com
-Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.php?id=50&topic=4
+GIT: https://github.com/davidherney/moodle-format_menutopic
+Powered by: BambuCo - https://bambuco.co
 
 IN VERSION
 =============
 2020052900:
-- Compatibility with moodle 3.4 and 3.5
+- Compatibility with moodle 3.5, 3.6, 3.7, 3.8
 - Included inner completion check into summary templates.
 - Added privacy provider.
 
