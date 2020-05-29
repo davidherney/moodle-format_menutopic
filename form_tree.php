@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Menu tree control.
  *
  * @since 2.3
  * @package format_menutopic
@@ -36,6 +37,9 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class tree_menutopic_form extends moodleform {
 
+    /**
+     * Defines the form fields.
+     */
     public function definition() {
         global $USER, $CFG, $course, $PAGE;
 
@@ -62,7 +66,7 @@ class tree_menutopic_form extends moodleform {
 
         $mform =& $this->_form;
 
-        $mform->addElement('header','treeeditgeneral', get_string('tree_editmenu_title', 'format_menutopic'));
+        $mform->addElement('header', 'treeeditgeneral', get_string('tree_editmenu_title', 'format_menutopic'));
         $mform->addHelpButton('treeeditgeneral', 'tree_struct', 'format_menutopic');
 
         $mform->addElement('textarea', 'treecode', '', array('style' => 'display: none'));
@@ -88,16 +92,15 @@ class tree_menutopic_form extends moodleform {
     }
 }
 
-// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new tree_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
+// Variables $displaysection, $formatdata and $coursecancellink are loaded in the render function.
+$displayform = new tree_menutopic_form('view.php', array('format_data' => $formatdata, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()) {
-    redirect($course_cancel_link);
-}
-else if ($data = $display_form->get_data()) {
-    $format_data->tree = $data->treecode;
+if ($displayform->is_cancelled()) {
+    redirect($coursecancellink);
+} else if ($data = $displayform->get_data()) {
+    $formatdata->tree = $data->treecode;
 
-    if (!$DB->update_record('format_menutopic', $format_data)) {
+    if (!$DB->update_record('format_menutopic', $formatdata)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         // ToDo: Delete html cache if exists.
@@ -105,7 +108,7 @@ else if ($data = $display_form->get_data()) {
     }
 }
 
-$display_form->display();
+$displayform->display();
 
 ?>
 
@@ -122,9 +125,9 @@ $display_form->display();
                     <select id="select_topic">
                         <option></option>
                     <?php
-                        for ($i = 0; $i < ($course->numsections + 1); $i++) {
-                            echo '<option>' . $i . '</option>';
-                        }
+                    for ($i = 0; $i < ($course->numsections + 1); $i++) {
+                        echo '<option>' . $i . '</option>';
+                    }
                     ?>
                     </select>
                 </td>

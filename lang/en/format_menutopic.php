@@ -18,7 +18,7 @@
  * Strings for component 'format_menutopic', language 'en'
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -107,7 +107,7 @@ $string['menuposition_help'] = '<p>Defines the position where the menu will appe
 </ul></p>';
 
 $string['linkinparent_help'] = '<p>Defines the behavior of the menu options that act as roots or fathers of a submenu.</p>
-<p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL 
+<p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL
 that is defined in the <b>"Menu tree"</b>. If it is stablished in <b>Not</b>, the menu item deploys the son links to click
 on it</p>';
 
@@ -126,7 +126,7 @@ $string['csstemplate_help'] = 'Allows to include customized CSS styles which you
 #id_menu_box { margin-bottom: 10px; }
 </div>
 <p>With the previous code, the menu is separated 10px from the bottom, according to the position defined for the menu.</p>
-<p><strong>Note:</strong> 
+<p><strong>Note:</strong>
 <ul>
     <li>The identifier (id) of the layer (div) that the menu contains is <strong>id_menu_box</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
     <li>It is possible that to make changes in the styles, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
@@ -134,7 +134,7 @@ $string['csstemplate_help'] = 'Allows to include customized CSS styles which you
 
 $string['jstemplate_help'] = 'Allows to define the JavaScript code that will work over the menu or the page. It can be useful to define additional behaviors for the menu
 or even a menu structure different from the default.
-<p><b>Notes:</b> 
+<p><b>Notes:</b>
 <ul>
     <li>The name <b>id_menu_box</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
     <li>It is possible that to make changes in the JavaScript, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
@@ -165,3 +165,4 @@ $string['coursedisplay'] = 'Visualization mode of section 0';
 $string['coursedisplay_help'] = 'This define as display the section 0: as a menu element or as section before the menu bar.';
 $string['coursedisplay_single'] = 'As a menu element';
 $string['coursedisplay_multi'] = 'Before the menu';
+$string['privacy:metadata'] = 'The Menutopic format plugin does not store any personal data.';

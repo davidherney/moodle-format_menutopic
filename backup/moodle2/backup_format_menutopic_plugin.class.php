@@ -15,15 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Specialised backup for format_menutopic.
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Specialised backup for format_menutopic.
+ *
+ * @package format_menutopic
+ * @category backup
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class backup_format_menutopic_plugin extends backup_format_plugin {
 
     /**

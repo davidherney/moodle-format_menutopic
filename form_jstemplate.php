@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * JS template options.
  *
  * @since 2.3
  * @package format_menutopic
@@ -36,6 +37,9 @@ require_once($CFG->libdir.'/formslib.php');
  */
 class jstemplate_menutopic_form extends moodleform {
 
+    /**
+     * Defines the form fields.
+     */
     public function definition() {
         global $USER, $CFG, $course;
 
@@ -70,20 +74,20 @@ class jstemplate_menutopic_form extends moodleform {
     }
 }
 
-// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new jstemplate_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
+// Variables $displaysection, $formatdata and $coursecancellink are loaded in the render function.
+$displayform = new jstemplate_menutopic_form('view.php', array('format_data' => $formatdata, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()) {
-    redirect($course_cancel_link);
-} else if ($data = $display_form->get_data()) {
+if ($displayform->is_cancelled()) {
+    redirect($coursecancellink);
+} else if ($data = $displayform->get_data()) {
 
-    $format_data->js = stripcslashes($data->jscode);
+    $formatdata->js = stripcslashes($data->jscode);
 
-    if (!$DB->update_record('format_menutopic', $format_data)) {
+    if (!$DB->update_record('format_menutopic', $formatdata)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 
-$display_form->display();
+$displayform->display();
