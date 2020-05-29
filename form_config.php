@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Menu configurations options.
  *
  * @since 2.3
  * @package format_menutopic
@@ -26,10 +27,21 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Class to control the menu configurations.
+ *
+ * @package format_menutopic
+ * @category backup
+ * @copyright 2012 David Herney Bernal - cirano
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class config_menutopic_form extends moodleform {
 
+    /**
+     * Defines the form fields.
+     */
     public function definition() {
-        global $USER, $CFG, $course, $format_data;
+        global $USER, $CFG, $course, $formatdata;
 
         $config = new stdClass();
         $config->cssdefault = true;
@@ -41,43 +53,46 @@ class config_menutopic_form extends moodleform {
         $config->displaynavigation = 'nothing';
         $config->nodesnavigation = '';
 
-        if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'config') && !empty($this->_customdata['format_data']->config)) {
-            $config_saved = @unserialize($this->_customdata['format_data']->config);
+        if (is_object($this->_customdata['format_data'])
+                && property_exists($this->_customdata['format_data'], 'config')
+                && !empty($this->_customdata['format_data']->config)) {
 
-            if (!is_object($config_saved)) {
-                $config_saved = new stdClass();
+            $configsaved = @unserialize($this->_customdata['format_data']->config);
+
+            if (!is_object($configsaved)) {
+                $configsaved = new stdClass();
             }
 
-            if (isset($config_saved->cssdefault)) {
-                $config->cssdefault = $config_saved->cssdefault;
+            if (isset($configsaved->cssdefault)) {
+                $config->cssdefault = $configsaved->cssdefault;
             }
 
-            if (isset($config_saved->menuposition)) {
-                $config->menuposition = $config_saved->menuposition;
+            if (isset($configsaved->menuposition)) {
+                $config->menuposition = $configsaved->menuposition;
             }
 
-            if (isset($config_saved->linkinparent)) {
-                $config->linkinparent = $config_saved->linkinparent;
+            if (isset($configsaved->linkinparent)) {
+                $config->linkinparent = $configsaved->linkinparent;
             }
 
-            if (isset($config_saved->templatetopic)) {
-                $config->templatetopic = $config_saved->templatetopic;
+            if (isset($configsaved->templatetopic)) {
+                $config->templatetopic = $configsaved->templatetopic;
             }
 
-            if (isset($config_saved->icons_templatetopic)) {
-                $config->icons_templatetopic = $config_saved->icons_templatetopic;
+            if (isset($configsaved->icons_templatetopic)) {
+                $config->icons_templatetopic = $configsaved->icons_templatetopic;
             }
 
-            if (isset($config_saved->displaynousedmod)) {
-                $config->displaynousedmod = $config_saved->displaynousedmod;
+            if (isset($configsaved->displaynousedmod)) {
+                $config->displaynousedmod = $configsaved->displaynousedmod;
             }
 
-            if (isset($config_saved->displaynavigation)) {
-                $config->displaynavigation = $config_saved->displaynavigation;
+            if (isset($configsaved->displaynavigation)) {
+                $config->displaynavigation = $configsaved->displaynavigation;
             }
 
-            if (isset($config_saved->nodesnavigation)) {
-                $config->nodesnavigation = $config_saved->nodesnavigation;
+            if (isset($configsaved->nodesnavigation)) {
+                $config->nodesnavigation = $configsaved->nodesnavigation;
             }
         }
 
@@ -147,21 +162,21 @@ class config_menutopic_form extends moodleform {
     }
 }
 
-// Variables $displaysection, $format_data and $course_cancel_link are loaded in the render function.
-$display_form = new config_menutopic_form('view.php', array('format_data' => $format_data, 'displaysection' => $displaysection));
+// Variables $displaysection, $formatdata and $coursecancellink are loaded in the render function.
+$displayform = new config_menutopic_form('view.php', array('format_data' => $formatdata, 'displaysection' => $displaysection));
 
-if ($display_form->is_cancelled()) {
-    redirect($course_cancel_link);
-} else if ($data = $display_form->get_data()) {
+if ($displayform->is_cancelled()) {
+    redirect($coursecancellink);
+} else if ($data = $displayform->get_data()) {
     $values = serialize($data);
 
-    $format_data->config = $values;
+    $formatdata->config = $values;
 
-    if (!$DB->update_record('format_menutopic', $format_data)) {
+    if (!$DB->update_record('format_menutopic', $formatdata)) {
         echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 
-$display_form->display();
+$displayform->display();

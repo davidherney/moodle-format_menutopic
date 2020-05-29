@@ -13,30 +13,30 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Upgrade scripts for course format "menutopic"
+ * Privacy Subsystem implementation for format_menutopic.
  *
- * @since 2.3
- * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
+ * @package   format_menutopic
+ * @copyright 2020 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
+namespace format_menutopic\privacy;
+defined('MOODLE_INTERNAL') || die();
 
 /**
- * Upgrade script for format_menutopic
+ * Privacy Subsystem for format_menutopic implementing null_provider.
  *
- * @param int $oldversion the version we are upgrading from
- * @return bool result
+ * @copyright 2020 David Herney Bernal - cirano
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-function xmldb_format_menutopic_upgrade($oldversion) {
-    global $CFG, $DB;
-
-    $dbman = $DB->get_manager();
-
-    return true;
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
 }
-
-

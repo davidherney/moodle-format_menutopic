@@ -15,6 +15,11 @@ Information in: http://aprendeenlinea.udea.edu.co/lms/investigacion/course/view.
 
 IN VERSION
 =============
+2020052900:
+- Compatibility with moodle 3.4 and 3.5
+- Included inner completion check into summary templates.
+- Added privacy provider.
+
 2018011000:
 - Compatibility with moodle 3.3
 - Supports "stealth" activities mode

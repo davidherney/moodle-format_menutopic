@@ -34,7 +34,6 @@ require_once($CFG->dirroot. '/course/format/lib.php');
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class format_menutopic extends format_base {
 
     /**
@@ -323,8 +322,7 @@ class format_menutopic extends format_base {
                     if (array_key_exists($key, $oldcourse)) {
                         $data[$key] = $oldcourse[$key];
                     } else if ($key === 'numsections') {
-                        // If previous format does not have the field 'numsections'
-                        // and $data['numsections'] is not set,
+                        // If previous format does not have the field 'numsections' and $data['numsections'] is not set,
                         // we fill it with the maximum section number from the DB.
                         $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?',
                                         array($this->courseid));
@@ -412,6 +410,17 @@ class format_menutopic extends format_base {
         $renderer = $PAGE->get_renderer('format_topics');
         $rv['section_availability'] = $renderer->section_availability($this->get_section($section));
         return $rv;
+    }
+
+    /**
+     * Return the plugin configs for external functions.
+     *
+     * @return array the list of configuration settings
+     * @since Moodle 3.5
+     */
+    public function get_config_for_external() {
+        // Return everything (nothing to hide).
+        return $this->get_format_options();
     }
 }
 

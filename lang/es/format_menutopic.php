@@ -18,7 +18,7 @@
  * Strings for component 'format_menutopic', language 'es'
  *
  * @since 2.3
- * @package contribution
+ * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -99,7 +99,7 @@ $string['jsdefault_help'] = '<p>Define si se incluyen las funciones de JavaScrip
 se generará como una lista</p>
 <p>
 Puede ser útil deshabilitar el JavaScript por defecto si se desea dar otra apariencia al menú, como por ejemplo tipo Blog. También es posible utilizar código JavaScript que puede
-ser incluido en la <b>"Plantilla de Javascript"</b>, para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería 
+ser incluido en la <b>"Plantilla de Javascript"</b>, para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería
 <a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>';
 
 $string['cssdefault_help'] = '<p>Define si se incluyen los estilos CSS por defecto para el menú. Sólo aplica cuando no se incluye el Javascript por defecto ya que de lo contrario siempre se incluyen los estilos</p>
@@ -126,7 +126,7 @@ $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con
 #id_menu_box { margin-bottom: 10px; }
 </div>
 <p>Con el anterior código se separa 10px el contenido que esté por debajo del menú, según la posición definida para el menú.</p>
-<p><strong>Nota:</strong> 
+<p><strong>Nota:</strong>
 <ul>
     <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
     <li>Al realizar cambios en los estilos es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
@@ -134,9 +134,9 @@ $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con
 
 $string['jstemplate_help'] = '<p>Permite definir código JavaScript que actua sobre el menú o sobre la página. Puede servir para definir comportamientos adicionales para el menú
 o incluso para definir una estructura de menú diferente a la por defecto.</p>
-<p>Si se deshabilita el JavaScript por defecto, en la pestaña <strong>"Configurar"</strong>, se  puede incluir código que manipule la información del menú y construya un menú nuevo, 
+<p>Si se deshabilita el JavaScript por defecto, en la pestaña <strong>"Configurar"</strong>, se  puede incluir código que manipule la información del menú y construya un menú nuevo,
 para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería <a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>
-<p><b>Notas:</b> 
+<p><b>Notas:</b>
 <ul>
     <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
     <li>Al realizar cambios en el JavaScript es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
@@ -167,3 +167,4 @@ $string['coursedisplay'] = 'Modo de visualización de la sección 0';
 $string['coursedisplay_help'] = 'Define como se muestra la sección 0: como un elemento del menú o como una sección encima del menú.';
 $string['coursedisplay_single'] = 'Como elemento del menú';
 $string['coursedisplay_multi'] = 'Arriba del menú';
+$string['privacy:metadata'] = 'El formato Temas desde menú no almacena datos personales.';

@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Course menu control file.
  *
  * @since 2.3
  * @package format_menutopic
@@ -33,18 +34,42 @@ defined('MOODLE_INTERNAL') || die();
  */
 class format_menutopic_menu {
 
+    /**
+     * Menu tree info.
+     *
+     * @var object|null
+     */
     public $tree;
+
+    /**
+     * Format configuration.
+     *
+     * @var object
+     */
     private $_config;
+
+    /**
+     * Current selected menu node.
+     *
+     * @var int
+     */
     public $current = 0;
+
+    /**
+     * Section selected to display.
+     *
+     * @var int
+     */
     public $displaysection;
 
     /**
      * Object construct.
      *
+     * @param object $config Format configuration.
      */
     public function __construct($config = null) {
         if (!empty($config) && is_object($config)) {
-            $this->_config    = $config;
+            $this->_config = $config;
         } else {
             $this->_config = new stdClass();
             $this->_config->cssdefault = true;
@@ -54,7 +79,13 @@ class format_menutopic_menu {
         }
     }
 
-    public function list_code_horizontal_menu ($with_styles) {
+    /**
+     * Build HTML code to horizontal menu.
+     *
+     * @param bool $withstyles True if include the basic styles.
+     * @return string Menu HTML.
+     */
+    public function list_code_horizontal_menu($withstyles) {
 
         global $PAGE;
 
@@ -69,7 +100,7 @@ class format_menutopic_menu {
 
             $properties['class'] = $this->_config->menuposition;
 
-            if ($with_styles) {
+            if ($withstyles) {
                 $properties['class'] .= ' format-menutopic-menu';
             }
 
@@ -88,7 +119,7 @@ class format_menutopic_menu {
                 $PAGE->requires->js('/course/format/menutopic/format.js');
                 $PAGE->requires->js_init_call('M.course.format.moveMenuLeft', null, true);
             } else if ($this->_config->menuposition == 'right') {
-            $PAGE->requires->js('/course/format/menutopic/format.js');
+                $PAGE->requires->js('/course/format/menutopic/format.js');
                 $PAGE->requires->js_init_call('M.course.format.moveMenuRight', null, true);
             }
 
@@ -101,16 +132,19 @@ class format_menutopic_menu {
     /**
      * Renders a menu node as part of a submenu.
      *
+     * @param object $menunode Each menu node.
+     * @param int $level Node level into the menu.
+     * @return string Item HTML.
      */
-    private function list_item_menu ($menunode, $level) {
+    private function list_item_menu($menunode, $level) {
 
         if (isset($menunode->visible) && !$menunode->visible) {
             return '';
         }
 
-        $topic_number = -1;
+        $topicnumber = -1;
         if (!empty($menunode->topicnumber) || $menunode->topicnumber === '0' || $menunode->topicnumber === 0) {
-            $topic_number = (int)$menunode->topicnumber;
+            $topicnumber = (int)$menunode->topicnumber;
         }
 
         if (empty($menunode->url)) {
@@ -137,25 +171,25 @@ class format_menutopic_menu {
                 $url = 'javascript:;';
             }
 
-            $li_properties = array('class' => "menuitem menu-withsubitems");
+            $liproperties = array('class' => "menuitem menu-withsubitems");
 
-            if ($this->displaysection == $topic_number) {
-                $li_properties['class'] .= ' current';
+            if ($this->displaysection == $topicnumber) {
+                $liproperties['class'] .= ' current';
             }
 
             if (isset($menunode->hidden) && $menunode->hidden) {
-                $li_properties['class'] .= ' disabled';
+                $liproperties['class'] .= ' disabled';
             }
 
-            $content = html_writer::start_tag('li', $li_properties);
+            $content = html_writer::start_tag('li', $liproperties);
 
-            $link_properties = array('class' => 'menu-label');
+            $linkproperties = array('class' => 'menu-label');
 
             if (!empty($menunode->target)) {
-                $link_properties['target'] = $menunode->target;
+                $linkproperties['target'] = $menunode->target;
             }
 
-            $content .= html_writer::link($url, $menunode->name, $link_properties);
+            $content .= html_writer::link($url, $menunode->name, $linkproperties);
             $content .= html_writer::start_tag('ul', array('class' => 'submenu-body-content menu-level-' . ($level + 1)));
             foreach ($menunode->subtopics as $node) {
                 $content .= $this->list_item_menu($node, $level + 1);
@@ -164,36 +198,44 @@ class format_menutopic_menu {
             $content .= html_writer::end_tag('li');
         } else {
 
-            $link_properties = array('class' => 'menuitem-content');
-            $li_properties = array('class' => 'menuitem menu-level-' . $level);
+            $linkproperties = array('class' => 'menuitem-content');
+            $liproperties = array('class' => 'menuitem menu-level-' . $level);
 
             if (!empty($menunode->target)) {
-                $link_properties['target'] = $menunode->target;
+                $linkproperties['target'] = $menunode->target;
             }
 
-            if ($this->displaysection == $topic_number) {
-                $li_properties['class'] .= ' current';
+            if ($this->displaysection == $topicnumber) {
+                $liproperties['class'] .= ' current';
             }
 
             if (isset($menunode->hidden) && $menunode->hidden) {
-                $li_properties['class'] .= ' disabled';
+                $liproperties['class'] .= ' disabled';
             }
 
             // The node doesn't have children so produce a final menuitem.
-            $content = html_writer::start_tag('li', $li_properties);
-            $content .= html_writer::link($url, $menunode->name, $link_properties);
+            $content = html_writer::start_tag('li', $liproperties);
+            $content .= html_writer::link($url, $menunode->name, $linkproperties);
             $content .= html_writer::end_tag('li');
         }
+
         // Return the sub menu.
         return $content;
-
     }
 
 
-    public function script_menu($config, $displaysection, $with_styles = true) {
+    /**
+     * Renderer to build the menu HTML.
+     *
+     * @param object $config Format configuration.
+     * @param int $displaysection Section selected to display.
+     * @param bool $withstyles True if include the basic styles.
+     * @return string Menu HTML.
+     */
+    public function script_menu($config, $displaysection, $withstyles = true) {
         $this->_config = $config;
         $this->displaysection = $displaysection;
 
-        return $this->list_code_horizontal_menu ($with_styles);
+        return $this->list_code_horizontal_menu ($withstyles);
     }
 }

@@ -43,12 +43,12 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
         var loaded = treeController.loadTreeAria();
 
         var strings = [
-            { 'key': 'new' },
-            { 'key': 'delete' },
-            { 'key': 'actiondeleteconfirm_sheet_sheetedit', 'component': 'format_menutopic'},
-            { 'key': 'yes'},
-            { 'key': 'no'},
-            { 'key': 'update'}
+            {'key': 'new'},
+            {'key': 'delete'},
+            {'key': 'actiondeleteconfirm_sheet_sheetedit', 'component': 'format_menutopic'},
+            {'key': 'yes'},
+            {'key': 'no'},
+            {'key': 'update'}
         ];
 
         $.each(strings, function(k, v) {
@@ -66,14 +66,14 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
             var editBody = $('#editsheetform').html();
             ModalFactory.create({
                 type: ModalFactory.types.SAVE_CANCEL,
-                title: lstr['update'],
+                title: lstr.update,
                 body: editBody
             })
             .done(function(modal) {
                 var $modalBody = modal.getBody();
                 $modalBody.find('#select_topic').on('change', treeController.changeTopic);
                 modal.getRoot().on(ModalEvents.save, function() {
-                    $currentNode.find('input').val($modalBody.find('#name_text').val());
+                    $currentNode.find('>input').val($modalBody.find('#name_text').val());
                     $currentNode.data('topic', $modalBody.find('#select_topic').val());
                     $currentNode.data('url', $modalBody.find('#url_text').val());
                     $currentNode.data('target', $modalBody.find('#select_target').val());
@@ -85,23 +85,27 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
 
             return true;
         }
+
+        return false;
     };
 
     treeController.runAction = function(action, $node) {
-        switch(action) {
+        var $group;
+        var $prev;
+        switch (action) {
             case 'toleft':
                 var $parent = $node.parents('li:first');
                 $parent.after($node);
 
-                var $group = $parent.children('ul');
+                $group = $parent.children('ul');
                 if ($group.children() == 0) {
                     $group.remove();
                 }
 
                 break;
             case 'toright':
-                var $prev = $node.prev('li');
-                var $group = $prev.children('ul');
+                $prev = $node.prev('li');
+                $group = $prev.children('ul');
                 if ($group.length == 0) {
                     $group = $('<ul role="group"></ul>');
                     $prev.append($group);
@@ -116,12 +120,12 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
 
                 break;
             case 'toup':
-                var $prev = $node.prev('li');
+                $prev = $node.prev('li');
                 $prev.before($node);
 
                 break;
             case 'toremove':
-                Notification.confirm(lstr['delete'], lstr['actiondeleteconfirm_sheet_sheetedit'], lstr['yes'], lstr['no'],
+                Notification.confirm(lstr.delete, lstr.actiondeleteconfirm_sheet_sheetedit, lstr.yes, lstr.no,
                     function() {
                         $node.remove();
                     }
@@ -130,7 +134,7 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
                 break;
             case 'toadd':
                 var obj = {
-                    'name': lstr['new'],
+                    'name': lstr.new,
                     'topicnumber': 0,
                     'url': '',
                     'target': ''
@@ -142,7 +146,7 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
                     treeController.runAction($this.attr('data-action'), $this.parent().parent());
                 });
 
-                var $group = $node.children('ul');
+                $group = $node.children('ul');
                 if ($group.length == 0) {
                     $group = $('<ul role="group"></ul>');
                     $node.append($group);
@@ -155,7 +159,7 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
 
                 $currentNode = $node;
 
-                if($editWindow) {
+                if ($editWindow) {
                     var $modalBody = $editWindow.getBody();
                     $modalBody.find('#name_text').val($node.find('input').val());
                     $modalBody.find('#select_topic').val($node.data('topic'));
@@ -164,7 +168,7 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
 
                     treeController.changeTopic();
 
-                    $editWindow.setTitle(lstr['update']);
+                    $editWindow.setTitle(lstr.update);
                     $editWindow.show();
                 }
 
@@ -252,10 +256,9 @@ define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/m
     treeController.changeTopic = function() {
 
         var $modalBody = $editWindow.getBody();
-        if($modalBody.find('#select_topic').val() !== "") {
+        if ($modalBody.find('#select_topic').val() !== "") {
             $modalBody.find('#url_text').attr('disabled', 'disabled');
-        }
-        else {
+        } else {
             $modalBody.find('#url_text').removeAttr('disabled');
         }
     };

@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Display the whole course as "menu"
- * Included from "view.php"
+ * Display the whole course as "menu".
+ *
  * It is based of the "topics" format.
  *
  * @since 2.4

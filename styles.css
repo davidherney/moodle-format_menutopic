@@ -106,12 +106,35 @@
 }
 
 #region-main #format_menutopic_menu.format-menutopic-menu .menu-level-0 > .menu-withsubitems > a {
-    background: transparent url('data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wUDBBEKQexGFgAAAG1JREFUOMtjYBgFFANGGGPmzJlbGBgYvInR9P///50ZGRkeDAwMDExI4gmMjIyniNB/k5GRMQbDBVBX8DMyMu76//+/GS7NLCwsTsnJyc+wGkDAEAzNWA3AYQhWzTgNQDPkPwsLSxA2zaOASgAA3qEubXRkM3AAAAAASUVORK5CYII=') no-repeat right;
     padding-right: 20px;
 }
 
+#region-main #format_menutopic_menu.format-menutopic-menu .menu-level-0 > .menu-withsubitems > a:after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    color: rgba(0, 0, 0, 0.9);
+}
+
 #region-main #format_menutopic_menu.format-menutopic-menu .menu-level-1 .menu-withsubitems > a {
-    background: transparent url('data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wUBFgkJ71UwYAAAAHlJREFUOMtjYBiUYMaMGTtmzpwpQoxaJmyCjIyM7gwMDEfmzp0rRZYBUKD+58+ffYQMYSJgAUFDmIjwJl5DmIgMV/U/f/6so8QABkZGRkayDWBkZDz1//9/N7IMgGlOT0//SLIBhDTjNYAYzfgM2Pr//39vQpoHBwAArjU5dUnRaZsAAAAASUVORK5CYII=') no-repeat right;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-left: 0.3em solid;
+    border-bottom: 0.3em solid transparent;
+    border-right: 0;
+    border-top: 0.3em solid transparent;
+    color: rgba(0, 0, 0, 0.9);
 }
 
 /* LEFT MENU */
@@ -143,9 +166,19 @@
     white-space: normal;
 }
 
-#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a,
-#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a {
-    background: transparent url('data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wUBFgkJ71UwYAAAAHlJREFUOMtjYBiUYMaMGTtmzpwpQoxaJmyCjIyM7gwMDEfmzp0rRZYBUKD+58+ffYQMYSJgAUFDmIjwJl5DmIgMV/U/f/6so8QABkZGRkayDWBkZDz1//9/N7IMgGlOT0//SLIBhDTjNYAYzfgM2Pr//39vQpoHBwAArjU5dUnRaZsAAAAASUVORK5CYII=') no-repeat right;
+#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a:after,
+#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a:after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-left: 0.3em solid;
+    border-bottom: 0.3em solid transparent;
+    border-right: 0;
+    border-top: 0.3em solid transparent;
+    color: rgba(0, 0, 0, 0.9);
 }
 
 /* RIGHT MENU */
@@ -168,8 +201,18 @@
     padding-left: 20px;
 }
 
-#block-region-side-post #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a {
-    background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wUBFgkh2uCYmgAAAHVJREFUOMvV07ENgDAMRNELck/DLFRUjMAKnsp7QAGbsEDWOBaI4UQFaa3/FMkJ8IsTEUNErK2ZCXFfStlIjq15J8RHFt8CSpwCapwCapwCJKluqAmY2QLgfA24ezWzWUHSLajI7TtQkO7piu5eAUwk929+tAu+vzRgSFpKQwAAAABJRU5ErkJggg==') no-repeat left;
+#block-region-side-post #format_menutopic_menu.format-menutopic-menu .menu-withsubitems > a:before {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-right: 0.3em solid;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0;
+    border-top: 0.3em solid transparent;
+    color: rgba(0, 0, 0, 0.9);
 }
 
 .format-menutopic .menutopic_hideicons .activityicon {
@@ -199,6 +242,21 @@
 
 .format-menutopic .content > .summary .iconhelp {
     cursor: pointer;
+}
+
+.format-menutopic .section .completiontag > form,
+.format-menutopic .section .completiontag > form > div {
+    display: inline;
+}
+
+.format-menutopic .section .completiontag > form > div button {
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+}
+
+.format-menutopic .section .completiontag img.icon {
+    margin: 0 3px 0 5px;
 }
 
 .format-menutopic #treecontainer ul.tree,
@@ -292,3 +350,9 @@
 .format-menutopic #id_treeeditgeneral .form-inline .form-control-static {
     display: inline;
 }
+
+.format-menutopic li.activity > div {
+    position: relative;
+}
+
+
