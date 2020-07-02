@@ -75,4 +75,3 @@ if ($course->editmenumode) {
 
 // Include course format js module.
 $PAGE->requires->js('/course/format/topics/format.js');
-$PAGE->requires->js('/course/format/menutopic/format.js');

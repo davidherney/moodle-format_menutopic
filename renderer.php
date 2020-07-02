@@ -50,6 +50,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
     public function __construct(moodle_page $page, $target) {
         parent::__construct($page, $target);
 
+        $page->requires->js('/course/format/menutopic/format.js');
+
         // Since format_topics_renderer::section_edit_control_items() only displays the 'Highlight'
         // control when editing mode is on we need to be sure that the link 'Turn editing mode on'
         // is available for a user who does not have any other managing capability.
