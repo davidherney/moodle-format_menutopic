@@ -211,7 +211,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @param int $displaysection The section number in the course which is being displayed
      */
     public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
-        global $PAGE, $DB;
+        global $DB;
 
         // Load configuration data.
         $formatdata = self::$lformatdata;
@@ -241,7 +241,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
 
         // END OF Load Menu configuration.
 
-        if ($PAGE->user_is_editing()) {
+        if ($this->page->user_is_editing()) {
 
             echo html_writer::start_tag('form', array('method' => 'post'));
             echo html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('editmenu', 'format_menutopic')));
@@ -257,12 +257,12 @@ class format_menutopic_renderer extends format_section_renderer_base {
         if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE && $displaysection !== 0) {
             $thissection = $sections[0];
             if ((($thissection->visible && $thissection->available) || $canviewhidden)
-                    && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+                    && ($thissection->summary || $thissection->sequence || $this->page->user_is_editing())) {
                 echo $this->start_section_list();
                 echo $this->section_header($thissection, $course, true);
 
                 if ($configmenu->templatetopic) {
-                    if ($configmenu->displaynousedmod || $PAGE->user_is_editing()) {
+                    if ($configmenu->displaynousedmod || $this->page->user_is_editing()) {
                         echo $this->custom_course_section_cm_list($course, $thissection, $displaysection);
                     }
                 } else {
@@ -316,7 +316,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
         echo $completioninfo->display_help_icon();
 
         if ($configmenu->templatetopic) {
-            if ($configmenu->displaynousedmod || $PAGE->user_is_editing()) {
+            if ($configmenu->displaynousedmod || $this->page->user_is_editing()) {
                 echo $this->custom_course_section_cm_list($course, $thissection, $displaysection);
             }
         } else {
@@ -352,9 +352,9 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @param int $displaysection The section number in the course which is being displayed
      */
     public function print_edition_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
-        global $PAGE, $CFG, $DB, $OUTPUT;
+        global $CFG, $DB;
 
-        if (!$PAGE->user_is_editing()) {
+        if (!$this->page->user_is_editing()) {
             $this->print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection);
             return;
         }
@@ -426,7 +426,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @param bool $return True if return or false if print the HTML
      */
     public function print_menu($formatdata, $displaysection, $return = false) {
-        global $CFG, $PAGE, $course;
+        global $CFG, $course;
 
         if (!empty($formatdata->tree) && $formatdata->config_menu->menuposition != 'hide') {
 
@@ -439,7 +439,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $printformenu = '';
 
             if (!empty($formatdata->js)) {
-                $PAGE->requires->js_init_code($formatdata->js, true);
+                $this->page->requires->js_init_code($formatdata->js, true);
             }
 
             if (!empty($formatdata->css)) {
@@ -485,7 +485,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      */
     private function replace_resources ($section) {
 
-        global $CFG, $USER, $COURSE, $PAGE;
+        global $CFG, $USER, $COURSE;
 
         static $initialised;
 
@@ -613,7 +613,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             }
 
             if ($showyuidialogue) {
-                $PAGE->requires->yui_module('moodle-core-notification-dialogue', 'M.course.format.dialogueinit');
+                $this->page->requires->yui_module('moodle-core-notification-dialogue', 'M.course.format.dialogueinit');
             }
 
         }
@@ -754,7 +754,6 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
-        global $PAGE;
 
         $o = '';
         $currenttext = '';
@@ -805,9 +804,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @return array of edit control items
      */
     protected function section_edit_control_items($course, $section, $onsectionpage = false) {
-        global $PAGE;
 
-        if (!$PAGE->user_is_editing()) {
+        if (!$this->page->user_is_editing()) {
             return array();
         }
 
@@ -872,7 +870,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @return stdClass Configuration data from current course format.
      */
     protected function load_formatdata() {
-        global $COURSE, $DB, $PAGE;
+        global $COURSE, $DB;
 
         if (!($formatdata = $DB->get_record('format_menutopic', array('course' => $COURSE->id)))) {
             $formatdata = new stdClass();
@@ -985,7 +983,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             $showsection = true;
             if (!$thissection->visible || !$thissection->available) {
                 $showsection = false;
-            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $this->page->user_is_editing())) {
                 $showsection = false;
             }
 
@@ -1034,13 +1032,13 @@ class format_menutopic_renderer extends format_section_renderer_base {
      * @return string HTML for build the menu
      */
     protected function render_format_menutopic_header(format_menutopic_header $header) {
-        global $PAGE, $COURSE, $USER;
+        global $COURSE, $USER;
 
         $formatdata = $this->load_formatdata();
         $course = course_get_format($COURSE)->get_course();
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
-        if (!$inpopup && $PAGE->pagetype !== 'course-view-menutopic') {
+        if (!$inpopup && $this->page->pagetype !== 'course-view-menutopic') {
 
             $section = optional_param('section', -1, PARAM_INT);
 
@@ -1062,7 +1060,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
                 $thissection = $formatdata->sections[0];
                 if ((($thissection->visible && $thissection->available) || $canviewhidden)
-                        && ($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
+                        && ($thissection->summary || $thissection->sequence || $this->page->user_is_editing())) {
 
                     $formatdata->mods = $formatdata->modinfo->get_cms();
 
@@ -1070,7 +1068,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
                     $htmlsection0 .= $this->section_header($thissection, $course, true);
 
                     if ($formatdata->config_menu->templatetopic) {
-                        if ($formatdata->config_menu->displaynousedmod || $PAGE->user_is_editing()) {
+                        if ($formatdata->config_menu->displaynousedmod || $this->page->user_is_editing()) {
                             $htmlsection0 .= $this->custom_course_section_cm_list($course, $thissection, $displaysection);
                         }
                     } else {

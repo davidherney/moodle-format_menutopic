@@ -128,7 +128,7 @@ class format_menutopic extends format_base {
      *
      * The returned object's property (boolean)capable indicates that
      * the course format supports Moodle course ajax features.
-     * The property (array)testedbrowsers can be used as a parameter for {@link ajaxenabled()}.
+     * The property (array)testedbrowsers can be used as a parameter for {@see ajaxenabled()}.
      *
      * @return stdClass
      */
@@ -272,7 +272,7 @@ class format_menutopic extends format_base {
     /**
      * Adds format options elements to the course/section edit form.
      *
-     * This function is called from {@link course_edit_form::definition_after_data()}.
+     * This function is called from {@see course_edit_form::definition_after_data()}.
      *
      * @param MoodleQuickForm $mform form the elements are added to.
      * @param bool $forsection 'true' if this is a section edit form, 'false' if this is course edit form.
@@ -307,8 +307,8 @@ class format_menutopic extends format_base {
      * If previous course format did not have the options, we populate it with the
      * current number of sections and default options.
      *
-     * @param stdClass|array $data return value from {@link moodleform::get_data()} or array with data
-     * @param stdClass $oldcourse if this function is called from {@link update_course()}
+     * @param stdClass|array $data return value from {@see moodleform::get_data()} or array with data
+     * @param stdClass $oldcourse if this function is called from {@see update_course()}
      *     this object contains information about the course before update
      * @return bool whether there were any changes to the options values
      */
@@ -340,7 +340,7 @@ class format_menutopic extends format_base {
     /**
      * Whether this format allows to delete sections
      *
-     * Do not call this function directly, instead use {@link course_can_delete_section()}
+     * Do not call this function directly, instead use {@see course_can_delete_section()}
      *
      * @param int|stdClass|section_info $section
      * @return bool
@@ -352,7 +352,7 @@ class format_menutopic extends format_base {
     /**
      * Course-specific information to be output immediately above content on any course page
      *
-     * See {@link format_base::course_header()} for usage
+     * See {@see format_base::course_header()} for usage
      *
      * @return null|renderable null for no output or object with data for plugin renderer
      */

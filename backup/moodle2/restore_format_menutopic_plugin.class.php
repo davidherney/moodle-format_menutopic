@@ -55,6 +55,9 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
 
     /**
      * Process the 'menutopic' element.
+     *
+     * @param array $data specific info about the current menu.
+     *
      */
     public function process_menutopic($data) {
         global $DB;
