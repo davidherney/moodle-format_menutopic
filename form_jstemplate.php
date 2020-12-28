@@ -85,10 +85,8 @@ if ($displayform->is_cancelled()) {
 
     if (!$DB->update_record('format_menutopic', $formatdata)) {
         \core\notification::error(get_string('notsaved', 'format_menutopic'));
-        //echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
         \core\notification::success(get_string('savecorrect', 'format_menutopic'));
-        //echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 

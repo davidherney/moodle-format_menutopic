@@ -18,6 +18,7 @@ IN VERSION
 2020052902:
 - Compatibility with moodle 3.9 and 3.10 confirmed
 - Exclude menu in course config and enrol page
+- Using 3.9 notifications API (by hersoncruz)
 
 2020052900:
 - Compatibility with moodle 3.5, 3.6, 3.7, 3.8
