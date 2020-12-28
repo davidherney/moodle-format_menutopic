@@ -83,9 +83,11 @@ if ($displayform->is_cancelled()) {
     $formatdata->css = stripcslashes($data->csscode);
 
     if (!$DB->update_record('format_menutopic', $formatdata)) {
-        echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
+        \core\notification::error(get_string('notsaved', 'format_menutopic'));
+        //echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
     } else {
-        echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
+        \core\notification::success(get_string('savecorrect', 'format_menutopic'));
+        //echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
     }
 }
 
