@@ -776,7 +776,7 @@ class format_menutopic_renderer extends format_section_renderer_base {
             'data-sectionid' => $section->section,
             'data-sectionreturnid' => $sectionreturn
         ]);
-        
+
         $leftcontent = $this->section_left_content($section, $course, $onsectionpage);
         $o .= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
 
