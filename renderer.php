@@ -768,10 +768,15 @@ class format_menutopic_renderer extends format_section_renderer_base {
             }
         }
 
-        $o .= html_writer::start_tag('li', array('id' => 'section-'.$section->section,
-                'class' => 'section main clearfix'.$sectionstyle, 'role' => 'region',
-                'aria-label' => get_section_name($course, $section)));
-
+        $o .= html_writer::start_tag('li', [
+            'id' => 'section-' . $section->section,
+            'class' => 'section main clearfix' . $sectionstyle,
+            'role' => 'region',
+            'aria-labelledby' => "sectionid-{$section->id}-title",
+            'data-sectionid' => $section->section,
+            'data-sectionreturnid' => $sectionreturn
+        ]);
+        
         $leftcontent = $this->section_left_content($section, $course, $onsectionpage);
         $o .= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
 
@@ -1038,7 +1043,9 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $course = course_get_format($COURSE)->get_course();
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
-        if (!$inpopup && $this->page->pagetype !== 'course-view-menutopic') {
+
+        $pagesnotavailable = array('course-view-menutopic', 'enrol-index', 'course-edit');
+        if (!$inpopup && !in_array($this->page->pagetype, $pagesnotavailable)) {
 
             $section = optional_param('section', -1, PARAM_INT);
 

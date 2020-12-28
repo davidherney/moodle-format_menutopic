@@ -1,7 +1,7 @@
 COURSE FORMATS menutopic
 ============================
 
-Package tested in: moodle 3.5+, 3.6+, 3.7+, 3.8+
+Package tested in: moodle 3.5+, 3.6+, 3.7+, 3.8+, 3.9+, 3.10+
 
 QUICK INSTALL
 ==============
@@ -9,12 +9,16 @@ Download zip package, extract the menutopic folder and upload this folder into c
 
 ABOUT
 =============
-Developed by: David Herney Bernal Garcia - davidherney at gmail dot com
+Developed by: David Herney - davidherney at gmail dot com
 GIT: https://github.com/davidherney/moodle-format_menutopic
 Powered by: BambuCo - https://bambuco.co
 
 IN VERSION
 =============
+2020052902:
+- Compatibility with moodle 3.9 and 3.10 confirmed
+- Exclude menu in course config and enrol page
+
 2020052900:
 - Compatibility with moodle 3.5, 3.6, 3.7, 3.8
 - Included inner completion check into summary templates.
