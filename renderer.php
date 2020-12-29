@@ -1038,7 +1038,8 @@ class format_menutopic_renderer extends format_section_renderer_base {
         $course = course_get_format($COURSE)->get_course();
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
-        if (!$inpopup && $PAGE->pagetype !== 'course-view-menutopic') {
+        $pagesnotavailable = array('course-view-menutopic', 'enrol-index', 'course-edit');
+        if (!$inpopup && !in_array($PAGE->pagetype, $pagesnotavailable)) {
 
             $section = optional_param('section', -1, PARAM_INT);
 

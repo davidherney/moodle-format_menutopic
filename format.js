@@ -72,12 +72,12 @@ M.course.format.moveMenuLeft = function(Y) {
 
 M.course.format.moveMenuRight = function(Y) {
 
-    if (Y.one('#nav-drawer')) {
-        Y.one('#nav-drawer').prepend(Y.one('#format_menutopic_menu'));
-    } else if (Y.one('#block-region-side-post')) {
+    if (Y.one('#block-region-side-post')) {
         Y.one('#block-region-side-post').prepend(Y.one('#format_menutopic_menu'));
         if (Y.one('body.empty-region-side-post')) {
             Y.one('body.empty-region-side-post').removeClass('empty-region-side-post');
         }
+    } else if (Y.one('#nav-drawer')) {
+        Y.one('#nav-drawer').prepend(Y.one('#format_menutopic_menu'));
     }
 };

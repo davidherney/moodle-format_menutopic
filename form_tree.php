@@ -101,10 +101,10 @@ if ($displayform->is_cancelled()) {
     $formatdata->tree = $data->treecode;
 
     if (!$DB->update_record('format_menutopic', $formatdata)) {
-        echo $OUTPUT->notification (get_string('notsaved', 'format_menutopic'), 'notifyproblem');
+        \core\notification::error(get_string('notsaved', 'format_menutopic'));
     } else {
         // ToDo: Delete html cache if exists.
-        echo $OUTPUT->notification (get_string('savecorrect', 'format_menutopic'), 'notifysuccess');
+        \core\notification::success(get_string('savecorrect', 'format_menutopic'));
     }
 }
 

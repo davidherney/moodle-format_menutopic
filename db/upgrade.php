@@ -32,9 +32,6 @@ defined('MOODLE_INTERNAL') || die;
  * @return bool result
  */
 function xmldb_format_menutopic_upgrade($oldversion) {
-    global $CFG, $DB;
-
-    $dbman = $DB->get_manager();
 
     return true;
 }
