@@ -16,287 +16,302 @@
 /**
  * JavaScript library for the menutopic course format.
  *
- * @package format_menutopic
  * @copyright 2018 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+import $ from 'jquery';
+import {get_string as getString, get_strings as getStrings} from 'core/str';
+import Notification from 'core/notification';
+import ModalFactory from 'core/modal_factory';
+import ModalEvents from 'core/modal_events';
+import Log from 'core/log';
 
- /**
-  * @module format_menutopic/menutopictree
-  */
-define(['jquery', 'core/str', 'core/notification', 'core/modal_factory', 'core/modal_events'],
-       function($, Str, Notification, ModalFactory, ModalEvents) {
+/**
+ * Local controller.
+ */
+var treeController = {
+    "codeSelector": '#id_treecode',
+    "containerSelector": '#treecontainer'
+};
 
+var s = [];
 
-    var treeController = {
-        "codeSelector": '#id_treecode',
-        "containerSelector": '#treecontainer'
-    };
+var $editWindow = null;
 
-    var lstr = [];
+var $currentNode = null;
 
-    var $editWindow = null;
+treeController.runAction = function(action, $node) {
+    var $group;
+    var $prev;
+    switch (action) {
+        case 'toleft':
+            var $parent = $node.parents('li:first');
+            $parent.after($node);
 
-    var $currentNode = null;
+            $group = $parent.children('ul');
+            if ($group.children() == 0) {
+                $group.remove();
+            }
 
-    treeController.init = function() {
-        var loaded = treeController.loadTreeAria();
+            break;
+        case 'toright':
+            $prev = $node.prev('li');
+            $group = $prev.children('ul');
+            if ($group.length == 0) {
+                $group = $('<ul role="group"></ul>');
+                $prev.append($group);
+            }
 
-        var strings = [
-            {'key': 'new'},
-            {'key': 'delete'},
-            {'key': 'actiondeleteconfirm_sheet_sheetedit', 'component': 'format_menutopic'},
-            {'key': 'yes'},
-            {'key': 'no'},
-            {'key': 'update'}
-        ];
+            $group.append($node);
 
-        $.each(strings, function(k, v) {
-            lstr[v.key] = '...';
-        });
+            break;
+        case 'todown':
+            var $next = $node.next('li');
+            $next.after($node);
 
-        Str.get_strings(strings).done(function(s) {
-            $.each(strings, function(k, v) {
-                lstr[v.key] = s[k];
-            });
-        });
+            break;
+        case 'toup':
+            $prev = $node.prev('li');
+            $prev.before($node);
 
-        if (loaded) {
-
-            var editBody = $('#editsheetform').html();
-            ModalFactory.create({
-                type: ModalFactory.types.SAVE_CANCEL,
-                title: lstr.update,
-                body: editBody
-            })
-            .done(function(modal) {
-                var $modalBody = modal.getBody();
-                $modalBody.find('#select_topic').on('change', treeController.changeTopic);
-                modal.getRoot().on(ModalEvents.save, function() {
-                    $currentNode.find('>input').val($modalBody.find('#name_text').val());
-                    $currentNode.data('topic', $modalBody.find('#select_topic').val());
-                    $currentNode.data('url', $modalBody.find('#url_text').val());
-                    $currentNode.data('target', $modalBody.find('#select_target').val());
-                });
-                $editWindow = modal;
-            });
-
-            $('#id_submitbutton').on('click', treeController.saveTreeConfig);
-
-            return true;
-        }
-
-        return false;
-    };
-
-    treeController.runAction = function(action, $node) {
-        var $group;
-        var $prev;
-        switch (action) {
-            case 'toleft':
-                var $parent = $node.parents('li:first');
-                $parent.after($node);
-
-                $group = $parent.children('ul');
-                if ($group.children() == 0) {
-                    $group.remove();
+            break;
+        case 'toremove':
+            Notification.confirm(s.delete, s.actiondeleteconfirm_sheet_sheetedit, s.yes, s.no,
+                function() {
+                    $node.remove();
                 }
+            );
 
-                break;
-            case 'toright':
-                $prev = $node.prev('li');
-                $group = $prev.children('ul');
-                if ($group.length == 0) {
-                    $group = $('<ul role="group"></ul>');
-                    $prev.append($group);
-                }
+            break;
+        case 'toadd':
+            var obj = {
+                'name': s.new,
+                'topicnumber': 0,
+                'url': '',
+                'target': ''
+            };
 
-                $group.append($node);
+            var $newNode = treeController.newTreeNode(obj, '');
+            $newNode.find('[data-action]').on('click', function() {
+                var $this = $(this);
+                treeController.runAction($this.attr('data-action'), $this.parent().parent());
+            });
 
-                break;
-            case 'todown':
-                var $next = $node.next('li');
-                $next.after($node);
+            $group = $node.children('ul');
+            if ($group.length == 0) {
+                $group = $('<ul role="group"></ul>');
+                $node.append($group);
+            }
 
-                break;
-            case 'toup':
-                $prev = $node.prev('li');
-                $prev.before($node);
+            $group.append($newNode);
 
-                break;
-            case 'toremove':
-                Notification.confirm(lstr.delete, lstr.actiondeleteconfirm_sheet_sheetedit, lstr.yes, lstr.no,
-                    function() {
-                        $node.remove();
+            break;
+        case 'toedit':
+
+            $currentNode = $node;
+
+            if ($editWindow) {
+                var $modalBody = $editWindow.getBody();
+                $modalBody.find('#name_text').val($node.find('input').val());
+                $modalBody.find('#select_topic').val($node.data('topic'));
+                $modalBody.find('#url_text').val($node.data('url'));
+                $modalBody.find('#select_target').val($node.data('target'));
+
+                treeController.changeTopic();
+
+                $editWindow.setTitle(s.update);
+                $editWindow.show();
+            }
+
+            break;
+    }
+};
+
+treeController.newTreeNode = function(obj) {
+    // scape obj.name for html attribute
+    var name = obj.name.replace(/"/g, '&quot;');
+
+    var $node = $('<li>' +
+                    '<input value="' + name + '"/>' +
+                    '<div class="operations">' +
+                        '<span data-action="toedit">&#9997;</span>' +
+                        '<span data-action="toleft">&larr;</span>' +
+                        '<span data-action="toright">&rarr;</span>' +
+                        '<span data-action="toup">&uarr;</span>' +
+                        '<span data-action="todown">&darr;</span>' +
+                        '<span data-action="toremove">&#10008;</span>' +
+                        '<span data-action="toadd">&#10010;</span>' +
+                    '</div>' +
+                '</li>');
+    $node.data('topic', obj.topicnumber);
+    $node.data('url', obj.url);
+    $node.data('target', obj.target);
+
+    return $node;
+};
+
+treeController.loadTreeAria = function() {
+    var $controlContainer = $(treeController.codeSelector);
+    if ($controlContainer.length > 0) {
+        var jsonString = $controlContainer.val();
+        try {
+            var jsonObject = JSON.parse(jsonString);
+            if (jsonObject.topics && jsonObject.topics.length > 0) {
+
+                var createNode = function($nodeRoot, obj) {
+                    var isparent = false;
+
+                    if (obj.subtopics && obj.subtopics.length > 0) {
+                        isparent = true;
                     }
-                );
 
-                break;
-            case 'toadd':
-                var obj = {
-                    'name': lstr.new,
-                    'topicnumber': 0,
-                    'url': '',
-                    'target': ''
+                    var $node = treeController.newTreeNode(obj);
+
+                    $nodeRoot.append($node);
+
+                    if (isparent) {
+                        var $group = $('<ul></ul>');
+                        $node.append($group);
+                        for (var i = 0; i < obj.subtopics.length; i++) {
+                            createNode($group, obj.subtopics[i]);
+                        }
+                    }
                 };
 
-                var $newNode = treeController.newTreeNode(obj, '');
-                $newNode.find('[data-action]').on('click', function() {
+                var $treeAria = $('<ul class="tree root-level"></ul>');
+
+                for (var i = 0; i < jsonObject.topics.length; i++) {
+                    createNode($treeAria, jsonObject.topics[i]);
+                }
+
+                var $operations = $('<div class="operations main">' +
+                                    '<span data-action="toadd">&#10010;</span>' +
+                                '</div>');
+                $(treeController.containerSelector).append($operations);
+
+                $(treeController.containerSelector).append($treeAria);
+
+                $(treeController.containerSelector).find('[data-action]').on('click', function() {
                     var $this = $(this);
                     treeController.runAction($this.attr('data-action'), $this.parent().parent());
                 });
-
-                $group = $node.children('ul');
-                if ($group.length == 0) {
-                    $group = $('<ul role="group"></ul>');
-                    $node.append($group);
-                }
-
-                $group.append($newNode);
-
-                break;
-            case 'toedit':
-
-                $currentNode = $node;
-
-                if ($editWindow) {
-                    var $modalBody = $editWindow.getBody();
-                    $modalBody.find('#name_text').val($node.find('input').val());
-                    $modalBody.find('#select_topic').val($node.data('topic'));
-                    $modalBody.find('#url_text').val($node.data('url'));
-                    $modalBody.find('#select_target').val($node.data('target'));
-
-                    treeController.changeTopic();
-
-                    $editWindow.setTitle(lstr.update);
-                    $editWindow.show();
-                }
-
-                break;
-        }
-    };
-
-    treeController.newTreeNode = function(obj) {
-        var $node = $('<li>' +
-                        '<input value="' + obj.name + '"/>' +
-                        '<div class="operations">' +
-                            '<span data-action="toedit">&#9997;</span>' +
-                            '<span data-action="toleft">&larr;</span>' +
-                            '<span data-action="toright">&rarr;</span>' +
-                            '<span data-action="toup">&uarr;</span>' +
-                            '<span data-action="todown">&darr;</span>' +
-                            '<span data-action="toremove">&#10008;</span>' +
-                            '<span data-action="toadd">&#10010;</span>' +
-                        '</div>' +
-                    '</li>');
-        $node.data('topic', obj.topicnumber);
-        $node.data('url', obj.url);
-        $node.data('target', obj.target);
-
-        return $node;
-    };
-
-    treeController.loadTreeAria = function() {
-        var $controlContainer = $(treeController.codeSelector);
-        if ($controlContainer.length > 0) {
-            var jsonString = $controlContainer.val();
-            try {
-                var jsonObject = JSON.parse(jsonString);
-                if (jsonObject.topics && jsonObject.topics.length > 0) {
-
-                    var createNode = function($nodeRoot, obj) {
-                        var isparent = false;
-
-                        if (obj.subtopics && obj.subtopics.length > 0) {
-                            isparent = true;
-                        }
-
-                        var $node = treeController.newTreeNode(obj);
-
-                        $nodeRoot.append($node);
-
-                        if (isparent) {
-                            var $group = $('<ul></ul>');
-                            $node.append($group);
-                            for (var i = 0; i < obj.subtopics.length; i++) {
-                                createNode($group, obj.subtopics[i]);
-                            }
-                        }
-                    };
-
-                    var $treeAria = $('<ul class="tree root-level"></ul>');
-
-                    for (var i = 0; i < jsonObject.topics.length; i++) {
-                        createNode($treeAria, jsonObject.topics[i]);
-                    }
-
-                    var $operations = $('<div class="operations main">' +
-                                        '<span data-action="toadd">&#10010;</span>' +
-                                    '</div>');
-                    $(treeController.containerSelector).append($operations);
-
-                    $(treeController.containerSelector).append($treeAria);
-
-                    $(treeController.containerSelector).find('[data-action]').on('click', function() {
-                        var $this = $(this);
-                        treeController.runAction($this.attr('data-action'), $this.parent().parent());
-                    });
-                }
-
-                return true;
-            } catch (e) {
-                Notification.alert(Str.get_string('error', 'core'), e);
-                return false;
             }
-        }
 
-        return false;
+            return true;
+        } catch (e) {
+            getString('error', 'core').then(str => {
+                Notification.alert(str, e);
+            });
+            return false;
+        }
+    }
+
+    return false;
+};
+
+treeController.changeTopic = function() {
+
+    var $modalBody = $editWindow.getBody();
+    if ($modalBody.find('#select_topic').val() !== "") {
+        $modalBody.find('#url_text').attr('disabled', 'disabled');
+    } else {
+        $modalBody.find('#url_text').removeAttr('disabled');
+    }
+};
+
+treeController.saveTreeConfig = function() {
+
+    var treecode = {
+        "topics": []
     };
 
-    treeController.changeTopic = function() {
+    treecode.topics = treeController.treeNode2Object($(treeController.containerSelector));
 
-        var $modalBody = $editWindow.getBody();
-        if ($modalBody.find('#select_topic').val() !== "") {
-            $modalBody.find('#url_text').attr('disabled', 'disabled');
-        } else {
-            $modalBody.find('#url_text').removeAttr('disabled');
-        }
-    };
+    if (treecode.topics.length > 0) {
+        $(treeController.codeSelector).val(JSON.stringify(treecode));
+    } else {
+        $(treeController.codeSelector).val('');
+    }
+};
 
-    treeController.saveTreeConfig = function() {
+treeController.treeNode2Object = function($nodeRoot) {
+    var nodes = [];
+    $nodeRoot.children('ul').children('li').each(function(key, node) {
+        var $node = $(node);
 
-        var treecode = {
-            "topics": []
+        var name = $node.find('input').val();
+
+        var onenode = {
+            "name": name,
+            "subtopics": treeController.treeNode2Object($node),
+            "topicnumber": $node.data('topic'),
+            "url": $node.data('url'),
+            "target": $node.data('target')
         };
 
-        treecode.topics = treeController.treeNode2Object($(treeController.containerSelector));
+        nodes[nodes.length] = onenode;
 
-        if (treecode.topics.length > 0) {
-            $(treeController.codeSelector).val(JSON.stringify(treecode));
-        } else {
-            $(treeController.codeSelector).val('');
-        }
-    };
+    });
 
-    treeController.treeNode2Object = function($nodeRoot) {
-        var nodes = [];
-        $nodeRoot.children('ul').children('li').each(function(key, node) {
-            var $node = $(node);
+    return nodes;
+};
 
-            var onenode = {
-                "name": $node.find('input').val(),
-                "subtopics": treeController.treeNode2Object($node),
-                "topicnumber": $node.data('topic'),
-                "url": $node.data('url'),
-                "target": $node.data('target')
-            };
+/**
+ * Component initialization.
+ *
+ * @method init
+ */
+export const init = () => {
 
-            nodes[nodes.length] = onenode;
+    var loaded = treeController.loadTreeAria();
 
+    // Load strings.
+    var strings = [];
+    strings.push({key: 'actiondeleteconfirm_sheet_sheetedit', component: 'format_menutopic'});
+    strings.push({key: 'new', component: 'core'});
+    strings.push({key: 'delete', component: 'core'});
+    strings.push({key: 'yes', component: 'core'});
+    strings.push({key: 'no', component: 'core'});
+    strings.push({key: 'update', component: 'core'});
+
+    strings.forEach(one => {
+        s[one.key] = one.key;
+    });
+
+    getStrings(strings).then(function(results) {
+        var pos = 0;
+        strings.forEach(one => {
+            s[one.key] = results[pos];
+            pos++;
+        });
+        return true;
+    }).fail(function(e) {
+        Log.debug('Error loading strings');
+        Log.debug(e);
+    });
+    // End of Load strings.
+
+    if (loaded) {
+
+        var editBody = $('#editsheetform').html();
+        ModalFactory.create({
+            type: ModalFactory.types.SAVE_CANCEL,
+            title: s.update,
+            body: editBody
+        })
+        .done(function(modal) {
+            var $modalBody = modal.getBody();
+            $modalBody.find('#select_topic').on('change', treeController.changeTopic);
+            modal.getRoot().on(ModalEvents.save, function() {
+                $currentNode.find('>input').val($modalBody.find('#name_text').val());
+                $currentNode.data('topic', $modalBody.find('#select_topic').val());
+                $currentNode.data('url', $modalBody.find('#url_text').val());
+                $currentNode.data('target', $modalBody.find('#select_target').val());
+            });
+            $editWindow = modal;
         });
 
-        return nodes;
-    };
+        $('#id_submitbutton').on('click', treeController.saveTreeConfig);
 
-    return treeController;
-});
+    }
+};

@@ -17,25 +17,23 @@
 /**
  * Menu configurations options.
  *
- * @since 2.3
- * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
+ * @package   format_menutopic
+ * @copyright 2023 David Herney - https://bambuco.co
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace format_menutopic\forms;
 
 require_once($CFG->libdir.'/formslib.php');
 
 /**
  * Class to control the menu configurations.
  *
- * @package format_menutopic
- * @category backup
- * @copyright 2012 David Herney Bernal - cirano
+ * @package   format_menutopic
+ * @copyright 2016 David Herney - https://bambuco.co
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class config_menutopic_form extends moodleform {
+class config extends \moodleform {
 
     /**
      * Defines the form fields.
@@ -43,7 +41,7 @@ class config_menutopic_form extends moodleform {
     public function definition() {
         global $USER, $CFG, $course, $formatdata;
 
-        $config = new stdClass();
+        $config = new \stdClass();
         $config->cssdefault = true;
         $config->menuposition = 'middle';
         $config->linkinparent = false;
@@ -60,7 +58,7 @@ class config_menutopic_form extends moodleform {
             $configsaved = @unserialize($this->_customdata['format_data']->config);
 
             if (!is_object($configsaved)) {
-                $configsaved = new stdClass();
+                $configsaved = new \stdClass();
             }
 
             if (isset($configsaved->cssdefault)) {
@@ -161,22 +159,3 @@ class config_menutopic_form extends moodleform {
         $this->add_action_buttons(false);
     }
 }
-
-// Variables $displaysection, $formatdata and $coursecancellink are loaded in the render function.
-$displayform = new config_menutopic_form('view.php', array('format_data' => $formatdata, 'displaysection' => $displaysection));
-
-if ($displayform->is_cancelled()) {
-    redirect($coursecancellink);
-} else if ($data = $displayform->get_data()) {
-    $values = serialize($data);
-
-    $formatdata->config = $values;
-
-    if (!$DB->update_record('format_menutopic', $formatdata)) {
-        \core\notification::error(get_string('notsaved', 'format_menutopic'));
-    } else {
-        \core\notification::success(get_string('savecorrect', 'format_menutopic'));
-    }
-}
-
-$displayform->display();

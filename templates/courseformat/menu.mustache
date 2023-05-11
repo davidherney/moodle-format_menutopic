@@ -1,0 +1,69 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_menutopic/courseformat/menu
+
+    Menu item tree.
+
+    Example context (json):
+    {
+        "baseurl": "https://moodle_wwwroot_url",
+        "withstyles": "true",
+        "menuposition": "center",
+        "linkinparent": "true",
+        "enableedition": "false",
+        "courseid": "1",
+        "menuitems": [],
+        "styleboots": "true",
+        "stylebasic": "false",
+        "darkstyle": "false"
+    }
+}}
+<div id="format_menutopic_menu" class="{{#withstyles}}{{#styleboots}}format-menutopic-menu-boots{{/styleboots}} {{#stylebasic}}format-menutopic-menu{{/stylebasic}}{{/withstyles}} position-{{menuposition}} {{menuposition}}">
+    <nav class="{{#withstyles}}{{#styleboots}}navbar navbar-expand-lg {{#darkstyle}}navbar-dark bg-primary{{/darkstyle}}{{/styleboots}}{{/withstyles}}">
+        <div class="container-fluid">
+            {{#styleboots}}<span class="navbar-brand">{{#str}} navbartitle, format_menutopic {{/str}}</span>{{/styleboots}}
+            {{#withstyles}}
+                {{#styleboots}}
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarmenutopic" aria-controls="navbarmenutopic" aria-expanded="false" aria-label="{{#str}}tooglemenu, format_menutopic{{/str}}">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarmenutopic">
+                {{/styleboots}}
+            {{/withstyles}}
+
+                        <ul class="menu-body-content menu-level-0 {{#styleboots}}navbar-nav me-auto{{/styleboots}}">
+                            {{#menuitems}}
+                            {{>format_menutopic/courseformat/submenu}}
+                            {{/menuitems}}
+                        </ul>
+
+            {{#withstyles}}
+                {{#styleboots}}
+                    </div>
+                {{/styleboots}}
+            {{/withstyles}}
+            {{#enableedition}}
+                <form method="post" class="d-flex editmode-form" action="{{baseurl}}/course/view.php">
+                    <input type="hidden" name="editmenumode" value="true" />
+                    <input type="hidden" name="id" value="{{courseid}}" />
+                    <button type="submit" class="btn btn-primary" title="{{#str}}editmenu, format_menutopic{{/str}}">{{#pix}} a/setting, core {{/pix}}</button>
+                </form>
+            {{/enableedition}}
+        </div>
+    </nav>
+</div>

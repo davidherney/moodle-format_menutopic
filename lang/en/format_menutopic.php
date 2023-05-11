@@ -20,7 +20,7 @@
  * @since 2.3
  * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['currentsection'] = 'This topic';
@@ -31,14 +31,13 @@ $string['page-course-view-topics-x'] = 'Any course page in menutopic format';
 $string['hidefromothers'] = 'Hide topic';
 $string['showfromothers'] = 'Show topic';
 
-
 $string['template_namemenutopic'] = 'Topic {$a}';
 $string['editmenu'] = 'Edit menu';
 $string['end_editmenu'] = 'End Edit Menu';
 $string['tree_editmenu'] = 'Menu tree';
 $string['config_editmenu'] = 'Configurate';
 $string['jstemplate_editmenu'] = 'Javascript template';
-$string['csstemplate_editmenu'] = 'Styles templates (CSS)';
+$string['csstemplate_editmenu'] = 'Styles (CSS)';
 $string['htmltemplate_editmenu'] = 'HTML template';
 $string['config_editmenu_title'] = 'Menu configuration';
 $string['jsdefault'] = 'Include default JavaScript';
@@ -166,3 +165,27 @@ $string['coursedisplay_help'] = 'This define as display the section 0: as a menu
 $string['coursedisplay_single'] = 'As a menu element';
 $string['coursedisplay_multi'] = 'Before the menu';
 $string['privacy:metadata'] = 'The Menutopic format plugin does not store any personal data.';
+
+$string['usessectionsnavigation'] = 'Uses sections navigation';
+$string['usessectionsnavigation_help'] = 'Show buttons for navigate to next or previous section.';
+$string['sectionsnavigation_sitelevel'] = 'Use the default site value';
+$string['sectionsnavigation_support'] = 'Only if theme not support the "uses course index" feature';
+$string['sectionsnavigation_not'] = 'Not use';
+$string['sectionsnavigation_bottom'] = 'Only at the bottom';
+$string['sectionsnavigation_both'] = 'At top and bottom section';
+$string['sectionsnavigation_slides'] = 'Like slides';
+$string['enableanchorposition'] = 'Enable anchor position';
+$string['enableanchorposition_help'] = 'Use an anchor to navigate to the top of menu when click in a menu option.';
+$string['defaultsectionsnavigation'] = 'Default value to sections navigation';
+$string['defaultsectionsnavigation_help'] = 'Default value used in courses to define the "Uses sections navigation" feature. This can be overwrite for each course.';
+$string['usescourseindex'] = 'Uses course index';
+$string['usescourseindex_help'] = 'Use the <em>course index</em> bar to navigate through the sections and resources';
+$string['hiddenmenubar'] = 'The menu are set to be hidden. They will not be seen when not in edit mode.';
+$string['navbartitle'] = 'Sections';
+$string['tooglemenu'] = 'Toogle menu';
+$string['style_basic'] = 'Basic';
+$string['style_boots'] = 'Bootstrap';
+$string['style_bootsdark'] = 'Dark Bootstrap';
+$string['globalstyle'] = 'Global style';
+$string['globalstyle_help'] = 'This define the style of the menu.';
+$string['aboutresource'] = 'About the resource';

@@ -22,7 +22,7 @@
  * @since 2.4
  * @package format_menutopic
  * @copyright 2012 David Herney Bernal - cirano
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/filelib.php');
 require_once($CFG->libdir.'/completionlib.php');
 
-// Horrible backwards compatible parameter aliasing..
+// Horrible backwards compatible parameter aliasing.
 if ($topic = optional_param('topic', 0, PARAM_INT)) {
     $url = $PAGE->url;
     $url->param('section', $topic);
@@ -46,32 +46,24 @@ if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context
     course_set_marker($course->id, $marker);
 }
 
+// Retrieve course format option fields and add them to the $course object.
 $course = course_get_format($course)->get_course();
 
 // Menutopic format is always multipage.
 
 $renderer = $PAGE->get_renderer('format_menutopic');
 
-$section = optional_param('section', -1, PARAM_INT);
-$course->editmenumode = optional_param('editmenumode', false, PARAM_BOOL);
+\format_menutopic::$editmenumode = optional_param('editmenumode', false, PARAM_BOOL);
 
-if (isset($section) && $section >= 0) {
-     $USER->display[$course->id] = $section;
-     $displaysection = $section;
+if (\format_menutopic::$editmenumode) {
+    $renderable = new \format_menutopic\output\edition($course);
+    $renderer = $PAGE->get_renderer('format_menutopic');
 } else {
-    if (isset($USER->display[$course->id])) {
-        $displaysection = $USER->display[$course->id];
-    } else {
-        $USER->display[$course->id] = 0;
-        $displaysection = 0;
-    }
+    $outputclass = $format->get_output_classname('content');
+    $renderable = new $outputclass($format);
 }
 
-if ($course->editmenumode) {
-    $renderer->print_edition_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection);
-} else {
-    $renderer->print_single_section_page($course, null, $mods, $modnames, $modnamesused, $displaysection);
-}
+echo $renderer->render($renderable);
 
 // Include course format js module.
 $PAGE->requires->js('/course/format/topics/format.js');

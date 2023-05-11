@@ -17,25 +17,21 @@
 /**
  * JS template options.
  *
- * @since 2.3
- * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
+ * @package   format_menutopic
+ * @copyright 2023 David Herney - https://bambuco.co
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-
-require_once($CFG->libdir.'/formslib.php');
+namespace format_menutopic\forms;
 
 /**
  * Class to manage the custom javascript.
  *
- * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   format_menutopic
+ * @copyright 2012 David Herney - https://bambuco.co
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class jstemplate_menutopic_form extends moodleform {
+class jstemplate extends \moodleform {
 
     /**
      * Defines the form fields.
@@ -54,7 +50,7 @@ class jstemplate_menutopic_form extends moodleform {
         $mform->addElement('header', 'general', get_string('jstemplate', 'format_menutopic'));
         $mform->addHelpButton('general', 'jstemplate', 'format_menutopic');
 
-        $mform->addElement('textarea', 'jscode', get_string('jscode', 'format_menutopic'), array('rows' => '20', 'cols' => '65'));
+        $mform->addElement('textarea', 'jscode', get_string('jscode', 'format_menutopic'), ['rows' => '20', 'cols' => '65']);
         $mform->setType('jscode', PARAM_RAW);
         $mform->setDefault('jscode', $jscode);
 
@@ -73,21 +69,3 @@ class jstemplate_menutopic_form extends moodleform {
         $this->add_action_buttons(false);
     }
 }
-
-// Variables $displaysection, $formatdata and $coursecancellink are loaded in the render function.
-$displayform = new jstemplate_menutopic_form('view.php', array('format_data' => $formatdata, 'displaysection' => $displaysection));
-
-if ($displayform->is_cancelled()) {
-    redirect($coursecancellink);
-} else if ($data = $displayform->get_data()) {
-
-    $formatdata->js = stripcslashes($data->jscode);
-
-    if (!$DB->update_record('format_menutopic', $formatdata)) {
-        \core\notification::error(get_string('notsaved', 'format_menutopic'));
-    } else {
-        \core\notification::success(get_string('savecorrect', 'format_menutopic'));
-    }
-}
-
-$displayform->display();

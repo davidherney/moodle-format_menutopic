@@ -1,0 +1,84 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_menutopic/courseformat/submenu
+
+    Submenu item tree.
+
+    Example context (json):
+    {
+      "uniqueid": "1",
+      "specialclass": "",
+      "current": false,
+      "disabled": true,
+      "root": true,
+      "url": [{
+          "url": "http://moodle.org"
+      }],
+      "title": "Moodle.org",
+      "text": "Moodle community",
+      "target": "",
+      "availablemessage": "",
+      "haschilds": false,
+      "level": 0,
+      "submenu": {
+        "level": 1,
+        "menuitems": []
+      },
+      "testing": true
+    }
+}}
+{{#testing}}<ul>{{/testing}}
+    {{#styleboots}}
+        {{#root}}
+            <li class="{{#withstyles}}nav-item{{/withstyles}} menuitem {{specialclass}} {{#haschilds}}dropdown menu-withsubitems{{/haschilds}} {{#current}}active current {{#darkstyle}}btn btn-primary{{/darkstyle}}{{/current}} {{#disabled}}disabled{{/disabled}} menu-level-{{level}}">
+        {{/root}}
+    {{/styleboots}}
+    {{^styleboots}}
+        <li class="menuitem {{specialclass}} {{#haschilds}}dropdown menu-withsubitems{{/haschilds}} {{#current}}active current{{/current}} {{#disabled}}disabled{{/disabled}} menu-level-{{level}}">
+    {{/styleboots}}
+
+      <a id="{{uniqueid}}" {{#url}}href="{{{url}}}"{{/url}} title="{{title}}" target="{{target}}" class="menu-label nav-link {{#haschilds}}dropdown-toggle{{/haschilds}} {{#styleboots}}{{^root}}dropdown-item{{/root}}{{/styleboots}} {{#current}}active current{{/current}} {{#disabled}}disabled{{/disabled}}" {{#haschilds}}role="button" {{#styleboots}}data-toggle="dropdown"{{/styleboots}} aria-haspopup="true" aria-expanded="false"{{/haschilds}}>{{text}}</a>
+
+        {{#availablemessage}}
+          <span class="iconhelp" data-infoid="format_menutopic_winfo_{{uniqueid}}">
+            {{#pix}} e/help, core, {{#str}} info {{/str}} {{/pix}}
+          </span>
+          <div id="format_menutopic_winfo_{{uniqueid}}" class="availability_info_box hidden">
+            {{{availablemessage}}}
+          </div>
+        {{/availablemessage}}
+      </a>
+      {{#haschilds}}
+        {{#styleboots}}<div class="dropdown-menu {{#darkstyle}}dropdown-menu-dark{{/darkstyle}}" aria-labelledby="{{uniqueid}}">{{/styleboots}}
+        {{^styleboots}}<ul class="submenu-body-content menu-level-{{level}}">{{/styleboots}}
+          {{#submenu}}
+            {{>format_menutopic/courseformat/submenu}}
+          {{/submenu}}
+        {{^styleboots}}</ul>{{/styleboots}}
+        {{#styleboots}}</div>{{/styleboots}}
+      {{/haschilds}}
+
+    {{#styleboots}}
+        {{#root}}
+            </li>
+        {{/root}}
+    {{/styleboots}}
+    {{^styleboots}}
+            </li>
+    {{/styleboots}}
+{{#testing}}</ul>{{/testing}}

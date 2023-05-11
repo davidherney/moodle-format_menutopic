@@ -1,0 +1,87 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_menutopic/header
+
+    Menu item tree.
+
+    Example context (json):
+    {
+        "uniqid": "course-1",
+        "title": "Course 1",
+        "initialsection": {
+        },
+        "hasformatmsgs": "true",
+        "formatmsgs": [{
+            "message": "This course uses the menu topic format."
+        }],
+        "hidemenubar": "false",
+        "format": "menutopic",
+        "templatetopic": "true",
+        "withicons": "true",
+        "hasmenu": "true",
+        "menuinfo": {
+            "withstyles": "true",
+            "menuposition": "center",
+            "menuitems": []
+        },
+        "csstemplate": ""
+    }
+}}
+
+{{#csstemplate}}
+    <style type="text/css">
+        {{{csstemplate}}}
+    </style>
+{{/csstemplate}}
+
+<div id="{{uniqid}}-course-format-header">
+    <h2 class="accesshide">{{{title}}}</h2>
+
+    {{#hasformatmsgs}}
+        {{#formatmsgs}}
+            {{>core/notification_info}}
+        {{/formatmsgs}}
+    {{/hasformatmsgs}}
+
+    {{#initialsection}}
+    <div class="single-section general-section">
+        <ul class="{{format}}">
+            {{$ format_menutopic/local/content/section }}
+                {{> format_menutopic/local/content/section }}
+            {{/ format_menutopic/local/content/section }}
+        </ul>
+    </div>
+    {{/initialsection}}
+
+    {{#hasmenu}}
+        {{#hidemenubar}}
+            <div class="alert alert-warning">
+                {{#str}} hiddenmenubar, format_menutopic {{/str}}
+            </div>
+        {{/hidemenubar}}
+        {{^hidemenubar}}
+            <div id="menu-tree-start" class="{{#hasmenu}}hasmenu{{/hasmenu}}">
+            <div class="menu-wrapper">
+                {{#menuinfo}}
+                    {{>format_menutopic/courseformat/menu}}
+                {{/menuinfo}}
+            </div>
+            </div>
+        {{/hidemenubar}}
+    {{/hasmenu}}
+</div>

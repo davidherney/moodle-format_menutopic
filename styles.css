@@ -12,13 +12,13 @@
     margin: 0 40px;
 }
 
-.format-menutopic .course-content ul.topics li.section .left {
+.format-menutopic .course-content ul.topics li.section .position-left {
     width: 40px;
     float: left;
     text-align: center;
 }
 
-.format-menutopic .course-content ul.topics li.section .right {
+.format-menutopic .course-content ul.topics li.section .position-right {
     width: 40px;
     float: right;
     text-align: center;
@@ -43,6 +43,9 @@
     padding: 0;
     background-color: #fff;
     z-index: 9999;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #format_menutopic_menu.format-menutopic-menu .menu-body-content > li {
@@ -101,10 +104,6 @@
     top: 0;
 }
 
-#region-main #format_menutopic_menu.format-menutopic-menu .menu-body-content > li {
-    float: left;
-}
-
 #region-main #format_menutopic_menu.format-menutopic-menu .menu-level-0 > .menu-withsubitems > a {
     padding-right: 20px;
 }
@@ -121,6 +120,7 @@
     border-bottom: 0;
     border-left: 0.3em solid transparent;
     color: rgba(0, 0, 0, 0.9);
+    font-size: 100%;
 }
 
 #region-main #format_menutopic_menu.format-menutopic-menu .menu-level-1 .menu-withsubitems > a {
@@ -219,10 +219,6 @@
     display: none;
 }
 
-.format-menutopic .availability_info_box {
-    display: inline;
-}
-
 .format-menutopic .summary img.activityicon {
     margin-right: 3px;
     vertical-align: text-bottom;
@@ -240,23 +236,12 @@
     display: none;
 }
 
-.format-menutopic .content > .summary .iconhelp {
+.format-menutopic .content .summarytext .iconwithhelp {
     cursor: pointer;
 }
 
-.format-menutopic .section .completiontag > form,
-.format-menutopic .section .completiontag > form > div {
-    display: inline;
-}
-
-.format-menutopic .section .completiontag > form > div button {
-    padding: 0;
+.format-menutopic .content .summarytext .iconwithhelp .icon {
     margin: 0;
-    line-height: 0;
-}
-
-.format-menutopic .section .completiontag img.icon {
-    margin: 0 3px 0 5px;
 }
 
 .format-menutopic #treecontainer ul.tree,
@@ -355,4 +340,167 @@
     position: relative;
 }
 
+.format-menutopic.path-mod #page-header {
+    display: none;
+}
 
+.format-menutopic .editmode-form .btn i {
+    margin: 0;
+}
+
+.format-menutopic #navbarmenutopic .navbar-nav {
+    flex-wrap: wrap;
+}
+
+.format-menutopic #navbarmenutopic .navbar-nav .nav-item {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    line-height: 16px;
+}
+
+.format-menutopic #navbarmenutopic .navbar-nav .nav-item.menu-level-0.active {
+    border-bottom: solid 3px var(--primary);
+}
+
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item {
+    color: var(--dark);
+}
+
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item:hover {
+    color: var(--light);
+}
+
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.current {
+    color: var(--light);
+    font-weight: bold;
+}
+
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.disabled {
+    opacity: 0.7;
+}
+
+.format-menutopic.editing #navbarmenutopic .dropdown-menu-dark .dropdown-item.disabled {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* Template styles */
+.format-menutopic .menutopic .cmnameinline .activityiconcontainer {
+    width: auto;
+    height: auto;
+    padding: 0.2rem;
+}
+
+.format-menutopic .availability_info_box {
+    display: inline;
+}
+
+.format-menutopic .activityinsummarytpl .description .course-description-item {
+    background-color: transparent;
+}
+
+.format-menutopic .activityinsummarytpl .description .availabilityinfo {
+    display: inline-block;
+    min-width: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+/* End of template styles */
+
+/* Completion */
+.format-menutopic .menutopic .completiontag img.icon {
+    margin: 0 3px 0 5px;
+}
+
+.format-menutopic .menutopic .completiontag .showcompletionconditions {
+    position: absolute;
+}
+
+.format-menutopic .menutopic .completiontag .showcompletionconditions:hover {
+    z-index: 2;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.format-menutopic .menutopic .completiontag .showcompletionconditions .activity-information {
+    display: none;
+}
+
+.format-menutopic .menutopic .completiontag .showcompletionconditions:hover .activity-information {
+    display: block;
+}
+
+.format-menutopic .menutopic .completiontag .showcompletionconditions:hover > img {
+    display: none;
+}
+/* End of completion*/
+
+/* The slide navigation is only available to wide screens */
+@media (min-width: 600px) {
+
+    .format-menutopic .sectionsnavigation-slides {
+        position: relative;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides .nextsection a,
+    .format-menutopic .single-section.sectionsnavigation-slides .prevsection a {
+        display: none;
+        font-size: 0;
+        position: absolute;
+        top: calc(50% - 40px);
+        background-color: #fff;
+        border-radius: 25px;
+        border: 1px solid #dee2e6;
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.3;
+        box-shadow: 2px 2px 4px 1px #ccc;
+        text-decoration: none;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides:hover .nextsection a,
+    .format-menutopic .single-section.sectionsnavigation-slides:hover .prevsection a {
+        display: flex;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides:hover .nextsection a {
+        right: -30px;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides:hover .prevsection a {
+        left: -20px;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides .nextsection span,
+    .format-menutopic .single-section.sectionsnavigation-slides .prevsection span {
+        font-size: 40px;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides .nextsection a:hover,
+    .format-menutopic .single-section.sectionsnavigation-slides .prevsection a:hover {
+        opacity: 1;
+        cursor: pointer;
+        width: auto;
+        font-size: inherit;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides .prevsection a:hover {
+        text-align: left;
+        justify-content: left;
+        padding-right: 10px;
+    }
+
+    .format-menutopic .single-section.sectionsnavigation-slides .nextsection a:hover {
+        text-align: right;
+        justify-content: right;
+        padding-left: 10px;
+        flex-direction: row-reverse;
+    }
+}
+/* End of slide navigation */
