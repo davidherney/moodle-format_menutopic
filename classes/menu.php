@@ -44,13 +44,14 @@ class menu {
     /**
      * To save the currect topic or URL.
      *
-     * @param int $section The current section number
+     * @var int $currentsection The current section number
      */
     public $currentsection;
 
     /**
      * Constructor.
      *
+     * @param int $currentsection The current section number
      */
     public function __construct(int $currentsection = null) {
         $this->menuitems = [];
@@ -90,7 +91,6 @@ class menu {
 
             if ($item->topicnumber == $section) {
 
-
                 if ($onlyhide) {
                     $item->disabled = true;
                     $item->hidden = false;
@@ -117,6 +117,7 @@ class menu {
     /**
      * To get the menu list.
      *
+     * @param int $courseid The course id.
      * @return array of object.
      */
     public function get_list(int $courseid) : array {

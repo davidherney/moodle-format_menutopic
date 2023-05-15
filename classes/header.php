@@ -22,9 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- namespace format_menutopic;
+namespace format_menutopic;
 
- /**
+/**
  * Class used to render the header content in each course page.
  *
  *
@@ -42,6 +42,7 @@ class header implements \renderable, \templatable {
     /**
      * Constructor.
      *
+     * @param \format_menutopic $format Course format instance.
      */
     public function __construct(\format_menutopic $format) {
         $this->format = $format;
@@ -112,18 +113,9 @@ class header implements \renderable, \templatable {
                 $sectionclass = $this->format->get_output_classname('content\\section');
                 $section = new $sectionclass($this->format, $section0);
 
-                $sectionoutput = new \format_onetopic\output\renderer($PAGE, null);
+                $sectionoutput = new \format_menutopic\output\renderer($PAGE, null);
                 $initialsection = $section->export_for_template($sectionoutput);
 
-                /*if ((($initialsection->visible && $initialsection->available) || $canviewhidden)
-                        && ($initialsection->summary || $initialsection->sequence || $this->format->show_editor())) {
-
-                    if ($this->formatdata->configmenu->templatetopic) {
-                        if ($this->formatdata->configmenu->displaynousedmod || $this->format->show_editor()) {
-                            //ToDo: implementar.
-                        }
-                    }
-                }*/
             }
 
             $data->initialsection = $initialsection;

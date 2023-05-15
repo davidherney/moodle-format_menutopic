@@ -24,8 +24,6 @@
 
 namespace format_menutopic\forms;
 
-require_once($CFG->libdir.'/formslib.php');
-
 /**
  * Class to control the menu configurations.
  *
