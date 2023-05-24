@@ -125,7 +125,7 @@ class config extends \moodleform {
         $mform->addHelpButton('displaynavigation', 'displaynavigation', 'format_menutopic');
         $mform->setDefault('displaynavigation', $config->displaynavigation);
 
-        //ToDo: Remove in future versions.
+        // ToDo: Remove in future versions.
         $mform->addElement('hidden', 'nodesnavigation', get_string('nodesnavigation', 'format_menutopic'));
         $mform->addHelpButton('nodesnavigation', 'nodesnavigation', 'format_menutopic');
         $mform->setDefault('nodesnavigation', $config->nodesnavigation);

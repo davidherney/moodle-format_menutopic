@@ -39,7 +39,8 @@
             "menuposition": "center",
             "menuitems": []
         },
-        "csstemplate": ""
+        "csstemplate": "",
+        "isediting": false
     }
 }}
 
@@ -68,20 +69,27 @@
     </div>
     {{/initialsection}}
 
-    {{#hasmenu}}
-        {{#hidemenubar}}
-            <div class="alert alert-warning">
-                {{#str}} hiddenmenubar, format_menutopic {{/str}}
-            </div>
-        {{/hidemenubar}}
-        {{^hidemenubar}}
-            <div id="menu-tree-start" class="{{#hasmenu}}hasmenu{{/hasmenu}}">
-            <div class="menu-wrapper">
-                {{#menuinfo}}
-                    {{>format_menutopic/courseformat/menu}}
-                {{/menuinfo}}
-            </div>
-            </div>
-        {{/hidemenubar}}
-    {{/hasmenu}}
+    <div id="menu-tree-start" class="{{#hasmenu}}hasmenu{{/hasmenu}}">
+        {{#hasmenu}}
+            {{#hidemenubar}}
+                {{#isediting}}
+                    <div class="alert alert-warning">
+                        {{#str}} hiddenmenubar, format_menutopic {{/str}}
+                    </div>
+                    <div class="menu-wrapper">
+                        {{#menuinfo}}
+                            {{>format_menutopic/courseformat/menu}}
+                        {{/menuinfo}}
+                    </div>
+                {{/isediting}}
+            {{/hidemenubar}}
+            {{^hidemenubar}}
+                <div class="menu-wrapper">
+                    {{#menuinfo}}
+                        {{>format_menutopic/courseformat/menu}}
+                    {{/menuinfo}}
+                </div>
+            {{/hidemenubar}}
+        {{/hasmenu}}
+    </div>
 </div>

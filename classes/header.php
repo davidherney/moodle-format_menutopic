@@ -89,12 +89,13 @@ class header implements \renderable, \templatable {
             'hasmenu' => false,
             'hasformatmsgs' => count(\format_menutopic::$formatmsgs) > 0,
             'formatmsgs' => \format_menutopic::$formatmsgs,
-            'hidemenubar' => ($this->formatdata->configmenu->menuposition == 'hide' && !$this->format->show_editor()),
+            'hidemenubar' => $this->formatdata->configmenu->menuposition == 'hide',
             'templatetopic' => $this->formatdata->configmenu->templatetopic,
             'withicons' => $this->formatdata->configmenu->icons_templatetopic,
             'csstemplate' => $csstemplate,
             'shownavbarbrand' => get_config('format_menutopic', 'shownavbarbrand'),
-            'canviewhidden' => $canviewhidden
+            'canviewhidden' => $canviewhidden,
+            'isediting' => $this->format->show_editor(),
         ];
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
