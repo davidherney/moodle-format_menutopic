@@ -434,35 +434,12 @@
 .format-menutopic .activity_dateinline {
     display: block;
 }
+
 /* End of template styles */
 
 /* Completion */
 .format-menutopic .menutopic .completiontag img.icon {
     margin: 0 3px 0 5px;
-}
-
-.format-menutopic .menutopic .completiontag .showcompletionconditions {
-    position: absolute;
-}
-
-.format-menutopic .menutopic .completiontag .showcompletionconditions:hover {
-    z-index: 2;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid;
-    border-radius: 5px;
-}
-
-.format-menutopic .menutopic .completiontag .showcompletionconditions .activity-information {
-    display: none;
-}
-
-.format-menutopic .menutopic .completiontag .showcompletionconditions:hover .activity-information {
-    display: block;
-}
-
-.format-menutopic .menutopic .completiontag .showcompletionconditions:hover > img {
-    display: none;
 }
 /* End of completion*/
 
