@@ -42,7 +42,7 @@
     margin: 0;
     padding: 0;
     background-color: #fff;
-    z-index: 9999;
+    z-index: 9;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -334,6 +334,7 @@
 
 .format-menutopic #id_treeeditgeneral .form-inline .form-control-static {
     display: inline;
+    width: 100%;
 }
 
 .format-menutopic li.activity > div {
@@ -359,18 +360,21 @@
     line-height: 16px;
 }
 
-.format-menutopic #navbarmenutopic .navbar-nav .nav-item.menu-level-0.active {
+.format-menutopic .navbar:not(.navbar-dark) #navbarmenutopic .navbar-nav .nav-item.menu-level-0.active {
     border-bottom: solid 3px var(--primary);
 }
 
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item span.iconhelp i:before,
 .format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item {
     color: var(--dark);
 }
 
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item:hover span.iconhelp i:before,
 .format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item:hover {
     color: var(--light);
 }
 
+.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.current span.iconhelp i:before,
 .format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.current {
     color: var(--light);
     font-weight: bold;
@@ -385,15 +389,31 @@
     cursor: pointer;
 }
 
+.format-menutopic #navbarmenutopic .btn-primary.disabled.active {
+    background-color: #0b5190;
+    border-color: #0a4b84;
+}
+
+.format-menutopic .container-menu {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.format-menutopic .menuitem span.iconhelp {
+    cursor: pointer;
+    margin-left: 5px;
+    pointer-events: auto;
+}
+
+.format-menutopic .menuitem span.iconhelp i {
+    margin: 0;
+}
+
 /* Template styles */
 .format-menutopic .menutopic .cmnameinline .activityiconcontainer {
     width: auto;
     height: auto;
     padding: 0.2rem;
-}
-
-.format-menutopic .availability_info_box {
-    display: inline;
 }
 
 .format-menutopic .activityinsummarytpl .description .course-description-item {
@@ -407,6 +427,13 @@
     padding: 0;
 }
 
+.format-menutopic .activity-dates-inline {
+    display: flex;
+}
+
+.format-menutopic .activity_dateinline {
+    display: block;
+}
 /* End of template styles */
 
 /* Completion */
@@ -438,6 +465,45 @@
     display: none;
 }
 /* End of completion*/
+
+/* Sections/activities navigation */
+.format-menutopic .section-navigation .prevsection,
+.format-menutopic .section-navigation .nextsection {
+    display: flex;
+    min-width: 100px;
+}
+
+.format-menutopic .section-navigation .nextsection {
+    justify-content: right;
+    margin-left: 5px;
+}
+
+.format-menutopic .section-navigation .prevsection {
+    justify-content: left;
+    margin-right: 5px;
+}
+
+.format-menutopic .section-navigation .prevsection a,
+.format-menutopic .section-navigation .nextsection a {
+    display: flex;
+    align-items: center;
+    line-height: 100%;
+}
+
+.format-menutopic .section-navigation .prevsection a {
+    padding-right: 10px;
+}
+
+.format-menutopic .section-navigation .nextsection a {
+    flex-direction: row-reverse;
+    padding-left: 10px;
+    text-align: right;
+}
+
+/* The jump list if exist */
+.format-menutopic .single-section .section-navigation.mdl-bottom div:nth-child(2) {
+    max-width: calc(100% - 210px);
+}
 
 /* The slide navigation is only available to wide screens */
 @media (min-width: 600px) {

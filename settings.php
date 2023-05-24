@@ -32,11 +32,12 @@ if ($ADMIN->fulltree) {
                                                     get_string('enableanchorposition_help', 'format_menutopic'), 1));
 
     $fields = [
-        \format_menutopic::SECTIONSNAVIGATION_SUPPORT => new lang_string('sectionsnavigation_support', 'format_menutopic'),
-        \format_menutopic::SECTIONSNAVIGATION_NOT => new lang_string('sectionsnavigation_not', 'format_menutopic'),
-        \format_menutopic::SECTIONSNAVIGATION_BOTTOM => new lang_string('sectionsnavigation_bottom', 'format_menutopic'),
-        \format_menutopic::SECTIONSNAVIGATION_BOTH => new lang_string('sectionsnavigation_both', 'format_menutopic'),
-        \format_menutopic::SECTIONSNAVIGATION_SLIDES => new lang_string('sectionsnavigation_slides', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_SUPPORT => new lang_string('navigationposition_support', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_NOT => new lang_string('navigationposition_nothing', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_BOTTOM => new lang_string('navigationposition_bottom', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_TOP => new lang_string('navigationposition_top', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_BOTH => new lang_string('navigationposition_both', 'format_menutopic'),
+        \format_menutopic::SECTIONSNAVIGATION_SLIDES => new lang_string('navigationposition_slide', 'format_menutopic'),
     ];
     $settings->add(new admin_setting_configselect('format_menutopic/defaultsectionsnavigation',
                                                     get_string('defaultsectionsnavigation', 'format_menutopic'),
@@ -55,4 +56,7 @@ if ($ADMIN->fulltree) {
                                                     \format_menutopic::STYLE_BOOTS,
                                                     $fields));
 
+    $settings->add(new admin_setting_configcheckbox('format_menutopic/shownavbarbrand',
+                                                    get_string('shownavbarbrand', 'format_menutopic'),
+                                                    get_string('shownavbarbrand_help', 'format_menutopic'), 1));
 }

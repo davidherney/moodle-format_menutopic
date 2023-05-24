@@ -123,12 +123,12 @@ $string['displaynousedmod_help'] = 'Not implemented yet';
 $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con lo cual se puede definir una apariencia gráfica personalizada para el menú.</p>
 <p>Un ejemplo sencillo de utilización de la plantilla de estilos sería:</p>
 <div style=" white-space:nowrap; font-size: 12px; border: 1px solid #666; padding: 5px; background-color: #CCC">
-#id_menu_box { margin-bottom: 10px; }
+#format_menutopic_menu { margin-bottom: 10px; }
 </div>
 <p>Con el anterior código se separa 10px el contenido que esté por debajo del menú, según la posición definida para el menú.</p>
 <p><strong>Nota:</strong>
 <ul>
-    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
+    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>format_menutopic_menu</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
     <li>Al realizar cambios en los estilos es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 
@@ -138,7 +138,7 @@ o incluso para definir una estructura de menú diferente a la por defecto.</p>
 para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería <a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>
 <p><b>Notas:</b>
 <ul>
-    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>id_menu_box</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
+    <li>El identificador (id) de la capa (div) que contiene el menú es <strong>format_menutopic_menu</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
     <li>Al realizar cambios en el JavaScript es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 

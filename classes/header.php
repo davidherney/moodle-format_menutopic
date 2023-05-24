@@ -79,6 +79,9 @@ class header implements \renderable, \templatable {
             }
         }
 
+        $coursecontext = \context_course::instance($course->id);
+        $canviewhidden = has_capability('moodle/course:viewhiddensections', $coursecontext);
+
         $data = (object)[
             'baseurl' => $CFG->wwwroot,
             'title' => $this->format->page_title(), // This method should be in the course_format class.
@@ -90,6 +93,8 @@ class header implements \renderable, \templatable {
             'templatetopic' => $this->formatdata->configmenu->templatetopic,
             'withicons' => $this->formatdata->configmenu->icons_templatetopic,
             'csstemplate' => $csstemplate,
+            'shownavbarbrand' => get_config('format_menutopic', 'shownavbarbrand'),
+            'canviewhidden' => $canviewhidden
         ];
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
@@ -100,9 +105,6 @@ class header implements \renderable, \templatable {
         $initialsection = null;
 
         if (!$inpopup && (in_array($PAGE->pagetype, $pagesavailable) || preg_match($patternavailable, $PAGE->pagetype))) {
-
-            $canviewhidden = has_capability('moodle/course:viewhiddensections', \context_course::instance($course->id))
-                                           || !$course->hiddensections;
 
             // General section if non-empty and course_display is multiple.
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {

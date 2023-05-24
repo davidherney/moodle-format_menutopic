@@ -115,6 +115,27 @@ class menu {
     }
 
     /**
+     * Search menu items by section number.
+     *
+     * @param int $section The linked section
+     * @return array of object
+     */
+    public function get_topics($section) : ?array {
+
+        $topics = [];
+        foreach ($this->menuitems as $key => $item) {
+
+            if ($item->topicnumber == $section) {
+                $topics[] = $item;
+            } else {
+                $topics = array_merge($topics, $item->get_submenu()->get_topics($section));
+            }
+        }
+
+        return $topics;
+    }
+
+    /**
      * To get the menu list.
      *
      * @param int $courseid The course id.

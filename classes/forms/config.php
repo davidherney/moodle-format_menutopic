@@ -100,7 +100,7 @@ class config extends \moodleform {
         $mform->addHelpButton('cssdefault', 'cssdefault', 'format_menutopic');
         $mform->setDefault('cssdefault', $config->cssdefault);
 
-        $choices = array();
+        $choices = [];
         $choices['hide'] = get_string('menuposition_hide', 'format_menutopic');
         $choices['left'] = get_string('menuposition_left', 'format_menutopic');
         $choices['middle'] = get_string('menuposition_middle', 'format_menutopic');
@@ -114,16 +114,19 @@ class config extends \moodleform {
         $mform->addHelpButton('linkinparent', 'linkinparent', 'format_menutopic');
         $mform->setDefault('linkinparent', $config->linkinparent);
 
-        $choices = array();
-        $choices['top'] = get_string('navigationposition_top', 'format_menutopic');
-        $choices['bottom'] = get_string('navigationposition_bottom', 'format_menutopic');
-        $choices['both'] = get_string('navigationposition_both', 'format_menutopic');
-        $choices['nothing'] = get_string('navigationposition_nothing', 'format_menutopic');
+        $choices = [];
+        $choices[''] = get_string('navigationposition_site', 'format_menutopic');
+        $choices[\format_menutopic::SECTIONSNAVIGATION_NOT] = get_string('navigationposition_nothing', 'format_menutopic');
+        $choices[\format_menutopic::SECTIONSNAVIGATION_TOP] = get_string('navigationposition_top', 'format_menutopic');
+        $choices[\format_menutopic::SECTIONSNAVIGATION_BOTTOM] = get_string('navigationposition_bottom', 'format_menutopic');
+        $choices[\format_menutopic::SECTIONSNAVIGATION_BOTH] = get_string('navigationposition_both', 'format_menutopic');
+        $choices[\format_menutopic::SECTIONSNAVIGATION_SLIDES] = get_string('navigationposition_slide', 'format_menutopic');
         $mform->addElement('select', 'displaynavigation', get_string('displaynavigation', 'format_menutopic'), $choices);
         $mform->addHelpButton('displaynavigation', 'displaynavigation', 'format_menutopic');
         $mform->setDefault('displaynavigation', $config->displaynavigation);
 
-        $mform->addElement('text', 'nodesnavigation', get_string('nodesnavigation', 'format_menutopic'));
+        //ToDo: Remove in future versions.
+        $mform->addElement('hidden', 'nodesnavigation', get_string('nodesnavigation', 'format_menutopic'));
         $mform->addHelpButton('nodesnavigation', 'nodesnavigation', 'format_menutopic');
         $mform->setDefault('nodesnavigation', $config->nodesnavigation);
         $mform->setType('nodesnavigation', PARAM_RAW);

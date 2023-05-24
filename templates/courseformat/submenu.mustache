@@ -21,25 +21,25 @@
 
     Example context (json):
     {
-      "uniqueid": "1",
-      "specialclass": "",
-      "current": false,
-      "disabled": true,
-      "root": true,
-      "url": [{
-          "url": "http://moodle.org"
-      }],
-      "title": "Moodle.org",
-      "text": "Moodle community",
-      "target": "",
-      "availablemessage": "",
-      "haschilds": false,
-      "level": 0,
-      "submenu": {
-        "level": 1,
-        "menuitems": []
-      },
-      "testing": true
+        "uniqueid": "1",
+        "specialclass": "",
+        "current": false,
+        "disabled": true,
+        "root": true,
+        "url": [{
+            "url": "http://moodle.org"
+        }],
+        "title": "Moodle.org",
+        "text": "Moodle community",
+        "target": "_blank",
+        "availablemessage": "",
+        "haschilds": false,
+        "level": 0,
+        "submenu": {
+            "level": 1,
+            "menuitems": []
+        },
+        "testing": true
     }
 }}
 {{#testing}}<ul>{{/testing}}
@@ -52,26 +52,35 @@
         <li class="menuitem {{specialclass}} {{#haschilds}}dropdown menu-withsubitems{{/haschilds}} {{#current}}active current{{/current}} {{#disabled}}disabled{{/disabled}} menu-level-{{level}}">
     {{/styleboots}}
 
-      <a id="{{uniqueid}}" {{#url}}href="{{{url}}}"{{/url}} title="{{title}}" target="{{target}}" class="menu-label nav-link {{#haschilds}}dropdown-toggle{{/haschilds}} {{#styleboots}}{{^root}}dropdown-item{{/root}}{{/styleboots}} {{#current}}active current{{/current}} {{#disabled}}disabled{{/disabled}}" {{#haschilds}}role="button" {{#styleboots}}data-toggle="dropdown"{{/styleboots}} aria-haspopup="true" aria-expanded="false"{{/haschilds}}>{{text}}</a>
-
-        {{#availablemessage}}
-          <span class="iconhelp" data-infoid="format_menutopic_winfo_{{uniqueid}}">
+    <a id="{{uniqueid}}"
+        {{#url}}href="{{{url}}}"{{/url}}
+        title="{{title}}"
+        target="{{target}}"
+        class="menu-label nav-link {{#haschilds}}dropdown-toggle{{/haschilds}} {{#styleboots}}{{^root}}dropdown-item{{/root}}{{/styleboots}} {{#current}}active current{{/current}} {{^canviewhidden}}{{#disabled}}disabled{{/disabled}}{{/canviewhidden}}"
+        {{#haschilds}}role="button"
+            {{#styleboots}}data-toggle="dropdown"{{/styleboots}}
+            aria-haspopup="true" aria-expanded="false"
+        {{/haschilds}}>{{!
+            }}{{text}}{{!
+        }}{{#availablemessage}}
+          <span class="iconhelp" data-infoid="#format_menutopic_winfo_{{uniqueid}}">
             {{#pix}} e/help, core, {{#str}} info {{/str}} {{/pix}}
           </span>
-          <div id="format_menutopic_winfo_{{uniqueid}}" class="availability_info_box hidden">
+          <div id="format_menutopic_winfo_{{uniqueid}}" class="availability_info_box hidden" data-title="{{title}}">
             {{{availablemessage}}}
           </div>
-        {{/availablemessage}}
-      </a>
-      {{#haschilds}}
+        {{/availablemessage}}{{!
+    }}</a>
+
+    {{#haschilds}}
         {{#styleboots}}<div class="dropdown-menu {{#darkstyle}}dropdown-menu-dark{{/darkstyle}}" aria-labelledby="{{uniqueid}}">{{/styleboots}}
         {{^styleboots}}<ul class="submenu-body-content menu-level-{{level}}">{{/styleboots}}
-          {{#submenu}}
+            {{#submenu}}
             {{>format_menutopic/courseformat/submenu}}
-          {{/submenu}}
+            {{/submenu}}
         {{^styleboots}}</ul>{{/styleboots}}
         {{#styleboots}}</div>{{/styleboots}}
-      {{/haschilds}}
+    {{/haschilds}}
 
     {{#styleboots}}
         {{#root}}
@@ -79,6 +88,6 @@
         {{/root}}
     {{/styleboots}}
     {{^styleboots}}
-            </li>
+        </li>
     {{/styleboots}}
 {{#testing}}</ul>{{/testing}}

@@ -86,7 +86,11 @@ class cmlist extends cmlist_base {
 
         foreach ($modinfo->sections[$section->section] as $modnumber) {
 
-            if (!$format->show_editor() && (!$displaynousedmod || in_array($modnumber, $format->tplcmsused))) {
+            if (!$format->show_editor() &&
+                    ($templatetopic &&
+                        (!$displaynousedmod || in_array($modnumber, $format->tplcmsused))
+                    )
+                ) {
                 continue;
             }
 

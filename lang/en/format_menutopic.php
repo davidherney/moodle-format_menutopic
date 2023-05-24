@@ -80,10 +80,13 @@ $string['templatetopic'] = 'Activate Description of the section as a template';
 $string['icons_templatetopic'] = 'Show icons in resources names';
 $string['config_template_topic_title'] = 'Configurate -Description of the section as a template-';
 $string['displaynousedmod'] = 'Show resources not included in template';
-$string['navigationposition_top'] = 'Top';
-$string['navigationposition_bottom'] = 'Bottom';
-$string['navigationposition_both'] = 'Top and bottom';
-$string['navigationposition_nothing'] = 'Nothing';
+$string['navigationposition_site'] = 'Use the default site value';
+$string['navigationposition_top'] = 'Only at the top';
+$string['navigationposition_bottom'] = 'Only at the bottom';
+$string['navigationposition_both'] = 'At top and bottom section';
+$string['navigationposition_nothing'] = 'Not use';
+$string['navigationposition_slide'] = 'Like slides';
+$string['navigationposition_support'] = 'Only if theme not support the "uses course index" feature';
 $string['displaynavigation'] = 'Display navigation';
 $string['nodesnavigation'] = 'Navigation nodes';
 $string['previous_topic'] = 'Previous';
@@ -94,10 +97,10 @@ $string['csstemplate'] = 'About: CSS styles';
 $string['jstemplate'] = 'JavaScript code';
 
 // ToDo: Hacer las ayudas como cadenas de texto.
-$string['jsdefault_help'] = 'Defines if the Javascript functions that generate the menu are included. Disables the default javascript can be useful if you want to give another appearance to the menu using Javascript code that can be
+$string['jsdefault_help'] = 'Define if the Javascript functions that generate the menu are included. Disables the default javascript can be useful if you want to give another appearance to the menu using Javascript code that can be
 included in the <b>"Javascript template"</b>.';
-$string['cssdefault_help'] = 'Defines if CSS styles are included by default to the menu. Disable this option can be useful to include customised styles by the option <b>"(CSS) styles template"</b>';
-$string['menuposition_help'] = '<p>Defines the position where the menu will appear in the course. The possible options are:
+$string['cssdefault_help'] = 'Define if CSS styles are included by default to the menu. Disable this option can be useful to include customised styles by the option <b>"(CSS) styles template"</b>';
+$string['menuposition_help'] = '<p>Define the position where the menu will appear in the course. The possible options are:
 <ul>
     <li><b>Do not show:</b> menu is not generated</li>
     <li><b>Left:</b> menu is generated vertically in the column of the left blocks, if exist.</li>
@@ -105,7 +108,7 @@ $string['menuposition_help'] = '<p>Defines the position where the menu will appe
     <li><b>Right:</b> menu is generated vertically in the column of the right blocks, if exist.</li>
 </ul></p>';
 
-$string['linkinparent_help'] = '<p>Defines the behavior of the menu options that act as roots or fathers of a submenu.</p>
+$string['linkinparent_help'] = '<p>Define the behavior of the menu options that act as roots or fathers of a submenu.</p>
 <p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL
 that is defined in the <b>"Menu tree"</b>. If it is stablished in <b>Not</b>, the menu item deploys the son links to click
 on it</p>';
@@ -122,12 +125,12 @@ $string['displaynousedmod_help'] = 'About: Show resources not included in templa
 $string['csstemplate_help'] = 'Allows to include customized CSS styles which you can define a customized graphic appearance for the menu
 <p>A simple exercise of using the styles template will be:</p>
 <div style=" white-space:nowrap; font-size: 12px; border: 1px solid #666; padding: 5px; background-color: #CCC">
-#id_menu_box { margin-bottom: 10px; }
+#format_menutopic_menu { margin-bottom: 10px; }
 </div>
 <p>With the previous code, the menu is separated 10px from the bottom, according to the position defined for the menu.</p>
 <p><strong>Note:</strong>
 <ul>
-    <li>The identifier (id) of the layer (div) that the menu contains is <strong>id_menu_box</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
+    <li>The identifier (id) of the layer (div) that the menu contains is <strong>format_menutopic_menu</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
     <li>It is possible that to make changes in the styles, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
 
@@ -135,7 +138,7 @@ $string['jstemplate_help'] = 'Allows to define the JavaScript code that will wor
 or even a menu structure different from the default.
 <p><b>Notes:</b>
 <ul>
-    <li>The name <b>id_menu_box</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
+    <li>The name <b>format_menutopic_menu</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
     <li>It is possible that to make changes in the JavaScript, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
 
@@ -168,12 +171,6 @@ $string['privacy:metadata'] = 'The Menutopic format plugin does not store any pe
 
 $string['usessectionsnavigation'] = 'Uses sections navigation';
 $string['usessectionsnavigation_help'] = 'Show buttons for navigate to next or previous section.';
-$string['sectionsnavigation_sitelevel'] = 'Use the default site value';
-$string['sectionsnavigation_support'] = 'Only if theme not support the "uses course index" feature';
-$string['sectionsnavigation_not'] = 'Not use';
-$string['sectionsnavigation_bottom'] = 'Only at the bottom';
-$string['sectionsnavigation_both'] = 'At top and bottom section';
-$string['sectionsnavigation_slides'] = 'Like slides';
 $string['enableanchorposition'] = 'Enable anchor position';
 $string['enableanchorposition_help'] = 'Use an anchor to navigate to the top of menu when click in a menu option.';
 $string['defaultsectionsnavigation'] = 'Default value to sections navigation';
@@ -189,3 +186,6 @@ $string['style_bootsdark'] = 'Dark Bootstrap';
 $string['globalstyle'] = 'Global style';
 $string['globalstyle_help'] = 'This define the style of the menu.';
 $string['aboutresource'] = 'About the resource';
+$string['aboutsection'] = 'About the topic';
+$string['shownavbarbrand'] = 'Show navbar brand';
+$string['shownavbarbrand_help'] = 'Show the brand text of the navbar in Bootstrap styles.';

@@ -89,7 +89,9 @@ class content extends content_base {
         // The current section format has extra navigation.
         if ($currentsection || $currentsection === 0) {
 
-            $usessectionsnavigation = isset($course->usessectionsnavigation) ? $course->usessectionsnavigation : null;
+            $usessectionsnavigation = isset($format::$formatdata->configmenu->displaynavigation) ?
+                                            $format::$formatdata->configmenu->displaynavigation : null;
+
             if (empty($usessectionsnavigation)) {
                 $usessectionsnavigation = get_config('format_menutopic', 'defaultsectionsnavigation');
             }
@@ -100,16 +102,19 @@ class content extends content_base {
 
                     $sectionnavigation = new $this->sectionnavigationclass($format, $currentsection);
 
-                    // Not show navigation in top section if is not both.
-                    if ($usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_BOTH) {
+                    // Not show navigation in top section if is not both or top.
+                    if ($usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_BOTH ||
+                            $usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_TOP) {
                         $data->sectionnavigation = $sectionnavigation->export_for_template($output);
                     }
 
-                    $sectionselector = new $this->sectionselectorclass($format, $sectionnavigation);
-                    $data->sectionselector = $sectionselector->export_for_template($output);
+                    if ($usessectionsnavigation != \format_menutopic::SECTIONSNAVIGATION_TOP) {
+                        $sectionselector = new $this->sectionselectorclass($format, $sectionnavigation);
+                        $data->sectionselector = $sectionselector->export_for_template($output);
 
-                    if ($usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_SLIDES) {
-                        $data->sectionclasses = ' sectionsnavigation-slides';
+                        if ($usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_SLIDES) {
+                            $data->sectionclasses = ' sectionsnavigation-slides';
+                        }
                     }
                 }
             }

@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import $ from 'jquery';
-import {get_string as getString, get_strings as getStrings} from 'core/str';
+import {get_strings as getStrings} from 'core/str';
 import Notification from 'core/notification';
 import ModalFactory from 'core/modal_factory';
 import ModalEvents from 'core/modal_events';
@@ -128,7 +128,7 @@ treeController.runAction = function(action, $node) {
 };
 
 treeController.newTreeNode = function(obj) {
-    // scape obj.name for html attribute
+    // Scape obj.name for html attribute.
     var name = obj.name.replace(/"/g, '&quot;');
 
     var $node = $('<li>' +
@@ -199,9 +199,8 @@ treeController.loadTreeAria = function() {
 
             return true;
         } catch (e) {
-            getString('error', 'core').then(str => {
-                Notification.alert(str, e);
-            });
+            Log.debug('Error parsing tree code.');
+            Log.debug(e);
             return false;
         }
     }

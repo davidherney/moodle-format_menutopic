@@ -35,8 +35,8 @@
 }}
 <div id="format_menutopic_menu" class="{{#withstyles}}{{#styleboots}}format-menutopic-menu-boots{{/styleboots}} {{#stylebasic}}format-menutopic-menu{{/stylebasic}}{{/withstyles}} position-{{menuposition}} {{menuposition}}">
     <nav class="{{#withstyles}}{{#styleboots}}navbar navbar-expand-lg {{#darkstyle}}navbar-dark bg-primary{{/darkstyle}}{{/styleboots}}{{/withstyles}}">
-        <div class="container-fluid">
-            {{#styleboots}}<span class="navbar-brand">{{#str}} navbartitle, format_menutopic {{/str}}</span>{{/styleboots}}
+        <div class="container-fluid container-menu">
+            {{#styleboots}}{{#shownavbarbrand}}<span class="navbar-brand">{{#str}} navbartitle, format_menutopic {{/str}}</span>{{/shownavbarbrand}}{{/styleboots}}
             {{#withstyles}}
                 {{#styleboots}}
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarmenutopic" aria-controls="navbarmenutopic" aria-expanded="false" aria-label="{{#str}}tooglemenu, format_menutopic{{/str}}">
@@ -46,11 +46,11 @@
                 {{/styleboots}}
             {{/withstyles}}
 
-                        <ul class="menu-body-content menu-level-0 {{#styleboots}}navbar-nav me-auto{{/styleboots}}">
-                            {{#menuitems}}
-                            {{>format_menutopic/courseformat/submenu}}
-                            {{/menuitems}}
-                        </ul>
+            <ul class="menu-body-content menu-level-0 {{#styleboots}}navbar-nav me-auto{{/styleboots}}">
+                {{#menuitems}}
+                   {{>format_menutopic/courseformat/submenu}}
+                {{/menuitems}}
+            </ul>
 
             {{#withstyles}}
                 {{#styleboots}}

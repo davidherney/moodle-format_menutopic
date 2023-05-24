@@ -22,8 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die();
- require_once($CFG->dirroot. '/course/format/lib.php');
+use core_courseformat\output\local\content as content_base;
+
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot. '/course/format/lib.php');
 
 /**
  * Main class for the menutopic course format.
@@ -35,19 +37,22 @@
 class format_menutopic extends core_courseformat\base {
 
     /** @var int Only if theme not support "usescourseindex" */
-    const SECTIONSNAVIGATION_SUPPORT = 1;
+    const SECTIONSNAVIGATION_SUPPORT = 'courseindex';
 
     /** @var int Not use */
-    const SECTIONSNAVIGATION_NOT = 2;
+    const SECTIONSNAVIGATION_NOT = 'nothing';
 
     /** @var int Only at the bottom */
-    const SECTIONSNAVIGATION_BOTTOM = 3;
+    const SECTIONSNAVIGATION_BOTTOM = 'bottom';
+
+    /** @var int Only at the top */
+    const SECTIONSNAVIGATION_TOP = 'top';
 
     /** @var int Only at the bottom */
-    const SECTIONSNAVIGATION_BOTH = 4;
+    const SECTIONSNAVIGATION_BOTH = 'both';
 
     /** @var int Like slides */
-    const SECTIONSNAVIGATION_SLIDES = 5;
+    const SECTIONSNAVIGATION_SLIDES = 'slides';
 
     /** @var string Use classic menu */
     const STYLE_BASIC = 'basic';
@@ -589,7 +594,7 @@ class format_menutopic extends core_courseformat\base {
      * @return \stdClass Configuration data from current course format.
      */
     public function load_formatdata() {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $OUTPUT;
 
         // If the formatdata is in memory, return it.
         if (self::$formatdata) {
@@ -734,6 +739,14 @@ class format_menutopic extends core_courseformat\base {
                                             || !$course->hiddensections;
 
             if ($showsection || $canviewhidden || !$course->hiddensections) {
+
+                // Check if display available message is required.
+                $sectiontpl = new content_base\section($this, $thissection);
+                $availabilityclass = $this->get_output_classname('content\\section\\availability');
+                $availability = new $availabilityclass($this, $thissection);
+                $availabledata = $availability->export_for_template($OUTPUT);
+                $item = null;
+
                 if ($formatdata->autobuildtree) {
                     $item = new \format_menutopic\menuitem('', $this->get_section_name($thissection));
                     $item->disabled = !$showsection;
@@ -748,6 +761,21 @@ class format_menutopic extends core_courseformat\base {
                 } else if (!$showsection) {
                     $formatdata->menu->remove_topic($section, (!$course->hiddensections || $canviewhidden), !$canviewhidden);
                 }
+
+                if (!$item) {
+                    $item = $formatdata->menu->get_topics($section);
+                }
+
+                if ($item && $availabledata->hasavailability) {
+                    if (!is_array($item)) {
+                        $item = [$item];
+                    }
+
+                    foreach ($item as $subitem) {
+                        $subitem->availablemessage = $OUTPUT->render($availability);
+                    }
+                }
+
             } else {
                 if (!$formatdata->autobuildtree) {
                     $formatdata->menu->remove_topic($section, false, true);
