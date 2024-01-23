@@ -71,6 +71,7 @@ class header implements \renderable, \templatable {
 
             // Clean the CSS template for html tags.
             $csstemplate = preg_replace('/<[^>]*>/', '', $csstemplate);
+            $csstemplate = stripcslashes($csstemplate);
         }
 
         foreach (\format_menutopic::$formatmsgs as $key => $msg) {
