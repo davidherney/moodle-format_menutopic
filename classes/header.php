@@ -62,7 +62,8 @@ class header implements \renderable, \templatable {
 
         // Include JS y CSS information.
         if (!empty($this->formatdata->js)) {
-            $PAGE->requires->js_init_code($this->formatdata->js, true);
+            $jscode = stripcslashes($this->formatdata->js);
+            $PAGE->requires->js_init_code($jscode, true);
         }
 
         $csstemplate = null;

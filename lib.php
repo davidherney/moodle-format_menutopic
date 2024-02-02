@@ -594,7 +594,7 @@ class format_menutopic extends core_courseformat\base {
      * @return \stdClass Configuration data from current course format.
      */
     public function load_formatdata() {
-        global $COURSE, $DB, $OUTPUT;
+        global $COURSE, $DB, $OUTPUT, $PAGE;
 
         // If the formatdata is in memory, return it.
         if (self::$formatdata) {
@@ -731,7 +731,7 @@ class format_menutopic extends core_courseformat\base {
             $showsection = true;
             if (!$thissection->visible || !$thissection->available) {
                 $showsection = false;
-            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $this->page->user_is_editing())) {
+            } else if ($section == 0 && !($thissection->summary || $thissection->sequence || $PAGE->user_is_editing())) {
                 $showsection = false;
             }
 
