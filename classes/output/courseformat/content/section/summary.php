@@ -100,8 +100,7 @@ class summary extends summary_base {
      */
     public function format_summary_text(): string {
         $section = $this->section;
-        $course = $this->format->get_course();
-        $context = context_course::instance($section->course);
+        $context = $this->format->get_context();
 
         if (\format_menutopic::$formatdata->configmenu->templatetopic) {
             $section->summary = $this->replace_resources($section);
@@ -124,29 +123,11 @@ class summary extends summary_base {
      */
     private function replace_resources(section_info $section) {
 
-        global $CFG, $USER, $DB, $PAGE;
-
-        static $initialised;
-
-        static $groupbuttons;
-        static $groupbuttonslink;
-        static $strunreadpostsone;
-        static $usetracking;
-        static $groupings;
+        global $USER, $DB, $PAGE;
 
         $course = $this->format->get_course();
 
         $completioninfo = new \completion_info($course);
-
-        if (!isset($initialised)) {
-            $groupbuttons = ($course->groupmode || (!$course->groupmodeforce));
-            $groupbuttonslink = (!$course->groupmodeforce);
-            include_once($CFG->dirroot . '/mod/forum/lib.php');
-            if ($usetracking = forum_tp_can_track_forums()) {
-                $strunreadpostsone = get_string('unreadpostsone', 'forum');
-            }
-            $initialised = true;
-        }
 
         $labelformatoptions = new \stdclass();
         $labelformatoptions->noclean = true;
@@ -248,7 +229,7 @@ class summary extends summary_base {
      * @param array $match
      * @return array
      */
-    public function replace_tag_in_expresion ($match) {
+    public function replace_tag_in_expresion($match) {
 
         $term = $match[0];
         $term = str_replace("[[", '', $term);

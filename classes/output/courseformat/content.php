@@ -54,7 +54,7 @@ class content extends content_base {
      *
      * This method redirects the default template when the course content is rendered.
      *
-     * @param renderer_base $renderer typically, the renderer that's calling this function
+     * @param \renderer_base $renderer typically, the renderer that's calling this function
      * @return string format template name
      */
     public function get_template_name(\renderer_base $renderer): string {
@@ -65,7 +65,7 @@ class content extends content_base {
     /**
      * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
      *
-     * @param renderer_base $output typically, the renderer that's calling this function
+     * @param \renderer_base $output typically, the renderer that's calling this function
      * @return stdClass data context for a mustache template
      */
     public function export_for_template(\renderer_base $output) {
@@ -129,13 +129,18 @@ class content extends content_base {
             $data->numsections = $addsection->export_for_template($output);
         }
 
+        if ($format->show_editor()) {
+            $bulkedittools = new $this->bulkedittoolsclass($format);
+            $data->bulkedittools = $bulkedittools->export_for_template($output);
+        }
+
         return $data;
     }
 
     /**
      * Export sections array data.
      *
-     * @param renderer_base $output typically, the renderer that's calling this function
+     * @param \renderer_base $output typically, the renderer that's calling this function
      * @return array data context for a mustache template
      */
     protected function export_sections(\renderer_base $output): array {

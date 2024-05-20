@@ -81,7 +81,7 @@ class header implements \renderable, \templatable {
             }
         }
 
-        $coursecontext = \context_course::instance($course->id);
+        $coursecontext = $this->format->get_context();
         $canviewhidden = has_capability('moodle/course:viewhiddensections', $coursecontext);
 
         $data = (object)[

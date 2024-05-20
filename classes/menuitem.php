@@ -72,17 +72,17 @@ class menuitem {
     public $specialclass = '';
 
     /**
-     * @var boolean If menu item is selected.
+     * @var bool If menu item is selected.
      */
     public $current = false;
 
     /**
-     * @var boolean If menu item is disabled.
+     * @var bool If menu item is disabled.
      */
     public $disabled = false;
 
     /**
-     * @var boolean If menu item is visible or hidden.
+     * @var bool If menu item is visible or hidden.
      */
     public $hidden = false;
 
@@ -99,7 +99,6 @@ class menuitem {
      */
     public function __construct(string $url, string $title) {
 
-        $this->index = 0;
         $this->url = $url;
         $this->title = $title;
         $this->name = $title;
@@ -137,7 +136,7 @@ class menuitem {
     /**
      * Check if current menu item has submenu items.
      *
-     * @return boolean true if has submenu items, false in other case.
+     * @return bool true if has submenu items, false in other case.
      */
     public function has_childs() {
         return $this->submenu->has_items();

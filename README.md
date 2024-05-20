@@ -33,6 +33,9 @@ A simple UI to edit menu structure.
 
 ## IN VERSION
 
+### 2024052001:
+* Support bulk edit tools and the section permalink.
+
 ### 2023050702:
 * **New menu styles**
   * Available menu styles

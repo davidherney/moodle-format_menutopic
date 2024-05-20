@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template format_menutopic/local/tabtree
+    @template format_menutopic/local/content
 
     Displays the complete course format.
 
@@ -128,6 +128,12 @@
             {{/ core_courseformat/local/content/sectionselector }}
         {{/sectionselector}}
     </div>
+
+    {{#bulkedittools}}
+        {{$ core_courseformat/local/content/bulkedittools}}
+            {{> core_courseformat/local/content/bulkedittools}}
+        {{/ core_courseformat/local/content/bulkedittools}}
+    {{/bulkedittools}}
 
     {{#numsections}}
         {{$ core_courseformat/local/content/addsection}}

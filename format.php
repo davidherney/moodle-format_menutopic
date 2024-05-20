@@ -39,19 +39,23 @@ if ($topic = optional_param('topic', 0, PARAM_INT)) {
 }
 // End backwards-compatible aliasing.
 
-$context = context_course::instance($course->id);
+$context = $format->get_context();
+// Retrieve course format option fields and add them to the $course object.
+$course = course_get_format($course)->get_course();
 
 if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
     $course->marker = $marker;
     course_set_marker($course->id, $marker);
 }
 
-// Retrieve course format option fields and add them to the $course object.
-$course = course_get_format($course)->get_course();
-
 // Menutopic format is always multipage.
+$course->coursedisplay = COURSE_DISPLAY_MULTIPAGE;
 
 $renderer = $PAGE->get_renderer('format_menutopic');
+
+if (!empty($displaysection)) {
+    $format->set_section_number($displaysection);
+}
 
 \format_menutopic::$editmenumode = optional_param('editmenumode', false, PARAM_BOOL);
 

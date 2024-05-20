@@ -81,6 +81,9 @@ class format_menutopic extends core_courseformat\base {
     /** @var array Modules used in template */
     public $tplcmsused = [];
 
+    /** @var bool If print the menu in the current scope */
+    public $printable = true;
+
     /**
      * Creates a new instance of class
      *
@@ -91,34 +94,51 @@ class format_menutopic extends core_courseformat\base {
      * @return course_format
      */
     protected function __construct($format, $courseid) {
-        global $USER;
+        global $USER, $PAGE, $section, $sectionid;
 
         parent::__construct($format, $courseid);
 
-        if (!empty($courseid)) {
+        $inpopup = optional_param('inpopup', 0, PARAM_INT);
+        if ($inpopup) {
+            $this->printable = false;
+        } else {
+            $pagesavailable = ['course-view-menutopic', 'course-view', 'lib-ajax-service'];
+            $patternavailable = '/^mod-.*-view$/';
 
-            $course = get_course($courseid);
-
-            $section = optional_param('section', -1, PARAM_INT);
-
-            $displaysection = 0;
-            if (isset($section) && $section >= 0) {
-                $displaysection = $section;
-            } else {
-                if (isset($USER->display[$course->id])) {
-                    $displaysection = $USER->display[$course->id];
-                }
+            if (!in_array($PAGE->pagetype, $pagesavailable)) {
+                    $this->printable = preg_match($patternavailable, $PAGE->pagetype);
             }
+        }
 
-            if (!empty($displaysection) || $displaysection === 0) {
-                // Retrieve course format option fields and add them to the $course object.
-                $firstsection = $this->get_course_display() == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
+        if ($this->printable) {
+            if (!empty($courseid) && is_numeric($section)) {
 
-                $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
+                $course = get_course($courseid);
 
-                $this->set_section_number($displaysection);
-                self::$displaysection = $displaysection;
-                $USER->display[$courseid] = $displaysection;
+                if ($sectionid <= 0) {
+                    $displaysection = optional_param('section', -1, PARAM_INT);
+                } else {
+                    $displaysection = $this->get_section_number();
+                }
+
+                if (isset($section) && $section >= 0) {
+                    $displaysection = $section;
+                } else {
+                    if (isset($USER->display[$course->id])) {
+                        $displaysection = $USER->display[$course->id];
+                    }
+                }
+
+                if (!empty($displaysection) || $displaysection === 0) {
+                    // Retrieve course format option fields and add them to the $course object.
+                    $firstsection = $this->get_course_display() == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
+
+                    $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
+
+                    $this->set_section_number($displaysection);
+                    self::$displaysection = $displaysection;
+                    $USER->display[$courseid] = $displaysection;
+                }
             }
         }
 
@@ -155,7 +175,7 @@ class format_menutopic extends core_courseformat\base {
      * @return bool if the course format uses indentation.
      */
     public function uses_indentation(): bool {
-        return false;
+        return true;
     }
 
     /**
@@ -169,8 +189,10 @@ class format_menutopic extends core_courseformat\base {
     public function get_section_name($section) {
         $section = $this->get_section($section);
         if ((string)$section->name !== '') {
+            $coursecontext = $this->get_context();
+
             return format_string($section->name, true,
-                ['context' => context_course::instance($this->courseid)]);
+                ['context' => $coursecontext]);
         } else {
             return $this->get_default_section_name($section);
         }
@@ -249,7 +271,7 @@ class format_menutopic extends core_courseformat\base {
     /**
      * Returns the information about the ajax support in the given source format.
      *
-     * The returned object's property (boolean)capable indicates that
+     * The returned object's property (bool)capable indicates that
      * the course format supports Moodle course ajax features.
      *
      * @return stdClass
@@ -557,7 +579,8 @@ class format_menutopic extends core_courseformat\base {
 
         if ($section->section && ($action === 'setmarker' || $action === 'removemarker')) {
             // Format 'topics' allows to set and remove markers in addition to common section actions.
-            require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
+            $coursecontext = $this->get_context();
+            require_capability('moodle/course:setcurrentsection', $coursecontext);
             course_set_marker($this->courseid, ($action === 'setmarker') ? $section->section : 0);
             return null;
         }
@@ -735,7 +758,8 @@ class format_menutopic extends core_courseformat\base {
                 $showsection = false;
             }
 
-            $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($course->id))
+            $coursecontext = $this->get_context();
+            $canviewhidden = has_capability('moodle/course:viewhiddensections', $coursecontext)
                                             || !$course->hiddensections;
 
             if ($showsection || $canviewhidden || !$course->hiddensections) {
