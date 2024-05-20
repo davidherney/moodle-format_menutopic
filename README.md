@@ -1,6 +1,6 @@
 # COURSE FORMAT menutopic
 
-Package tested in: moodle 4.0+, 4.1+.
+Package tested in: moodle 4.2+, 4.3+.
 
 ## QUICK INSTALL
 Download zip package, extract the menutopic folder and upload this folder into course/format/.
