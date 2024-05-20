@@ -18,7 +18,7 @@
  * Contains the default content output class.
  *
  * @package   format_menutopic
- * @copyright 2022 David Herney Bernal - cirano. https://bambuco.co
+ * @copyright 2022 David Herney - cirano. https://bambuco.co
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ use templatable;
  * Base class to render the configuration forms.
  *
  * @package   format_menutopic
- * @copyright 2022 David Herney Bernal - cirano. https://bambuco.co
+ * @copyright 2022 David Herney - cirano. https://bambuco.co
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class edition implements renderable, templatable {
@@ -71,7 +71,7 @@ class edition implements renderable, templatable {
      * @return array Context variables for the template
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG, $USER, $DB, $format;
+        global $CFG, $DB, $format;
 
         $msgs = [];
 
@@ -79,7 +79,7 @@ class edition implements renderable, templatable {
 
         if (!($formatdata = $DB->get_record('format_menutopic', ['course' => $this->course->id]))) {
             $formatdata = new \stdClass();
-            $formatdata->course = $course->id;
+            $formatdata->course = $this->course->id;
 
             if (!($formatdata->id = $DB->insert_record('format_menutopic', $formatdata))) {
                 debugging('Not is possible save the course format data in menutopic format.', DEBUG_DEVELOPER);
@@ -140,12 +140,12 @@ class edition implements renderable, templatable {
             if (!$DB->update_record('format_menutopic', $formatdata)) {
                 $msgs[] = (object)[
                     'type' => 'error',
-                    'message' => get_string('notsaved', 'format_menutopic')
+                    'message' => get_string('notsaved', 'format_menutopic'),
                 ];
             } else {
                 $msgs[] = (object)[
                     'type' => 'success',
-                    'message' => get_string('savecorrect', 'format_menutopic')
+                    'message' => get_string('savecorrect', 'format_menutopic'),
                 ];
             }
         }
@@ -183,7 +183,7 @@ class edition implements renderable, templatable {
             'hasmsgs' => count($msgs) > 0,
             'msgs' => $msgs,
             'styleboots' => true,
-            'darkstyle' => true
+            'darkstyle' => true,
         ];
 
         if ($displaysection >= 0) {

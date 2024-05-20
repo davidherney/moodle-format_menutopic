@@ -120,7 +120,7 @@ class menu {
      * @param int $section The linked section
      * @return array of object
      */
-    public function get_topics($section) : ?array {
+    public function get_topics($section): ?array {
 
         $topics = [];
         foreach ($this->menuitems as $key => $item) {
@@ -141,7 +141,7 @@ class menu {
      * @param int $courseid The course id.
      * @return array of object.
      */
-    public function get_list(int $courseid) : array {
+    public function get_list(int $courseid): array {
 
         $menutree = [];
 

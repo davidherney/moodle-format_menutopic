@@ -19,7 +19,7 @@
  *
  * @since 2.3
  * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
+ * @copyright 2012 David Herney - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@
  *
  * @package format_menutopic
  * @category backup
- * @copyright 2012 David Herney Bernal - cirano
+ * @copyright 2012 David Herney - cirano
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_format_menutopic_plugin extends backup_format_plugin {
@@ -47,13 +47,11 @@ class backup_format_menutopic_plugin extends backup_format_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Set up fromat's own structure and add to wrapper.
-        $menutopic = new backup_nested_element('menutopic', array('id'), array(
-            'config', 'css', 'js', 'html', 'tree'));
+        $menutopic = new backup_nested_element('menutopic', ['id'], ['config', 'css', 'js', 'html', 'tree']);
         $pluginwrapper->add_child($menutopic);
 
         // Use database to get source.
-        $menutopic->set_source_table('format_menutopic',
-                array('course' => backup::VAR_COURSEID));
+        $menutopic->set_source_table('format_menutopic', ['course' => backup::VAR_COURSEID]);
 
         return $plugin;
     }

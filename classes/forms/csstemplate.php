@@ -37,7 +37,7 @@ class csstemplate extends \moodleform {
      * Defines the form fields.
      */
     public function definition() {
-        global $USER, $CFG, $course;
+        global $course;
 
         $csscode = '';
 
@@ -50,7 +50,7 @@ class csstemplate extends \moodleform {
         $mform->addElement('header', 'general', get_string('csstemplate_editmenu_title', 'format_menutopic'));
         $mform->addHelpButton('general', 'csstemplate', 'format_menutopic');
 
-        $mform->addElement('textarea', 'csscode', get_string('csscode', 'format_menutopic'), array('rows' => '20', 'cols' => '65'));
+        $mform->addElement('textarea', 'csscode', get_string('csscode', 'format_menutopic'), ['rows' => '20', 'cols' => '65']);
         $mform->setType('csscode', PARAM_RAW);
         $mform->setDefault('csscode', $csscode);
 

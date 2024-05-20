@@ -208,7 +208,7 @@ class summary extends summary_base {
                 $this->tplstringsearch = $instancename;
 
                 $newsummary = preg_replace_callback("/(\[\[)(([<][^>]*>)*)((" . preg_quote($this->tplstringsearch, '/') .
-                    ")(:?))([^\]]*)\]\]/i", array($this, "replace_tag_in_expresion"), $summary);
+                    ")(:?))([^\]]*)\]\]/i", [$this, "replace_tag_in_expresion"], $summary);
 
                 if ($newsummary != $summary) {
                     $this->format->tplcmsused[] = $modnumber;

@@ -113,7 +113,7 @@ class menuitem {
      * @param int $level Submenu level.
      * @return void
      */
-    public function loadsubtopics(array $subtopics, int $level = 0) : void {
+    public function loadsubtopics(array $subtopics, int $level = 0): void {
 
         $this->submenu->level = $level;
 
@@ -156,7 +156,7 @@ class menuitem {
      *
      * @return void
      */
-    public function clean_submenu() : void {
+    public function clean_submenu(): void {
         $this->submenu = new \format_menutopic\menu();
     }
 

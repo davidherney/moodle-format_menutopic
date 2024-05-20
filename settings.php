@@ -48,7 +48,7 @@ if ($ADMIN->fulltree) {
     $fields = [
         \format_menutopic::STYLE_BOOTS => new lang_string('style_boots', 'format_menutopic'),
         \format_menutopic::STYLE_BOOTSDARK => new lang_string('style_bootsdark', 'format_menutopic'),
-        \format_menutopic::STYLE_BASIC => new lang_string('style_basic', 'format_menutopic')
+        \format_menutopic::STYLE_BASIC => new lang_string('style_basic', 'format_menutopic'),
     ];
     $settings->add(new admin_setting_configselect('format_menutopic/globalstyle',
                                                     get_string('globalstyle', 'format_menutopic'),

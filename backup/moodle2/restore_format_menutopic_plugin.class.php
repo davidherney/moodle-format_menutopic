@@ -19,7 +19,7 @@
  *
  * @since 2.3
  * @package format_menutopic
- * @copyright 2012 David Herney Bernal - cirano
+ * @copyright 2012 David Herney - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@
  *
  * @package format_menutopic
  * @category backup
- * @copyright 2012 David Herney Bernal - cirano
+ * @copyright 2012 David Herney - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_format_menutopic_plugin extends restore_format_plugin {
@@ -37,7 +37,7 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
      * Returns the course format information to attach to course element.
      */
     protected function define_course_plugin_structure() {
-        $paths = array();
+        $paths = [];
 
         // Because of using get_recommended_name() it is able to find the
         // correct path just by using the part inside the element name (which
@@ -65,11 +65,10 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
         $data->course = $this->task->get_courseid();
 
         // See if there is an existing record for this course.
-        $existingid = $DB->get_field('format_menutopic', 'id',
-                array('course' => $data->course));
+        $existingid = $DB->get_field('format_menutopic', 'id', ['course' => $data->course]);
         if ($existingid) {
             $data->id = $existingid;
-            $DB->update_record('format_menutopic', data);
+            $DB->update_record('format_menutopic', $data);
         } else {
             $DB->insert_record('format_menutopic', $data);
         }
