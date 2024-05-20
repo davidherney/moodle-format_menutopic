@@ -65,11 +65,10 @@ class restore_format_menutopic_plugin extends restore_format_plugin {
         $data->course = $this->task->get_courseid();
 
         // See if there is an existing record for this course.
-        $existingid = $DB->get_field('format_menutopic', 'id',
-                array('course' => $data->course));
+        $existingid = $DB->get_field('format_menutopic', 'id', ['course' => $data->course]);
         if ($existingid) {
             $data->id = $existingid;
-            $DB->update_record('format_menutopic', data);
+            $DB->update_record('format_menutopic', $data);
         } else {
             $DB->insert_record('format_menutopic', $data);
         }

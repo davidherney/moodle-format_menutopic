@@ -47,8 +47,7 @@ class backup_format_menutopic_plugin extends backup_format_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Set up fromat's own structure and add to wrapper.
-        $menutopic = new backup_nested_element('menutopic', array('id'), array(
-            'config', 'css', 'js', 'html', 'tree'));
+        $menutopic = new backup_nested_element('menutopic', ['id'], ['config', 'css', 'js', 'html', 'tree']);
         $pluginwrapper->add_child($menutopic);
 
         // Use database to get source.

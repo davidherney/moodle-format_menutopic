@@ -358,62 +358,63 @@ class format_menutopic extends core_courseformat\base {
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
-            $courseformatoptions = array(
-                'numsections' => array(
+            $courseformatoptions = [
+                'numsections' => [
                     'default' => $courseconfig->numsections,
-                    'type' => PARAM_INT
-                ),
-                'hiddensections' => array(
+                    'type' => PARAM_INT,
+                ],
+                'hiddensections' => [
                     'default' => $courseconfig->hiddensections,
-                    'type' => PARAM_INT
-                ),
-                'coursedisplay' => array(
+                    'type' => PARAM_INT,
+                ],
+                'coursedisplay' => [
                     'default' => $courseconfig->coursedisplay,
-                    'type' => PARAM_INT
-                ),
-            );
+                    'type' => PARAM_INT,
+                ],
+            ];
         }
+
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseconfig = get_config('moodlecourse');
             $max = $courseconfig->maxsections;
             if (!isset($max) || !is_numeric($max)) {
                 $max = 52;
             }
-            $sectionmenu = array();
+            $sectionmenu = [];
             for ($i = 0; $i <= $max; $i++) {
                 $sectionmenu[$i] = "$i";
             }
-            $courseformatoptionsedit = array(
-                'numsections' => array(
+            $courseformatoptionsedit = [
+                'numsections' => [
                     'label' => new lang_string('numberweeks'),
                     'element_type' => 'select',
-                    'element_attributes' => array($sectionmenu),
-                ),
-                'hiddensections' => array(
+                    'element_attributes' => [$sectionmenu],
+                ],
+                'hiddensections' => [
                     'label' => new lang_string('hiddensections'),
                     'help' => 'hiddensections',
                     'help_component' => 'moodle',
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
+                    'element_attributes' => [
+                        [
                             0 => new lang_string('hiddensectionscollapsed'),
-                            1 => new lang_string('hiddensectionsinvisible')
-                        )
-                    ),
-                ),
-                'coursedisplay' => array(
+                            1 => new lang_string('hiddensectionsinvisible'),
+                        ],
+                    ],
+                ],
+                'coursedisplay' => [
                     'label' => new lang_string('coursedisplay', 'format_menutopic'),
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
+                    'element_attributes' => [
+                        [
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single', 'format_menutopic'),
-                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi', 'format_menutopic')
-                        )
-                    ),
+                            COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi', 'format_menutopic'),
+                        ],
+                    ],
                     'help' => 'coursedisplay',
                     'help_component' => 'format_menutopic',
-                )
-            );
+                ],
+            ];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
         }
         return $courseformatoptions;
@@ -463,6 +464,8 @@ class format_menutopic extends core_courseformat\base {
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
+        global $DB;
+
         if ($oldcourse !== null) {
             $data = (array)$data;
             $oldcourse = (array)$oldcourse;
@@ -475,7 +478,7 @@ class format_menutopic extends core_courseformat\base {
                         // If previous format does not have the field 'numsections' and $data['numsections'] is not set,
                         // we fill it with the maximum section number from the DB.
                         $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?',
-                                        array($this->courseid));
+                                        [$this->courseid]);
                         if ($maxsection) {
                             // If there are no sections, or just default 0-section, 'numsections' will be set to default.
                             $data['numsections'] = $maxsection;

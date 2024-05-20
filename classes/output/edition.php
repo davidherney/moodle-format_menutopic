@@ -71,7 +71,7 @@ class edition implements renderable, templatable {
      * @return array Context variables for the template
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG, $USER, $DB, $format;
+        global $CFG, $DB, $format;
 
         $msgs = [];
 
@@ -79,7 +79,7 @@ class edition implements renderable, templatable {
 
         if (!($formatdata = $DB->get_record('format_menutopic', ['course' => $this->course->id]))) {
             $formatdata = new \stdClass();
-            $formatdata->course = $course->id;
+            $formatdata->course = $this->course->id;
 
             if (!($formatdata->id = $DB->insert_record('format_menutopic', $formatdata))) {
                 debugging('Not is possible save the course format data in menutopic format.', DEBUG_DEVELOPER);
