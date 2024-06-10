@@ -39,9 +39,6 @@ use renderable;
  */
 class content extends content_base {
 
-    /** @var stdClass Local format data */
-    private static $formatdata;
-
     /**
      * @var bool Topic format has add section after each topic.
      *
@@ -89,8 +86,8 @@ class content extends content_base {
         // The current section format has extra navigation.
         if ($currentsection || $currentsection === 0) {
 
-            $usessectionsnavigation = isset($format::$formatdata->configmenu->displaynavigation) ?
-                                            $format::$formatdata->configmenu->displaynavigation : null;
+            $usessectionsnavigation = isset($format::$formatdata[$course->id]->configmenu->displaynavigation) ?
+                                            $format::$formatdata[$course->id]->configmenu->displaynavigation : null;
 
             if (empty($usessectionsnavigation)) {
                 $usessectionsnavigation = get_config('format_menutopic', 'defaultsectionsnavigation');
@@ -135,7 +132,7 @@ class content extends content_base {
     /**
      * Export sections array data.
      *
-     * @param renderer_base $output typically, the renderer that's calling this function
+     * @param \renderer_base $output typically, the renderer that's calling this function
      * @return array data context for a mustache template
      */
     protected function export_sections(\renderer_base $output): array {

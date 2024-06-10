@@ -97,7 +97,7 @@ class format_menutopic extends core_courseformat\base {
 
         if (!empty($courseid)) {
 
-            $course = get_course($courseid);
+            $course = $this->get_course();
 
             $section = optional_param('section', -1, PARAM_INT);
 
@@ -112,7 +112,7 @@ class format_menutopic extends core_courseformat\base {
 
             if (!empty($displaysection) || $displaysection === 0) {
                 // Retrieve course format option fields and add them to the $course object.
-                $firstsection = $this->get_course_display() == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
+                $firstsection = $course->coursedisplay == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
 
                 $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
 
@@ -592,6 +592,17 @@ class format_menutopic extends core_courseformat\base {
     }
 
     /**
+     * Get the course display value for the current course.
+     *
+     * It must be overridden because the format always uses COURSE_DISPLAY_SINGLEPAGE.
+     *
+     * @return int The current value (COURSE_DISPLAY_MULTIPAGE or COURSE_DISPLAY_SINGLEPAGE)
+     */
+    public function get_course_display(): int {
+        return COURSE_DISPLAY_SINGLEPAGE;
+    }
+
+    /**
      * Load configuration data.
      *
      * @return \stdClass Configuration data from current course format.
@@ -789,7 +800,7 @@ class format_menutopic extends core_courseformat\base {
         }
 
         self::$localcourse = $course;
-        self::$formatdata = $formatdata;
+        self::$formatdata[$course->id] = $formatdata;
 
         return $formatdata;
     }

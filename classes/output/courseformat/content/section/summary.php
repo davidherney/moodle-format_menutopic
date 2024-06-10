@@ -103,7 +103,7 @@ class summary extends summary_base {
         $course = $this->format->get_course();
         $context = context_course::instance($section->course);
 
-        if (\format_menutopic::$formatdata->configmenu->templatetopic) {
+        if (\format_menutopic::$formatdata[$course->id]->configmenu->templatetopic) {
             $section->summary = $this->replace_resources($section);
         }
 
@@ -181,7 +181,7 @@ class summary extends summary_base {
                 // Display the link to the module (or do nothing if module has no url).
                 $cmdata = $cm->export_for_template($this->output);
                 $cmdata->modinline = true;
-                $cmdata->hideicons = !\format_menutopic::$formatdata->configmenu->icons_templatetopic;
+                $cmdata->hideicons = !\format_menutopic::$formatdata[$course->id]->configmenu->icons_templatetopic;
                 $cmdata->uniqueid = 'cm_' . $mod->id . '_' . time() . '_' . rand(0, 1000);
                 $cmdata->singlename = $instancename;
 

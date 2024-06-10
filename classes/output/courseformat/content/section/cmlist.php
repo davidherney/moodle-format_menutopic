@@ -78,8 +78,8 @@ class cmlist extends cmlist_base {
             return $data;
         }
 
-        $templatetopic = \format_menutopic::$formatdata->configmenu->templatetopic;
-        $displaynousedmod = \format_menutopic::$formatdata->configmenu->displaynousedmod;
+        $templatetopic = \format_menutopic::$formatdata[$course->id]->configmenu->templatetopic;
+        $displaynousedmod = \format_menutopic::$formatdata[$course->id]->configmenu->displaynousedmod;
         if (!$format->show_editor() && $templatetopic && !$displaynousedmod) {
             return $data;
         }
