@@ -100,7 +100,7 @@ class header implements \renderable, \templatable {
             'isediting' => $this->format->show_editor(),
         ];
 
-        $inpopup = optional_param('inpopup', 0, PARAM_INT);
+        $inpopup = optional_param('inpopup', 0, PARAM_BOOL);
 
         $pagesavailable = ['course-view-menutopic'];
         $patternavailable = '/^mod-.*-view$/';
