@@ -62,7 +62,7 @@ class content extends content_base {
     /**
      * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
      *
-     * @param renderer_base $output typically, the renderer that's calling this function
+     * @param \renderer_base $output typically, the renderer that's calling this function
      * @return stdClass data context for a mustache template
      */
     public function export_for_template(\renderer_base $output) {
@@ -70,7 +70,7 @@ class content extends content_base {
         $format = $this->format;
         $course = $format->get_course();
 
-        $currentsection = \format_menutopic::$displaysection;
+        $currentsection = $format->get_section_number();
 
         // If the section 0 is above the menu remove from the list.
         $sections = $this->export_sections($output);
@@ -187,7 +187,8 @@ class content extends content_base {
      */
     private function get_sections_to_display(course_modinfo $modinfo): array {
 
-        $sections = [$modinfo->get_section_info(\format_menutopic::$displaysection)];
+        $format = $this->format;
+        $sections = [$modinfo->get_section_info($format->get_section_number())];
 
         return $sections;
     }
