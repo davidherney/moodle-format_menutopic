@@ -102,11 +102,12 @@ class summary extends summary_base {
         $section = $this->section;
         $context = $this->format->get_context();
 
+        $summarytext = $section->summary;
         if (\format_menutopic::$formatdata->configmenu->templatetopic) {
-            $section->summary = $this->replace_resources($section);
+            $summarytext = $this->replace_resources($section);
         }
 
-        $summarytext = file_rewrite_pluginfile_urls($section->summary, 'pluginfile.php',
+        $summarytext = file_rewrite_pluginfile_urls($summarytext, 'pluginfile.php',
             $context->id, 'course', 'section', $section->id);
 
         $options = new stdClass();
@@ -166,9 +167,9 @@ class summary extends summary_base {
                 $cmdata->uniqueid = 'cm_' . $mod->id . '_' . time() . '_' . rand(0, 1000);
                 $cmdata->singlename = $instancename;
 
-                $cmdata->showinlinehelp = $cmdata->activityinfo->hascompletion
-                                            || $cmdata->activityinfo->hasdates
-                                            || !empty($cmdata->altcontent);
+                // ToDo: implement show course badges, completion, etc, when template is active.
+                $cmdata->showinlinehelp = false;
+
                 $url = $mod->url;
                 if (empty($url)) {
                     // If there is content but NO link (like label), then don't display it.
