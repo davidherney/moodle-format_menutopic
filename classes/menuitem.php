@@ -103,7 +103,7 @@ class menuitem {
         $this->title = $title;
         $this->name = $title;
 
-        $this->submenu = new \format_menutopic\menu();
+        $this->submenu = new \format_menutopic\menu(null);
     }
 
     /**

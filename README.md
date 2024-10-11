@@ -33,6 +33,9 @@ A simple UI to edit menu structure.
 
 ## IN VERSION
 
+### 2024052003:
+* Inline help icons when using the summary as a template
+
 ### 2024052001:
 * Support bulk edit tools and the section permalink.
 
