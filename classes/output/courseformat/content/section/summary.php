@@ -168,7 +168,15 @@ class summary extends summary_base {
                 $cmdata->singlename = $instancename;
 
                 // ToDo: implement show course badges, completion, etc, when template is active.
+                $cmdata->hascompletion = isset($cmdata->completion) && $cmdata->completion;
+                $hasavailability = isset($cmdata->modavailability) ? $cmdata->modavailability->hasmodavailability : false;
+
                 $cmdata->showinlinehelp = false;
+                if ($cmdata->hascompletion
+                        || (isset($cmdata->hasdates) && $cmdata->hasdates)
+                        || $hasavailability){
+                    $cmdata->showinlinehelp = true;
+                }
 
                 $url = $mod->url;
                 if (empty($url)) {
@@ -213,6 +221,10 @@ class summary extends summary_base {
 
                 if ($newsummary != $summary) {
                     $this->format->tplcmsused[] = $modnumber;
+                }
+
+                if ($cmdata->showinlinehelp) {
+                    $newsummary .= $renderer->render_from_template('format_menutopic/courseformat/content/cm/cmhelpinfo', $cmdata);
                 }
 
                 $summary = $newsummary;
