@@ -66,11 +66,17 @@ class format_menutopic extends core_courseformat\base {
     /** @var \stdClass Local format data */
     public static $formatdata;
 
+    /** @var \stdClass Reference to current course */
+    private static $localcourse;
+
     /** @var array Messages to display */
     public static $formatmsgs = [];
 
     /** @var bool Edit menu mode */
     public static $editmenumode = false;
+
+    /** @var bool Current section to display */
+    public static $displaysection = 0;
 
     /** @var array Modules used in template */
     public $tplcmsused = [];
@@ -112,7 +118,7 @@ class format_menutopic extends core_courseformat\base {
                 if ($sectionid <= 0) {
                     $displaysection = optional_param('section', -1, PARAM_INT);
                 } else {
-                    $displaysection = $this->get_section_number();
+                    $displaysection = $this->get_sectionnum();
                 }
 
                 if (isset($section) && $section >= 0) {
@@ -129,7 +135,10 @@ class format_menutopic extends core_courseformat\base {
 
                     $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
 
-                    $this->set_section_number($displaysection);
+                    // if (!is_null($displaysection)) {
+                    //     $this->set_sectionnum($displaysection);
+                    // }
+                    self::$displaysection = $displaysection;
                     $USER->display[$courseid] = $displaysection;
                 }
             }
@@ -218,7 +227,8 @@ class format_menutopic extends core_courseformat\base {
      * @return string the page title
      */
     public function page_title(): string {
-        return get_string('topicoutline');
+        return 'topic';
+        // return get_string('topicoutline');
     }
 
     /**
@@ -300,7 +310,7 @@ class format_menutopic extends core_courseformat\base {
         global $PAGE;
         // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
-            $selectedsection = $this->get_section_number();
+            $selectedsection = self::$displaysection;
             if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
                     $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
                 $navigation->includesectionnum = $selectedsection;
@@ -632,7 +642,7 @@ class format_menutopic extends core_courseformat\base {
             $formatdata = new \stdClass();
         }
 
-        $formatdata->menu = new \format_menutopic\menu($this->get_section_number());
+        $formatdata->menu = new \format_menutopic\menu($this->get_sectionnum());
         $formatdata->menu->level = 0;
 
         $modinfo = get_fast_modinfo($COURSE);
@@ -804,6 +814,7 @@ class format_menutopic extends core_courseformat\base {
             $section++;
         }
 
+        self::$localcourse = $course;
         self::$formatdata = $formatdata;
 
         return $formatdata;

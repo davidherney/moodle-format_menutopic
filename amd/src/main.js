@@ -63,11 +63,11 @@ export const init = () => {
 
     loadStrings();
 
-    $('.format-menutopic .menutopic .iconwithhelp[data-helpwindow]').each(function() {
+    $('.format-menutopic .menutopic .iconwithhelp').each(function() {
         var $node = $(this);
         $node.on('click', function(e) {
             e.preventDefault();
-            var $content = $('#hw-' + $node.data('helpwindow'));
+            var $content = $node.find('.iconwithhelp-content');
 
             if ($content.data('modal')) {
                 $content.data('modal').show();
@@ -83,7 +83,7 @@ export const init = () => {
             // Show the content in a modal window.
             ModalFactory.create({
                 'title': title,
-                'body': '',
+                'body': ''
             }).done(function(modal) {
 
                 var contenthtml = $content.html();
@@ -95,7 +95,6 @@ export const init = () => {
                 );
 
                 var $modalBody = modal.getBody();
-                $modalBody.css('min-height', '150px');
                 $modalBody.append(contenthtml);
                 modal.show();
                 $content.data('modal', modal);

@@ -102,12 +102,11 @@ class summary extends summary_base {
         $section = $this->section;
         $context = $this->format->get_context();
 
-        $summarytext = $section->summary;
         if (\format_menutopic::$formatdata->configmenu->templatetopic) {
-            $summarytext = $this->replace_resources($section);
+            $section->summary = $this->replace_resources($section);
         }
 
-        $summarytext = file_rewrite_pluginfile_urls($summarytext, 'pluginfile.php',
+        $summarytext = file_rewrite_pluginfile_urls($section->summary, 'pluginfile.php',
             $context->id, 'course', 'section', $section->id);
 
         $options = new stdClass();
@@ -167,22 +166,18 @@ class summary extends summary_base {
                 $cmdata->uniqueid = 'cm_' . $mod->id . '_' . time() . '_' . rand(0, 1000);
                 $cmdata->singlename = $instancename;
 
-                // ToDo: implement show course badges, completion, etc, when template is active.
-                $cmdata->hascompletion = isset($cmdata->completion) && $cmdata->completion;
-                $hasavailability = isset($cmdata->modavailability) ? $cmdata->modavailability->hasmodavailability : false;
-
-                $cmdata->showinlinehelp = false;
-                if ($cmdata->hascompletion
-                        || (isset($cmdata->hasdates) && $cmdata->hasdates)
-                        || $hasavailability) {
-                    $cmdata->showinlinehelp = true;
-                }
-
+                $cmdata->showinlinehelp = property_exists($cmdata, 'activityinfo') 
+                                            && ($cmdata->activityinfo->hascompletion
+                                            || $cmdata->activityinfo->hasdates
+                                            || !empty($cmdata->altcontent));
                 $url = $mod->url;
+
                 if (empty($url)) {
                     // If there is content but NO link (like label), then don't display it.
                     continue;
                 }
+
+                $cmdata->icon = $mod->get_icon_url()->out();
 
                 $template = 'format_menutopic/courseformat/content/cminline';
 
@@ -221,10 +216,6 @@ class summary extends summary_base {
 
                 if ($newsummary != $summary) {
                     $this->format->tplcmsused[] = $modnumber;
-                }
-
-                if ($cmdata->showinlinehelp) {
-                    $newsummary .= $renderer->render_from_template('format_menutopic/courseformat/content/cm/cmhelpinfo', $cmdata);
                 }
 
                 $summary = $newsummary;

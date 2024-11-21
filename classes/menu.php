@@ -51,9 +51,9 @@ class menu {
     /**
      * Constructor.
      *
-     * @param int|null $currentsection The current section number
+     * @param int $currentsection The current section number
      */
-    public function __construct(?int $currentsection = null) {
+    public function __construct(int $currentsection = null) {
         $this->menuitems = [];
 
         $this->currentsection = $currentsection;

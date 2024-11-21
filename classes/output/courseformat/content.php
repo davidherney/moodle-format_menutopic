@@ -71,8 +71,9 @@ class content extends content_base {
     public function export_for_template(\renderer_base $output) {
         global $PAGE;
         $format = $this->format;
+        $course = $format->get_course();
 
-        $currentsection = $format->get_section_number();
+        $currentsection = \format_menutopic::$displaysection;
 
         // If the section 0 is above the menu remove from the list.
         $sections = $this->export_sections($output);
@@ -194,8 +195,7 @@ class content extends content_base {
      */
     private function get_sections_to_display(course_modinfo $modinfo): array {
 
-        $format = $this->format;
-        $sections = [$modinfo->get_section_info($format->get_section_number())];
+        $sections = [$modinfo->get_section_info(\format_menutopic::$displaysection)];
 
         return $sections;
     }

@@ -42,7 +42,7 @@ class jstemplate extends \moodleform {
         $jscode = '';
 
         if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'js')) {
-            $jscode = stripslashes($this->_customdata['format_data']->js);
+            $jscode = $this->_customdata['format_data']->js ? stripslashes($this->_customdata['format_data']->js) : '';
         }
 
         $mform =& $this->_form;
