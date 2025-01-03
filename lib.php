@@ -78,6 +78,9 @@ class format_menutopic extends core_courseformat\base {
     /** @var bool If print the menu in the current scope */
     public $printable = true;
 
+    /** @var bool If the class was previously instanced, in one execution cycle */
+    private static $loaded = false;
+
     /**
      * Creates a new instance of class
      *
@@ -88,53 +91,86 @@ class format_menutopic extends core_courseformat\base {
      * @return course_format
      */
     protected function __construct($format, $courseid) {
-        global $USER, $PAGE, $section, $sectionid;
-
         parent::__construct($format, $courseid);
 
+        // Hack for section number, when not is like a param in the url or section is not available.
+        global $section, $sectionid, $PAGE, $USER, $urlparams, $DB, $context;
+
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
+
         if ($inpopup) {
             $this->printable = false;
         } else {
+
             $pagesavailable = ['course-view-menutopic', 'course-view', 'lib-ajax-service'];
             $patternavailable = '/^mod-.*-view$/';
 
             if (!in_array($PAGE->pagetype, $pagesavailable)) {
-                    $this->printable = preg_match($patternavailable, $PAGE->pagetype);
+                $this->printable = preg_match($patternavailable, $PAGE->pagetype);
             }
         }
 
         if ($this->printable) {
-            if (!empty($courseid) && is_numeric($section)) {
+            if (!self::$loaded && isset($section) && $courseid &&
+                    ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
+                self::$loaded = true;
 
-                $course = get_course($courseid);
+                $this->singlesection = $section;
+
+                $course = $this->get_course();
+
+                // The format is always multipage.
+                $course->realcoursedisplay = property_exists($course, 'coursedisplay') ? $course->coursedisplay : false;
 
                 if ($sectionid <= 0) {
-                    $displaysection = optional_param('section', -1, PARAM_INT);
-                } else {
-                    $displaysection = $this->get_section_number();
+                    $section = optional_param('section', -1, PARAM_INT);
                 }
 
-                if (isset($section) && $section >= 0) {
-                    $displaysection = $section;
+                $numsections = (int)$DB->get_field('course_sections', 'MAX(section)', ['course' => $courseid], MUST_EXIST);
+
+                if ($section >= 0 && $numsections >= $section) {
+                    $realsection = $section;
                 } else {
-                    if (isset($USER->display[$course->id])) {
-                        $displaysection = $USER->display[$course->id];
+                    if (isset($USER->display[$course->id]) && $numsections >= $USER->display[$course->id]) {
+                        $realsection = $USER->display[$course->id];
+                    } else if ($course->marker && $course->marker > 0) {
+                        $realsection = (int)$course->marker;
+                    } else {
+                        $realsection = 0;
                     }
                 }
 
-                if (!empty($displaysection) || $displaysection === 0) {
-                    // Retrieve course format option fields and add them to the $course object.
-                    $firstsection = $this->get_course_display() == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
-
-                    $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
-
-                    $this->set_section_number($displaysection);
-                    $USER->display[$courseid] = $displaysection;
+                if ($realsection < 0 || $realsection > $numsections) {
+                    $realsection = 0;
                 }
+
+                if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE && $realsection === 0 && $numsections >= 1) {
+                    $realsection = null;
+                }
+
+                $modinfo = get_fast_modinfo($course);
+                $sections = $modinfo->get_section_info_all();
+
+                // Check if the display section is available.
+                if ($realsection === null || !$sections[$realsection]->uservisible) {
+
+                    if ($realsection) {
+                        self::$formatmsgs[] = get_string('hidden_message',
+                                                            'format_menutopic',
+                                                            $this->get_section_name($realsection));
+                    }
+                }
+
+                $realsection = $realsection ?? 0;
+                // The $section var is a global var, we need to set it to the real section.
+                $section = $realsection;
+                $this->set_section_number($section);
+                $USER->display[$course->id] = $realsection;
+                $urlparams['section'] = $realsection;
+                $PAGE->set_url('/course/view.php', $urlparams);
+
             }
         }
-
     }
 
     /**

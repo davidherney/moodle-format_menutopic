@@ -66,6 +66,7 @@ $string['displaynousedmod_help'] = 'Not implemented yet';
 $string['editmenu'] = 'Editar menú';
 $string['end_editmenu'] = 'Finalizar Editar menú';
 $string['error_jsontree'] = 'Error en la estructura de datos retornada como composición del árbol';
+$string['hidden_message'] = 'El tema <em>{$a}</em> no está disponible en este momento.';
 $string['hidefromothers'] = 'Ocultar tema';
 $string['htmlcode'] = 'HTML';
 $string['htmltemplate_editmenu'] = 'Plantilla de html';

@@ -73,6 +73,7 @@ $string['end_editmenu'] = 'End Edit Menu';
 $string['error_jsontree'] = 'Error in data structure returned as tree composition';
 $string['globalstyle'] = 'Global style';
 $string['globalstyle_help'] = 'This define the style of the menu.';
+$string['hidden_message'] = 'The section <em>{$a}</em> is not currently available.';
 $string['hiddenmenubar'] = 'The menu are set to be hidden. They will not be seen when not in edit mode.';
 $string['hidefromothers'] = 'Hide topic';
 $string['htmlcode'] = 'HTML';
