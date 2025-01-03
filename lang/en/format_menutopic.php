@@ -23,105 +23,31 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['currentsection'] = 'This topic';
-$string['sectionname'] = 'Topic';
-$string['pluginname'] = 'Menutopic format';
-$string['page-course-view-topics'] = 'Any course main page in menutopic format';
-$string['page-course-view-topics-x'] = 'Any course page in menutopic format';
-$string['hidefromothers'] = 'Hide topic';
-$string['showfromothers'] = 'Show topic';
-
-$string['template_namemenutopic'] = 'Topic {$a}';
-$string['editmenu'] = 'Edit menu';
-$string['end_editmenu'] = 'End Edit Menu';
-$string['tree_editmenu'] = 'Menu tree';
-$string['config_editmenu'] = 'Configurate';
-$string['jstemplate_editmenu'] = 'Javascript template';
-$string['csstemplate_editmenu'] = 'Styles (CSS)';
-$string['htmltemplate_editmenu'] = 'HTML template';
-$string['config_editmenu_title'] = 'Menu configuration';
-$string['jsdefault'] = 'Include default JavaScript';
-$string['cssdefault'] = 'Include default CSS styles';
-$string['savecorrect'] = 'Information was succesfully saved';
-$string['notsaved'] = 'Information could not be saved';
-$string['csstemplate_editmenu_title'] = 'CSS styles';
-$string['csscode'] = 'CSS code';
-$string['jstemplate_editmenu_title'] = 'JavaScript code';
-$string['jscode'] = 'Code';
-$string['htmltemplate_editmenu_title'] = 'HTML';
-$string['htmlcode'] = 'HTML';
-$string['tree_editmenu_title'] = 'Configurate subject tree';
-$string['error_jsontree'] = 'Error in data structure returned as tree composition';
-$string['tree_struct'] = 'Tree structure';
-$string['title_panel_sheetedit'] = 'Edit tree sheet';
-$string['name_sheet_sheetedit'] = 'Sheet name';
-$string['target_sheet_sheetedit'] = 'Link target';
-$string['url_sheet_sheetedit'] = 'URL';
-$string['targetblank_sheet_sheetedit'] = 'New window';
-$string['targetself_sheet_sheetedit'] = 'Same window';
-$string['topic_sheet_sheetedit'] = 'Target section';
-$string['actionsave_sheet_sheetedit'] = 'Change sheet data';
-$string['actions_sheet_sheetedit'] = 'Actions on the sheet';
-$string['actionleft_sheet_sheetedit'] = 'Move left';
-$string['actionright_sheet_sheetedit'] = 'Move right';
-$string['actionup_sheet_sheetedit'] = 'Move up';
-$string['actiondown_sheet_sheetedit'] = 'Move down';
-$string['actiondelete_sheet_sheetedit'] = 'Delete';
-$string['actiondeleteconfirm_sheet_sheetedit'] = 'If you delete the sheet will delete all child sheets. Are you really sure want to continue?';
+$string['aboutresource'] = 'About the resource';
+$string['aboutsection'] = 'About the topic';
 $string['actionadd_sheet_daughter_sheetedit'] = 'Add as daughter sheet';
 $string['actionadd_sheet_sister_sheetedit'] = 'Add as sister sheet';
-$string['menuposition_hide'] = 'Do not show';
-$string['menuposition_left'] = 'Left';
-$string['menuposition_middle'] = 'Middle';
-$string['menuposition_right'] = 'Right';
-$string['menuposition'] = 'Menu position';
-$string['linkinparent'] = 'Make links in submenu fields root';
-$string['templatetopic'] = 'Activate Description of the section as a template';
-$string['icons_templatetopic'] = 'Show icons in resources names';
+$string['actiondelete_sheet_sheetedit'] = 'Delete';
+$string['actiondeleteconfirm_sheet_sheetedit'] = 'If you delete the sheet will delete all child sheets. Are you really sure want to continue?';
+$string['actiondown_sheet_sheetedit'] = 'Move down';
+$string['actionleft_sheet_sheetedit'] = 'Move left';
+$string['actionright_sheet_sheetedit'] = 'Move right';
+$string['actions_sheet_sheetedit'] = 'Actions on the sheet';
+$string['actionsave_sheet_sheetedit'] = 'Change sheet data';
+$string['actionup_sheet_sheetedit'] = 'Move up';
+$string['config_editmenu'] = 'Configurate';
+$string['config_editmenu_title'] = 'Menu configuration';
 $string['config_template_topic_title'] = 'Configurate -Description of the section as a template-';
-$string['displaynousedmod'] = 'Show resources not included in template';
-$string['navigationposition_site'] = 'Use the default site value';
-$string['navigationposition_top'] = 'Only at the top';
-$string['navigationposition_bottom'] = 'Only at the bottom';
-$string['navigationposition_both'] = 'At top and bottom section';
-$string['navigationposition_nothing'] = 'Not use';
-$string['navigationposition_slide'] = 'Like slides';
-$string['navigationposition_support'] = 'Only if theme not support the "uses course index" feature';
-$string['displaynavigation'] = 'Display navigation';
-$string['nodesnavigation'] = 'Navigation nodes';
-$string['previous_topic'] = 'Previous';
-$string['next_topic'] = 'Next';
-$string['separator_navigation'] = ' - ';
-
-$string['csstemplate'] = 'About: CSS styles';
-$string['jstemplate'] = 'JavaScript code';
-
-// ToDo: Hacer las ayudas como cadenas de texto.
-$string['jsdefault_help'] = 'Define if the Javascript functions that generate the menu are included. Disables the default javascript can be useful if you want to give another appearance to the menu using Javascript code that can be
-included in the <b>"Javascript template"</b>.';
+$string['coursedisplay'] = 'Visualization mode of section 0';
+$string['coursedisplay_help'] = 'This define as display the section 0: as a menu element or as section before the menu bar.';
+$string['coursedisplay_multi'] = 'Before the menu';
+$string['coursedisplay_single'] = 'As a menu element';
+$string['csscode'] = 'CSS code';
+$string['cssdefault'] = 'Include default CSS styles';
 $string['cssdefault_help'] = 'Define if CSS styles are included by default to the menu. Disable this option can be useful to include customised styles by the option <b>"(CSS) styles template"</b>';
-$string['menuposition_help'] = '<p>Define the position where the menu will appear in the course. The possible options are:
-<ul>
-    <li><b>Do not show:</b> menu is not generated</li>
-    <li><b>Left:</b> menu is generated vertically in the column of the left blocks, if exist.</li>
-    <li><b>Middle:</b> menu is generated horizontally as a bar in the middle part of the course, over the section</li>
-    <li><b>Right:</b> menu is generated vertically in the column of the right blocks, if exist.</li>
-</ul></p>';
-
-$string['linkinparent_help'] = '<p>Define the behavior of the menu options that act as roots or fathers of a submenu.</p>
-<p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL
-that is defined in the <b>"Menu tree"</b>. If it is stablished in <b>Not</b>, the menu item deploys the son links to click
-on it</p>';
-
-$string['displaynavigation_help'] = 'Indicates whether to display navigation between sections and the position where the show.';
-
-$string['nodesnavigation_help'] = '<p>Section numbers, separated by commas. <b>Example:</b> 1,2,8,10,3</p>. If empty, default navigation is used.
-<p>The section numbers cannot be repeated because they will show navigation from the first match found.</p>';
-
-$string['templatetopic_help'] = 'About: Activate Title of the topic as a template';
-$string['icons_templatetopic_help'] = 'About: Show icons in resources names';
-$string['displaynousedmod_help'] = 'About: Show resources not included in template';
-
+$string['csstemplate'] = 'About: CSS styles';
+$string['csstemplate_editmenu'] = 'Styles (CSS)';
+$string['csstemplate_editmenu_title'] = 'CSS styles';
 $string['csstemplate_help'] = 'Allows to include customized CSS styles which you can define a customized graphic appearance for the menu
 <p>A simple exercise of using the styles template will be:</p>
 <div style=" white-space:nowrap; font-size: 12px; border: 1px solid #666; padding: 5px; background-color: #CCC">
@@ -133,7 +59,34 @@ $string['csstemplate_help'] = 'Allows to include customized CSS styles which you
     <li>The identifier (id) of the layer (div) that the menu contains is <strong>format_menutopic_menu</strong>. This data can be useful to manipulate the menu styles without to affect other components of the page.</li>
     <li>It is possible that to make changes in the styles, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
-
+$string['currentsection'] = 'This topic';
+$string['defaultsectionsnavigation'] = 'Default value to sections navigation';
+$string['defaultsectionsnavigation_help'] = 'Default value used in courses to define the "Uses sections navigation" feature. This can be overwrite for each course.';
+$string['displaynavigation'] = 'Display navigation';
+$string['displaynavigation_help'] = 'Indicates whether to display navigation between sections and the position where the show.';
+$string['displaynousedmod'] = 'Show resources not included in template';
+$string['displaynousedmod_help'] = 'About: Show resources not included in template';
+$string['editmenu'] = 'Edit menu';
+$string['enableanchorposition'] = 'Enable anchor position';
+$string['enableanchorposition_help'] = 'Use an anchor to navigate to the top of menu when click in a menu option.';
+$string['end_editmenu'] = 'End Edit Menu';
+$string['error_jsontree'] = 'Error in data structure returned as tree composition';
+$string['globalstyle'] = 'Global style';
+$string['globalstyle_help'] = 'This define the style of the menu.';
+$string['hiddenmenubar'] = 'The menu are set to be hidden. They will not be seen when not in edit mode.';
+$string['hidefromothers'] = 'Hide topic';
+$string['htmlcode'] = 'HTML';
+$string['htmltemplate_editmenu'] = 'HTML template';
+$string['htmltemplate_editmenu_title'] = 'HTML';
+$string['icons_templatetopic'] = 'Show icons in resources names';
+$string['icons_templatetopic_help'] = 'About: Show icons in resources names';
+$string['jscode'] = 'Code';
+$string['jsdefault'] = 'Include default JavaScript';
+$string['jsdefault_help'] = 'Define if the Javascript functions that generate the menu are included. Disables the default javascript can be useful if you want to give another appearance to the menu using Javascript code that can be
+included in the <b>"Javascript template"</b>.';
+$string['jstemplate'] = 'JavaScript code';
+$string['jstemplate_editmenu'] = 'Javascript template';
+$string['jstemplate_editmenu_title'] = 'JavaScript code';
 $string['jstemplate_help'] = 'Allows to define the JavaScript code that will work over the menu or the page. It can be useful to define additional behaviors for the menu
 or even a menu structure different from the default.
 <p><b>Notes:</b>
@@ -141,7 +94,64 @@ or even a menu structure different from the default.
     <li>The name <b>format_menutopic_menu</b> corresponds to the div identifier that contains the menu in HTML created as nest lists, usually with the tags HTML: ul y li.</li>
     <li>It is possible that to make changes in the JavaScript, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
+$string['linkinparent'] = 'Make links in submenu fields root';
 
+$string['linkinparent_help'] = '<p>Define the behavior of the menu options that act as roots or fathers of a submenu.</p>
+<p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL
+that is defined in the <b>"Menu tree"</b>. If it is stablished in <b>Not</b>, the menu item deploys the son links to click
+on it</p>';
+$string['menuposition'] = 'Menu position';
+$string['menuposition_help'] = '<p>Define the position where the menu will appear in the course. The possible options are:
+<ul>
+    <li><b>Do not show:</b> menu is not generated</li>
+    <li><b>Left:</b> menu is generated vertically in the column of the left blocks, if exist.</li>
+    <li><b>Middle:</b> menu is generated horizontally as a bar in the middle part of the course, over the section</li>
+    <li><b>Right:</b> menu is generated vertically in the column of the right blocks, if exist.</li>
+</ul></p>';
+$string['menuposition_hide'] = 'Do not show';
+$string['menuposition_left'] = 'Left';
+$string['menuposition_middle'] = 'Middle';
+$string['menuposition_right'] = 'Right';
+$string['name_sheet_sheetedit'] = 'Sheet name';
+$string['navbartitle'] = 'Sections';
+$string['navigationposition_both'] = 'At top and bottom section';
+$string['navigationposition_bottom'] = 'Only at the bottom';
+$string['navigationposition_nothing'] = 'Not use';
+$string['navigationposition_site'] = 'Use the default site value';
+$string['navigationposition_slide'] = 'Like slides';
+$string['navigationposition_support'] = 'Only if theme not support the "uses course index" feature';
+$string['navigationposition_top'] = 'Only at the top';
+$string['next_topic'] = 'Next';
+$string['nodesnavigation'] = 'Navigation nodes';
+$string['nodesnavigation_help'] = '<p>Section numbers, separated by commas. <b>Example:</b> 1,2,8,10,3</p>. If empty, default navigation is used.
+<p>The section numbers cannot be repeated because they will show navigation from the first match found.</p>';
+$string['notsaved'] = 'Information could not be saved';
+$string['page-course-view-topics'] = 'Any course main page in menutopic format';
+$string['page-course-view-topics-x'] = 'Any course page in menutopic format';
+$string['pluginname'] = 'Menutopic format';
+$string['previous_topic'] = 'Previous';
+$string['privacy:metadata'] = 'The Menutopic format plugin does not store any personal data.';
+$string['savecorrect'] = 'Information was succesfully saved';
+$string['sectionname'] = 'Topic';
+$string['separator_navigation'] = ' - ';
+$string['showfromothers'] = 'Show topic';
+$string['shownavbarbrand'] = 'Show navbar brand';
+$string['shownavbarbrand_help'] = 'Show the brand text of the navbar in Bootstrap styles.';
+$string['style_basic'] = 'Basic';
+$string['style_boots'] = 'Bootstrap';
+$string['style_bootsdark'] = 'Dark Bootstrap';
+$string['target_sheet_sheetedit'] = 'Link target';
+$string['targetblank_sheet_sheetedit'] = 'New window';
+$string['targetself_sheet_sheetedit'] = 'Same window';
+$string['template_namemenutopic'] = 'Topic {$a}';
+$string['templatetopic'] = 'Activate Description of the section as a template';
+$string['templatetopic_help'] = 'About: Activate Title of the topic as a template';
+$string['title_panel_sheetedit'] = 'Edit tree sheet';
+$string['togglemenu'] = 'Toggle menu';
+$string['topic_sheet_sheetedit'] = 'Target section';
+$string['tree_editmenu'] = 'Menu tree';
+$string['tree_editmenu_title'] = 'Configurate subject tree';
+$string['tree_struct'] = 'Tree structure';
 $string['tree_struct_help'] = '<p>The basis of the menu is a tree structure where each branch or tree sheet can be associated to a URL. The URL can be external or directly linked to a course section. When you sign the first time to set the section tree, the platform suggests a lineal structure, without branches, with a quantity of sheets equal to the number of course sections.</p>
 <p>Among the options that you can do on the sheet are:</p>
 <ul>
@@ -162,30 +172,8 @@ $string['tree_struct_help'] = '<p>The basis of the menu is a tree structure wher
     <li><strong>Add a sheet (&#10010;):</strong> Create a new sheet and add it as its daughter.</li>
 </ul>
 <p>The changes realized in the menu are stored only to select the option <strong>&quot;Save changes&quot;</strong> at the bottom of the page.</p>';
-
-$string['coursedisplay'] = 'Visualization mode of section 0';
-$string['coursedisplay_help'] = 'This define as display the section 0: as a menu element or as section before the menu bar.';
-$string['coursedisplay_single'] = 'As a menu element';
-$string['coursedisplay_multi'] = 'Before the menu';
-$string['privacy:metadata'] = 'The Menutopic format plugin does not store any personal data.';
-
-$string['usessectionsnavigation'] = 'Uses sections navigation';
-$string['usessectionsnavigation_help'] = 'Show buttons for navigate to next or previous section.';
-$string['enableanchorposition'] = 'Enable anchor position';
-$string['enableanchorposition_help'] = 'Use an anchor to navigate to the top of menu when click in a menu option.';
-$string['defaultsectionsnavigation'] = 'Default value to sections navigation';
-$string['defaultsectionsnavigation_help'] = 'Default value used in courses to define the "Uses sections navigation" feature. This can be overwrite for each course.';
+$string['url_sheet_sheetedit'] = 'URL';
 $string['usescourseindex'] = 'Uses course index';
 $string['usescourseindex_help'] = 'Use the <em>course index</em> bar to navigate through the sections and resources';
-$string['hiddenmenubar'] = 'The menu are set to be hidden. They will not be seen when not in edit mode.';
-$string['navbartitle'] = 'Sections';
-$string['togglemenu'] = 'Toggle menu';
-$string['style_basic'] = 'Basic';
-$string['style_boots'] = 'Bootstrap';
-$string['style_bootsdark'] = 'Dark Bootstrap';
-$string['globalstyle'] = 'Global style';
-$string['globalstyle_help'] = 'This define the style of the menu.';
-$string['aboutresource'] = 'About the resource';
-$string['aboutsection'] = 'About the topic';
-$string['shownavbarbrand'] = 'Show navbar brand';
-$string['shownavbarbrand_help'] = 'Show the brand text of the navbar in Bootstrap styles.';
+$string['usessectionsnavigation'] = 'Uses sections navigation';
+$string['usessectionsnavigation_help'] = 'Show buttons for navigate to next or previous section.';

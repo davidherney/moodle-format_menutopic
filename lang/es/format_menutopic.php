@@ -23,103 +23,30 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['currentsection'] = 'Este tema';
-$string['pluginname'] = 'Temas desde menú';
-$string['sectionname'] = 'Tema';
-$string['page-course-view-topics'] = 'Alguna página principal de curso en formato menutopic';
-$string['page-course-view-topics-x'] = 'Alguna página de curso en formato menutopic';
-$string['hidefromothers'] = 'Ocultar tema';
-$string['showfromothers'] = 'Mostrar tema';
-
-
-$string['template_namemenutopic'] = 'Tema {$a}';
-$string['editmenu'] = 'Editar menú';
-$string['end_editmenu'] = 'Finalizar Editar menú';
-$string['tree_editmenu'] = 'Árbol del menú';
-$string['config_editmenu'] = 'Configurar';
-$string['jstemplate_editmenu'] = 'Plantilla de javascript';
-$string['csstemplate_editmenu'] = 'Estilos (CSS)';
-$string['htmltemplate_editmenu'] = 'Plantilla de html';
-$string['config_editmenu_title'] = 'Configuraciones de menú';
-$string['jsdefault'] = 'Incluir JavaScript por defecto';
-$string['cssdefault'] = 'Incluir estilos CSS por defecto';
-$string['savecorrect'] = 'La información se almacenó satisfactoriamente';
-$string['notsaved'] = 'La información no se pudo almacenar';
-$string['csstemplate_editmenu_title'] = 'Estilos CSS';
-$string['csscode'] = 'Código CSS';
-$string['jstemplate_editmenu_title'] = 'Fuentes JavaScript';
-$string['jscode'] = 'Código';
-$string['htmltemplate_editmenu_title'] = 'Fuentes HTML';
-$string['htmlcode'] = 'HTML';
-$string['tree_editmenu_title'] = 'Configurar árbol de temas';
-$string['error_jsontree'] = 'Error en la estructura de datos retornada como composición del árbol';
-$string['tree_struct'] = 'Estructura del árbol';
-$string['title_panel_sheetedit'] = 'Editar hoja del árbol';
-$string['name_sheet_sheetedit'] = 'Nombre de la hoja';
-$string['target_sheet_sheetedit'] = 'Destino del enlace';
-$string['url_sheet_sheetedit'] = 'URL';
-$string['targetblank_sheet_sheetedit'] = 'Nueva ventana';
-$string['targetself_sheet_sheetedit'] = 'La misma ventana';
-$string['topic_sheet_sheetedit'] = 'Sección destino';
-$string['actionsave_sheet_sheetedit'] = 'Cambiar datos de la hoja';
-$string['actions_sheet_sheetedit'] = 'Acciones sobre la hoja';
-$string['actionleft_sheet_sheetedit'] = 'Mover a la izquierda';
-$string['actionright_sheet_sheetedit'] = 'Mover a la derecha';
-$string['actionup_sheet_sheetedit'] = 'Mover arriba';
-$string['actiondown_sheet_sheetedit'] = 'Mover abajo';
-$string['actiondelete_sheet_sheetedit'] = 'Eliminar';
-$string['actiondeleteconfirm_sheet_sheetedit'] = 'Si elimina la hoja eliminará todas las hojas hijo ¿Seguro que desea continuar?';
 $string['actionadd_sheet_daughter_sheetedit'] = 'Adicionar como hija';
 $string['actionadd_sheet_sister_sheetedit'] = 'Adicionar como hermana';
-$string['menuposition_hide'] = 'No mostrar';
-$string['menuposition_left'] = 'Izquierda';
-$string['menuposition_middle'] = 'Centro';
-$string['menuposition_right'] = 'Derecha';
-$string['menuposition'] = 'Posición del menú';
-$string['linkinparent'] = 'Mantener enlaces en raices de submenú';
-$string['templatetopic'] = 'Activar Descripción de cada sección como plantilla';
-$string['icons_templatetopic'] = 'Mostrar íconos en recursos';
+$string['actiondelete_sheet_sheetedit'] = 'Eliminar';
+$string['actiondeleteconfirm_sheet_sheetedit'] = 'Si elimina la hoja eliminará todas las hojas hijo ¿Seguro que desea continuar?';
+$string['actiondown_sheet_sheetedit'] = 'Mover abajo';
+$string['actionleft_sheet_sheetedit'] = 'Mover a la izquierda';
+$string['actionright_sheet_sheetedit'] = 'Mover a la derecha';
+$string['actions_sheet_sheetedit'] = 'Acciones sobre la hoja';
+$string['actionsave_sheet_sheetedit'] = 'Cambiar datos de la hoja';
+$string['actionup_sheet_sheetedit'] = 'Mover arriba';
+$string['config_editmenu'] = 'Configurar';
+$string['config_editmenu_title'] = 'Configuraciones de menú';
 $string['config_template_topic_title'] = 'Configuraciones de funcionalidad -Descripción de cada sección como plantilla-';
-$string['displaynousedmod'] = 'Mostrar recursos no incluidos en plantilla';
-$string['navigationposition_top'] = 'Arriba';
-$string['navigationposition_bottom'] = 'Abajo';
-$string['navigationposition_both'] = 'Arriba y abajo';
-$string['navigationposition_nothing'] = 'No mostrar';
-$string['displaynavigation'] = 'Mostrar navegación';
-$string['nodesnavigation'] = 'Nodos de navegación';
-$string['previous_topic'] = 'Anterior';
-$string['next_topic'] = 'Siguiente';
-$string['separator_navigation'] = ' - ';
-
-$string['csstemplate'] = 'Estilo CSS';
-$string['jstemplate'] = 'Fuentes JavaScript';
-
-// ToDo: Hacer las ayudas como cadenas de texto.
-$string['jsdefault_help'] = '<p>Define si se incluyen las funciones de JavaScript que generan el menú. En caso de que se establezca como <b>No</b>, el menú
-se generará como una lista</p>
-<p>
-Puede ser útil deshabilitar el JavaScript por defecto si se desea dar otra apariencia al menú, como por ejemplo tipo Blog. También es posible utilizar código JavaScript que puede
-ser incluido en la <b>"Plantilla de Javascript"</b>, para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería
-<a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>';
-
+$string['coursedisplay'] = 'Modo de visualización de la sección 0';
+$string['coursedisplay_help'] = 'Define como se muestra la sección 0: como un elemento del menú o como una sección encima del menú.';
+$string['coursedisplay_multi'] = 'Arriba del menú';
+$string['coursedisplay_single'] = 'Como elemento del menú';
+$string['csscode'] = 'Código CSS';
+$string['cssdefault'] = 'Incluir estilos CSS por defecto';
 $string['cssdefault_help'] = '<p>Define si se incluyen los estilos CSS por defecto para el menú. Sólo aplica cuando no se incluye el Javascript por defecto ya que de lo contrario siempre se incluyen los estilos</p>
 <p>Puede ser útil deshabilitar esta opción para incluir estilos personalizados mediante la opción <b>"Plantilla de estilos (CSS)"</b></p>';
-$string['menuposition_help'] = '<p>Define la posición en la cual aparecerá el menú en el curso. Las posibles opciones son:
-<ul>
-    <li><b>No mostrar:</b> no se genera el menú</li>
-    <li><b>Izquierda:</b> el menú es generado verticalmente en la columna de bloques de la izquierda, si no hay bloque al lado izquierdo entonces se ve el menú en el centro.</li>
-    <li><b>Centro:</b> el menú se genera horizontalmente como una barra en la parte central del curso</li>
-    <li><b>Derecha:</b> el menú es generado verticalmente en la columna de bloques de la derecha, si no hay bloque al lado derecho entonces se ve el menú en el centro. En esta ubicación, los submenús presentan problemas de visualización debidos a la librería de JavaScript utilizadas.</li>
-</ul></p>';
-$string['linkinparent_help'] = '<p>Define el comportamiento de las opciones del menú que actúan como raices o padres de un submenú.</p>
-<p>Si se establece en <b>Sí</b>, el ítem del menú actúa como enlace al dar clic sobre él y abre la URL que se le define en el <b>"Árbol del menú"</b>. Si se establece en <b>No</b>, el ítem del menú despliega los enlaces hijos al dar clic sobre él.</p>';
-$string['displaynavigation_help'] = 'Indica si se desea mostrar la navegación entre secciones y la posición donde se mostraría.';
-$string['nodesnavigation_help'] = '<p>Números de las secciones, separados por coma. Si se deja vacío, se genera la navegación automáticamente según el número de la sección y de manera consecutiva. No deben haber números de secciones repetidos porque se mostraría siempre la navegación desde la primer coincidencia encontrada.</p>
-<p><b>Ejemplo correcto:</b> 1,2,8,10,3</p>';
-$string['templatetopic_help'] = 'Not implemented yet';
-$string['icons_templatetopic_help'] = 'Not implemented yet';
-$string['displaynousedmod_help'] = 'Not implemented yet';
-
+$string['csstemplate'] = 'Estilo CSS';
+$string['csstemplate_editmenu'] = 'Estilos (CSS)';
+$string['csstemplate_editmenu_title'] = 'Estilos CSS';
 $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con lo cual se puede definir una apariencia gráfica personalizada para el menú.</p>
 <p>Un ejemplo sencillo de utilización de la plantilla de estilos sería:</p>
 <div style=" white-space:nowrap; font-size: 12px; border: 1px solid #666; padding: 5px; background-color: #CCC">
@@ -131,7 +58,31 @@ $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con
     <li>El identificador (id) de la capa (div) que contiene el menú es <strong>format_menutopic_menu</strong>. Este dato puede ser útil para manipular los estilos del menú sin afectar otros componentes de la página.</li>
     <li>Al realizar cambios en los estilos es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
-
+$string['currentsection'] = 'Este tema';
+$string['displaynavigation'] = 'Mostrar navegación';
+$string['displaynavigation_help'] = 'Indica si se desea mostrar la navegación entre secciones y la posición donde se mostraría.';
+$string['displaynousedmod'] = 'Mostrar recursos no incluidos en plantilla';
+$string['displaynousedmod_help'] = 'Not implemented yet';
+$string['editmenu'] = 'Editar menú';
+$string['end_editmenu'] = 'Finalizar Editar menú';
+$string['error_jsontree'] = 'Error en la estructura de datos retornada como composición del árbol';
+$string['hidefromothers'] = 'Ocultar tema';
+$string['htmlcode'] = 'HTML';
+$string['htmltemplate_editmenu'] = 'Plantilla de html';
+$string['htmltemplate_editmenu_title'] = 'Fuentes HTML';
+$string['icons_templatetopic'] = 'Mostrar íconos en recursos';
+$string['icons_templatetopic_help'] = 'Not implemented yet';
+$string['jscode'] = 'Código';
+$string['jsdefault'] = 'Incluir JavaScript por defecto';
+$string['jsdefault_help'] = '<p>Define si se incluyen las funciones de JavaScript que generan el menú. En caso de que se establezca como <b>No</b>, el menú
+se generará como una lista</p>
+<p>
+Puede ser útil deshabilitar el JavaScript por defecto si se desea dar otra apariencia al menú, como por ejemplo tipo Blog. También es posible utilizar código JavaScript que puede
+ser incluido en la <b>"Plantilla de Javascript"</b>, para ello es preciso seguir las referencias de las funciones utilizadas y que corresponden al "MenuNav Node Plugin" de la librería
+<a href="http://yuilibrary.com/yui/docs/node-menunav/" target="_blank">YUI3</a> que se incluye en moodle.</p>';
+$string['jstemplate'] = 'Fuentes JavaScript';
+$string['jstemplate_editmenu'] = 'Plantilla de javascript';
+$string['jstemplate_editmenu_title'] = 'Fuentes JavaScript';
 $string['jstemplate_help'] = '<p>Permite definir código JavaScript que actua sobre el menú o sobre la página. Puede servir para definir comportamientos adicionales para el menú
 o incluso para definir una estructura de menú diferente a la por defecto.</p>
 <p>Si se deshabilita el JavaScript por defecto, en la pestaña <strong>"Configurar"</strong>, se  puede incluir código que manipule la información del menú y construya un menú nuevo,
@@ -141,7 +92,51 @@ para ello es preciso seguir las referencias de las funciones utilizadas y que co
     <li>El identificador (id) de la capa (div) que contiene el menú es <strong>format_menutopic_menu</strong>, allí se encuentra el menú en HTML construido como listas anidadas, normalmente con las etiquetas HTML: ul y li.</li>
     <li>Al realizar cambios en el JavaScript es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
-
+$string['linkinparent'] = 'Mantener enlaces en raices de submenú';
+$string['linkinparent_help'] = '<p>Define el comportamiento de las opciones del menú que actúan como raices o padres de un submenú.</p>
+<p>Si se establece en <b>Sí</b>, el ítem del menú actúa como enlace al dar clic sobre él y abre la URL que se le define en el <b>"Árbol del menú"</b>. Si se establece en <b>No</b>, el ítem del menú despliega los enlaces hijos al dar clic sobre él.</p>';
+$string['menuposition'] = 'Posición del menú';
+$string['menuposition_help'] = '<p>Define la posición en la cual aparecerá el menú en el curso. Las posibles opciones son:
+<ul>
+    <li><b>No mostrar:</b> no se genera el menú</li>
+    <li><b>Izquierda:</b> el menú es generado verticalmente en la columna de bloques de la izquierda, si no hay bloque al lado izquierdo entonces se ve el menú en el centro.</li>
+    <li><b>Centro:</b> el menú se genera horizontalmente como una barra en la parte central del curso</li>
+    <li><b>Derecha:</b> el menú es generado verticalmente en la columna de bloques de la derecha, si no hay bloque al lado derecho entonces se ve el menú en el centro. En esta ubicación, los submenús presentan problemas de visualización debidos a la librería de JavaScript utilizadas.</li>
+</ul></p>';
+$string['menuposition_hide'] = 'No mostrar';
+$string['menuposition_left'] = 'Izquierda';
+$string['menuposition_middle'] = 'Centro';
+$string['menuposition_right'] = 'Derecha';
+$string['name_sheet_sheetedit'] = 'Nombre de la hoja';
+$string['navigationposition_both'] = 'Arriba y abajo';
+$string['navigationposition_bottom'] = 'Abajo';
+$string['navigationposition_nothing'] = 'No mostrar';
+$string['navigationposition_top'] = 'Arriba';
+$string['next_topic'] = 'Siguiente';
+$string['nodesnavigation'] = 'Nodos de navegación';
+$string['nodesnavigation_help'] = '<p>Números de las secciones, separados por coma. Si se deja vacío, se genera la navegación automáticamente según el número de la sección y de manera consecutiva. No deben haber números de secciones repetidos porque se mostraría siempre la navegación desde la primer coincidencia encontrada.</p>
+<p><b>Ejemplo correcto:</b> 1,2,8,10,3</p>';
+$string['notsaved'] = 'La información no se pudo almacenar';
+$string['page-course-view-topics'] = 'Alguna página principal de curso en formato menutopic';
+$string['page-course-view-topics-x'] = 'Alguna página de curso en formato menutopic';
+$string['pluginname'] = 'Temas desde menú';
+$string['previous_topic'] = 'Anterior';
+$string['privacy:metadata'] = 'El formato Temas desde menú no almacena datos personales.';
+$string['savecorrect'] = 'La información se almacenó satisfactoriamente';
+$string['sectionname'] = 'Tema';
+$string['separator_navigation'] = ' - ';
+$string['showfromothers'] = 'Mostrar tema';
+$string['target_sheet_sheetedit'] = 'Destino del enlace';
+$string['targetblank_sheet_sheetedit'] = 'Nueva ventana';
+$string['targetself_sheet_sheetedit'] = 'La misma ventana';
+$string['template_namemenutopic'] = 'Tema {$a}';
+$string['templatetopic'] = 'Activar Descripción de cada sección como plantilla';
+$string['templatetopic_help'] = 'Not implemented yet';
+$string['title_panel_sheetedit'] = 'Editar hoja del árbol';
+$string['topic_sheet_sheetedit'] = 'Sección destino';
+$string['tree_editmenu'] = 'Árbol del menú';
+$string['tree_editmenu_title'] = 'Configurar árbol de temas';
+$string['tree_struct'] = 'Estructura del árbol';
 $string['tree_struct_help'] = '<p>La base del menú es una estructura de árbol donde cada rama u hoja del árbol puede estar asociada a una URL. La URL puede ser externa o estár vinculada directamente a una sección del curso. Cuando se ingresa por primera vez a configurar el árbol, la plataforma sugiere una estructura lineal, sin ramas, con una cantidad de hojas igual al número de secciones del curso.</p>
 <p>Al pasar el mouse sobre una hoja se ven las opciones de edición. Entre las acciones que se pueden realizar sobre la hoja están:</p>
 <ul>
@@ -162,9 +157,4 @@ $string['tree_struct_help'] = '<p>La base del menú es una estructura de árbol 
     <li><strong>Adicionar una hoja (&#10010;):</strong> adiciona una nueva hoja como hija de la actual.</li>
 </ul>
 <p>Los cambios hechos en el menú solo son almacenados al seleccionar la opción <strong>&quot;Guardar cambios&quot;</strong> en la parte inferior de la página.</p>';
-
-$string['coursedisplay'] = 'Modo de visualización de la sección 0';
-$string['coursedisplay_help'] = 'Define como se muestra la sección 0: como un elemento del menú o como una sección encima del menú.';
-$string['coursedisplay_single'] = 'Como elemento del menú';
-$string['coursedisplay_multi'] = 'Arriba del menú';
-$string['privacy:metadata'] = 'El formato Temas desde menú no almacena datos personales.';
+$string['url_sheet_sheetedit'] = 'URL';
