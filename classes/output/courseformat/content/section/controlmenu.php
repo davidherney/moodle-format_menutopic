@@ -54,7 +54,7 @@ class controlmenu extends controlmenu_format_topics {
         $format = $this->format;
         $section = $this->section;
         $course = $format->get_course();
-        $sectionreturn = $format->get_section_number();
+        $sectionreturn = $format->get_sectionnum();
 
         $coursecontext = $this->format->get_context();
         $numsections = $format->get_last_section_number();
@@ -118,7 +118,7 @@ class controlmenu extends controlmenu_format_topics {
             unset($parentcontrols['delete']['attr']['data-action']);
         }
 
-        // Create the permalink according to the Onetopic format.
+        // Create the permalink according to the Menutopic format.
         if (array_key_exists("permalink", $parentcontrols)) {
             $sectionlink = new \moodle_url(
                 '/course/view.php',

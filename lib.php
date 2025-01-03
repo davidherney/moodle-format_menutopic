@@ -78,6 +78,9 @@ class format_menutopic extends core_courseformat\base {
     /** @var bool If print the menu in the current scope */
     public $printable = true;
 
+    /** @var bool If the class was previously instanced, in one execution cycle */
+    private static $loaded = false;
+
     /**
      * Creates a new instance of class
      *
@@ -88,9 +91,11 @@ class format_menutopic extends core_courseformat\base {
      * @return course_format
      */
     protected function __construct($format, $courseid) {
-        global $USER, $PAGE, $section, $sectionid;
 
         parent::__construct($format, $courseid);
+
+        // Hack for section number, when not is like a param in the url or section is not available.
+        global $section, $sectionid, $PAGE, $USER, $urlparams, $DB;
 
         $inpopup = optional_param('inpopup', 0, PARAM_INT);
         if ($inpopup) {
@@ -100,38 +105,87 @@ class format_menutopic extends core_courseformat\base {
             $patternavailable = '/^mod-.*-view$/';
 
             if (!in_array($PAGE->pagetype, $pagesavailable)) {
-                    $this->printable = preg_match($patternavailable, $PAGE->pagetype);
+                $this->printable = preg_match($patternavailable, $PAGE->pagetype);
+            }
+        }
+
+        $course = $this->get_course();
+
+        if (!isset($section) && ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
+
+            if ($sectionid <= 0) {
+                $section = optional_param('section', -1, PARAM_INT);
+            }
+
+            if ($section < 0) {
+                if (isset($USER->display[$course->id])) {
+                    $section = $USER->display[$course->id];
+                } else if ($course->marker && $course->marker > 0) {
+                    $section = (int)$course->marker;
+                } else {
+                    $section = 0;
+                }
             }
         }
 
         if ($this->printable) {
-            if (!empty($courseid) && is_numeric($section)) {
+            if (!self::$loaded && isset($section) && $courseid &&
+                    ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
 
-                $course = get_course($courseid);
+                self::$loaded = true;
 
-                if ($sectionid <= 0) {
-                    $displaysection = optional_param('section', -1, PARAM_INT);
+                $this->singlesection = $section;
+
+                // The format is always multipage.
+                $course->realcoursedisplay = property_exists($course, 'coursedisplay') ? $course->coursedisplay : false;
+                $numsections = (int)$DB->get_field('course_sections', 'MAX(section)', ['course' => $courseid], MUST_EXIST);
+
+                if ($section >= 0 && $numsections >= $section) {
+                    $realsection = $section;
                 } else {
-                    $displaysection = $this->get_section_number();
+                    $realsection = 0;
                 }
 
-                if (isset($section) && $section >= 0) {
-                    $displaysection = $section;
-                } else {
-                    if (isset($USER->display[$course->id])) {
-                        $displaysection = $USER->display[$course->id];
+                if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE && $realsection === 0 && $numsections >= 1) {
+                    $realsection = null;
+                }
+
+                $modinfo = get_fast_modinfo($course);
+                $sections = $modinfo->get_section_info_all();
+
+                // Check if the display section is available.
+                if ($realsection === null || !$sections[$realsection]->uservisible) {
+
+                    if ($realsection) {
+                        self::$formatmsgs[] = get_string('hidden_message',
+                                                            'format_menutopic',
+                                                            $this->get_section_name($realsection));
                     }
+
+                    $valid = false;
+                    $k = $course->realcoursedisplay ? 1 : 0;
+
+                    do {
+                        $formatoptions = $this->get_format_options($k);
+                        if ($formatoptions['level'] == 0 && $sections[$k]->uservisible) {
+                            $valid = true;
+                            break;
+                        }
+
+                        $k++;
+
+                    } while (!$valid && $k <= $numsections);
+
+                    $realsection = $valid ? $k : 0;
                 }
 
-                if (!empty($displaysection) || $displaysection === 0) {
-                    // Retrieve course format option fields and add them to the $course object.
-                    $firstsection = $this->get_course_display() == COURSE_DISPLAY_MULTIPAGE ? 1 : 0;
-
-                    $displaysection = $displaysection === 0 && $firstsection == 1 ? 1 : $displaysection;
-
-                    $this->set_section_number($displaysection);
-                    $USER->display[$courseid] = $displaysection;
-                }
+                $realsection = $realsection ?? 0;
+                // The $section var is a global var, we need to set it to the real section.
+                $section = $realsection;
+                $this->set_sectionnum($section);
+                $USER->display[$course->id] = $realsection;
+                $urlparams['section'] = $realsection;
+                $PAGE->set_url('/course/view.php', $urlparams);
             }
         }
 
@@ -192,6 +246,17 @@ class format_menutopic extends core_courseformat\base {
     }
 
     /**
+     * Get the current section number to display.
+     * Some formats has the hability to swith from one section to multiple sections per page.
+     *
+     * @since Moodle 4.4
+     * @return int|null the current section number or null when there is no single section.
+     */
+    public function get_sectionnum(): ?int {
+        return $this->singlesection == null ? 0 : $this->singlesection;
+    }
+
+    /**
      * Returns the default section name for the topics course format.
      *
      * If the section number is 0, it will use the string with key = section0name from the course format's lang file.
@@ -213,12 +278,25 @@ class format_menutopic extends core_courseformat\base {
     }
 
     /**
+     * Get if the current format instance will show multiple sections or an individual one.
+     *
+     * Some formats has the hability to swith from one section to multiple sections per page,
+     * output components will use this method to know if the current display is a single or
+     * multiple sections.
+     *
+     * @return int|null null for all sections or the sectionid.
+     */
+    public function get_sectionid(): ?int {
+        return null;
+    }
+
+    /**
      * Generate the title for this section page.
      *
      * @return string the page title
      */
     public function page_title(): string {
-        return get_string('topicoutline');
+        return get_string('sectionoutline');
     }
 
     /**
@@ -300,7 +378,7 @@ class format_menutopic extends core_courseformat\base {
         global $PAGE;
         // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
-            $selectedsection = $this->get_section_number();
+            $selectedsection = $this->get_sectionnum();
             if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
                     $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
                 $navigation->includesectionnum = $selectedsection;
@@ -632,7 +710,7 @@ class format_menutopic extends core_courseformat\base {
             $formatdata = new \stdClass();
         }
 
-        $formatdata->menu = new \format_menutopic\menu($this->get_section_number());
+        $formatdata->menu = new \format_menutopic\menu($this->get_sectionnum());
         $formatdata->menu->level = 0;
 
         $modinfo = get_fast_modinfo($COURSE);

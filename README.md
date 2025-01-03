@@ -33,6 +33,10 @@ A simple UI to edit menu structure.
 
 ## IN VERSION
 
+### 2025010201
+* Compatibility with moodle 4.4
+* Implementation: "Not link in parent items".
+
 ### 2024052003:
 * Inline help icons when using the summary as a template
 

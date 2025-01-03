@@ -54,7 +54,7 @@ $course->coursedisplay = COURSE_DISPLAY_MULTIPAGE;
 $renderer = $PAGE->get_renderer('format_menutopic');
 
 if (!empty($displaysection)) {
-    $format->set_section_number($displaysection);
+    $format->set_sectionnum($displaysection);
 }
 
 \format_menutopic::$editmenumode = optional_param('editmenumode', false, PARAM_BOOL);
@@ -68,6 +68,3 @@ if (\format_menutopic::$editmenumode) {
 }
 
 echo $renderer->render($renderable);
-
-// Include course format js module.
-$PAGE->requires->js('/course/format/topics/format.js');
