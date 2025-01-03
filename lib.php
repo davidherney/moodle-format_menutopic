@@ -162,21 +162,6 @@ class format_menutopic extends core_courseformat\base {
                                                             $this->get_section_name($realsection));
                     }
 
-                    $valid = false;
-                    $k = $course->realcoursedisplay ? 1 : 0;
-
-                    do {
-                        $formatoptions = $this->get_format_options($k);
-                        if ($formatoptions['level'] == 0 && $sections[$k]->uservisible) {
-                            $valid = true;
-                            break;
-                        }
-
-                        $k++;
-
-                    } while (!$valid && $k <= $numsections);
-
-                    $realsection = $valid ? $k : 0;
                 }
 
                 $realsection = $realsection ?? 0;
