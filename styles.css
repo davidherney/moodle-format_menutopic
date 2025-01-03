@@ -415,6 +415,10 @@
     margin: 0;
 }
 
+.format-menutopic #format_menutopic_menu nav.notlinkinparent .menu-withsubitems > a {
+    pointer-events: none;
+}
+
 /* Template styles */
 .format-menutopic .menutopic .cmnameinline .activityiconcontainer {
     padding-left: 0.2rem;
