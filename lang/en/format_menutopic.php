@@ -96,8 +96,8 @@ or even a menu structure different from the default.
     <li>It is possible that to make changes in the JavaScript, they cannot visualize immediately in the course. If so, it must refresh the page. In many browsers, you can do it pressing the key combination Ctrl+F5.</li>
 </ul></p>';
 $string['linkinparent'] = 'Make links in submenu fields root';
-
-$string['linkinparent_help'] = '<p>Define the behavior of the menu options that act as roots or fathers of a submenu.</p>
+$string['linkinparent_help'] = '<b>It only works on the basic menu style because Bootstrap doesn\'t support this functionality.</b>
+<p>Define the behavior of the menu options that act as roots or fathers of a submenu.</p>
 <p>If it is stablished in <b>Yes</b>, the menu item acts as a link to click on it and open the URL
 that is defined in the <b>"Menu tree"</b>. If it is stablished in <b>Not</b>, the menu item deploys the son links to click
 on it</p>';
@@ -129,6 +129,7 @@ $string['nodesnavigation_help'] = '<p>Section numbers, separated by commas. <b>E
 $string['notsaved'] = 'Information could not be saved';
 $string['page-course-view-topics'] = 'Any course main page in menutopic format';
 $string['page-course-view-topics-x'] = 'Any course page in menutopic format';
+$string['plugin_description'] = 'Course sections are displayed as menu.';
 $string['pluginname'] = 'Menutopic format';
 $string['previous_topic'] = 'Previous';
 $string['privacy:metadata'] = 'The Menutopic format plugin does not store any personal data.';

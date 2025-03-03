@@ -118,7 +118,7 @@ class controlmenu extends controlmenu_format_topics {
             unset($parentcontrols['delete']['attr']['data-action']);
         }
 
-        // Create the permalink according to the Onetopic format.
+        // Create the permalink according to the Menutopic format.
         if (array_key_exists("permalink", $parentcontrols)) {
             $sectionlink = new \moodle_url(
                 '/course/view.php',

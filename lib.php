@@ -110,37 +110,52 @@ class format_menutopic extends core_courseformat\base {
             }
         }
 
+        $course = $this->get_course();
+
+        if (!isset($section) && ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
+
+            if ($sectionid <= 0) {
+                $section = optional_param('section', -1, PARAM_INT);
+            }
+
+            if ($section < 0) {
+                $sectionname = optional_param('sectionname', '', PARAM_TEXT);
+                $sectionbyname = null;
+
+                if (!empty($sectionname)) {
+                    $conditions = ['course' => $courseid, 'name' => $sectionname];
+                    $sectionbyname = $DB->get_field('course_sections', 'section', $conditions, IGNORE_MULTIPLE);
+                }
+
+                if (!empty($sectionbyname)) {
+                    $section = $sectionbyname;
+                } else {
+                    if (isset($USER->display[$course->id])) {
+                        $section = $USER->display[$course->id];
+                    } else if ($course->marker && $course->marker > 0) {
+                        $section = (int)$course->marker;
+                    } else {
+                        $section = 0;
+                    }
+                }
+            }
+        }
+
         if ($this->printable) {
             if (!self::$loaded && isset($section) && $courseid &&
                     ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
+
                 self::$loaded = true;
 
                 $this->singlesection = $section;
 
-                $course = $this->get_course();
-
                 // The format is always multipage.
                 $course->realcoursedisplay = property_exists($course, 'coursedisplay') ? $course->coursedisplay : false;
-
-                if ($sectionid <= 0) {
-                    $section = optional_param('section', -1, PARAM_INT);
-                }
-
                 $numsections = (int)$DB->get_field('course_sections', 'MAX(section)', ['course' => $courseid], MUST_EXIST);
 
                 if ($section >= 0 && $numsections >= $section) {
                     $realsection = $section;
                 } else {
-                    if (isset($USER->display[$course->id]) && $numsections >= $USER->display[$course->id]) {
-                        $realsection = $USER->display[$course->id];
-                    } else if ($course->marker && $course->marker > 0) {
-                        $realsection = (int)$course->marker;
-                    } else {
-                        $realsection = 0;
-                    }
-                }
-
-                if ($realsection < 0 || $realsection > $numsections) {
                     $realsection = 0;
                 }
 
@@ -159,6 +174,22 @@ class format_menutopic extends core_courseformat\base {
                                                             'format_menutopic',
                                                             $this->get_section_name($realsection));
                     }
+
+                    $valid = false;
+                    $k = $course->realcoursedisplay ? 1 : 0;
+
+                    do {
+                        if ($sections[$k]->uservisible) {
+                            $valid = true;
+                            break;
+                        }
+
+                        $k++;
+
+                    } while (!$valid && $k <= $numsections);
+
+                    $realsection = $valid ? $k : 0;
+
                 }
 
                 $realsection = $realsection ?? 0;
@@ -168,7 +199,6 @@ class format_menutopic extends core_courseformat\base {
                 $USER->display[$course->id] = $realsection;
                 $urlparams['section'] = $realsection;
                 $PAGE->set_url('/course/view.php', $urlparams);
-
             }
         }
     }

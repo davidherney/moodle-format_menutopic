@@ -59,14 +59,21 @@ $string['csstemplate_help'] = '<p>Permite incluir estilos CSS personalizados con
     <li>Al realizar cambios en los estilos es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 $string['currentsection'] = 'Este tema';
+$string['defaultsectionsnavigation'] = 'Valor predeterminado para la navegación por secciones';
+$string['defaultsectionsnavigation_help'] = 'Valor predeterminado que se utiliza en los cursos para definir la característica "Usar navegación por secciones". Se puede sobrescribir para cada curso.';
 $string['displaynavigation'] = 'Mostrar navegación';
 $string['displaynavigation_help'] = 'Indica si se desea mostrar la navegación entre secciones y la posición donde se mostraría.';
 $string['displaynousedmod'] = 'Mostrar recursos no incluidos en plantilla';
 $string['displaynousedmod_help'] = 'Not implemented yet';
 $string['editmenu'] = 'Editar menú';
+$string['enableanchorposition'] = 'Habilitar posición de ancla';
+$string['enableanchorposition_help'] = 'Utilice un ancla para navegar a la parte superior del menú cuando haga clic en una opción del menú.';
 $string['end_editmenu'] = 'Finalizar Editar menú';
 $string['error_jsontree'] = 'Error en la estructura de datos retornada como composición del árbol';
+$string['globalstyle'] = 'Estilo global';
+$string['globalstyle_help'] = 'Esto define el estilo del menú.';
 $string['hidden_message'] = 'El tema <em>{$a}</em> no está disponible en este momento.';
+$string['hiddenmenubar'] = 'El menú está configurado para que esté oculto. No se verá cuando no se esté en modo de edición.';
 $string['hidefromothers'] = 'Ocultar tema';
 $string['htmlcode'] = 'HTML';
 $string['htmltemplate_editmenu'] = 'Plantilla de html';
@@ -94,7 +101,8 @@ para ello es preciso seguir las referencias de las funciones utilizadas y que co
     <li>Al realizar cambios en el JavaScript es probable que los cambios no se vean inmediatamente en el curso, de ser así, se deberá refrescar la página. En muchos navegadores se puede realizar este refresco presionando Ctrl+F5.</li>
 </ul></p>';
 $string['linkinparent'] = 'Mantener enlaces en raices de submenú';
-$string['linkinparent_help'] = '<p>Define el comportamiento de las opciones del menú que actúan como raices o padres de un submenú.</p>
+$string['linkinparent_help'] = '<b>Solamente funciona en el menú con estilo básico porque Bootstrap no soporta esta funcionalidad.</b>
+<p>Define el comportamiento de las opciones del menú que actúan como raices o padres de un submenú.</p>
 <p>Si se establece en <b>Sí</b>, el ítem del menú actúa como enlace al dar clic sobre él y abre la URL que se le define en el <b>"Árbol del menú"</b>. Si se establece en <b>No</b>, el ítem del menú despliega los enlaces hijos al dar clic sobre él.</p>';
 $string['menuposition'] = 'Posición del menú';
 $string['menuposition_help'] = '<p>Define la posición en la cual aparecerá el menú en el curso. Las posibles opciones son:
@@ -109,9 +117,13 @@ $string['menuposition_left'] = 'Izquierda';
 $string['menuposition_middle'] = 'Centro';
 $string['menuposition_right'] = 'Derecha';
 $string['name_sheet_sheetedit'] = 'Nombre de la hoja';
+$string['navbartitle'] = 'Secciones';
 $string['navigationposition_both'] = 'Arriba y abajo';
 $string['navigationposition_bottom'] = 'Abajo';
 $string['navigationposition_nothing'] = 'No mostrar';
+$string['navigationposition_site'] = 'Utilice el valor predeterminado del sitio';
+$string['navigationposition_slide'] = 'Como diapositivas';
+$string['navigationposition_support'] = 'Solo si el tema no admite la función "utilizar índice de cursos"';
 $string['navigationposition_top'] = 'Arriba';
 $string['next_topic'] = 'Siguiente';
 $string['nodesnavigation'] = 'Nodos de navegación';
@@ -120,6 +132,7 @@ $string['nodesnavigation_help'] = '<p>Números de las secciones, separados por c
 $string['notsaved'] = 'La información no se pudo almacenar';
 $string['page-course-view-topics'] = 'Alguna página principal de curso en formato menutopic';
 $string['page-course-view-topics-x'] = 'Alguna página de curso en formato menutopic';
+$string['plugin_description'] = 'Las secciones del curso se muestran como un menú.';
 $string['pluginname'] = 'Temas desde menú';
 $string['previous_topic'] = 'Anterior';
 $string['privacy:metadata'] = 'El formato Temas desde menú no almacena datos personales.';
@@ -127,6 +140,11 @@ $string['savecorrect'] = 'La información se almacenó satisfactoriamente';
 $string['sectionname'] = 'Tema';
 $string['separator_navigation'] = ' - ';
 $string['showfromothers'] = 'Mostrar tema';
+$string['shownavbarbrand'] = 'Mostrar marca de la barra de navegación';
+$string['shownavbarbrand_help'] = 'Mostrar el texto de la marca de la barra de navegación en los estilos Bootstrap.';
+$string['style_basic'] = 'Básico';
+$string['style_boots'] = 'Bootstrap';
+$string['style_bootsdark'] = 'Bootstrap oscuro';
 $string['target_sheet_sheetedit'] = 'Destino del enlace';
 $string['targetblank_sheet_sheetedit'] = 'Nueva ventana';
 $string['targetself_sheet_sheetedit'] = 'La misma ventana';
@@ -134,6 +152,7 @@ $string['template_namemenutopic'] = 'Tema {$a}';
 $string['templatetopic'] = 'Activar Descripción de cada sección como plantilla';
 $string['templatetopic_help'] = 'Not implemented yet';
 $string['title_panel_sheetedit'] = 'Editar hoja del árbol';
+$string['togglemenu'] = 'Activar/desactivar menú';
 $string['topic_sheet_sheetedit'] = 'Sección destino';
 $string['tree_editmenu'] = 'Árbol del menú';
 $string['tree_editmenu_title'] = 'Configurar árbol de temas';
@@ -159,3 +178,7 @@ $string['tree_struct_help'] = '<p>La base del menú es una estructura de árbol 
 </ul>
 <p>Los cambios hechos en el menú solo son almacenados al seleccionar la opción <strong>&quot;Guardar cambios&quot;</strong> en la parte inferior de la página.</p>';
 $string['url_sheet_sheetedit'] = 'URL';
+$string['usescourseindex'] = 'Utiliza el índice del curso';
+$string['usescourseindex_help'] = 'Utiliza la barra de <em>índice del curso</em> para navegar por las secciones y los recursos';
+$string['usessectionsnavigation'] = 'Utiliza la navegación por secciones';
+$string['usessectionsnavigation_help'] = 'Mostrar botones para navegar a la sección siguiente o anterior.';
