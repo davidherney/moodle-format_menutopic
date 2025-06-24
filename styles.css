@@ -522,7 +522,7 @@
     border: 1px solid #ccc;
 }
 
-.format-menutopic .dropdown-menu:hover > .nav-item:hover > .dropdown-submenu  {
+.format-menutopic .dropdown-menu:hover > .nav-item:hover > .dropdown-submenu {
     display: block;
 }
 
