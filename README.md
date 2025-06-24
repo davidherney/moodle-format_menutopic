@@ -33,6 +33,9 @@ A simple UI to edit menu structure.
 
 ## IN VERSION
 
+### 2025010202
+* Fixed: error with PHP > 8.0
+
 ### 2025010201
 * Compatibility with moodle 4.4 and 4.5.
 * Implementation: "Not link in parent items".
