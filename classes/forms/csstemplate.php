@@ -42,7 +42,7 @@ class csstemplate extends \moodleform {
         $csscode = '';
 
         if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'css')) {
-            $csscode = stripslashes($this->_customdata['format_data']->css);
+            $csscode = stripslashes($this->_customdata['format_data']->css ?? '');
         }
 
         $mform =& $this->_form;

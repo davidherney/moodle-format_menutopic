@@ -104,7 +104,7 @@
         }
     }
 }}
-<div id="{{uniqid}}-course-format">
+<div id="mt-{{uniqid}}-course-format">
     <h2 class="accesshide">{{{title}}}</h2>
     {{{completionhelp}}}
 
@@ -141,8 +141,15 @@
         {{/ core_courseformat/local/content/addsection}}
     {{/numsections}}
 </div>
+
 {{#js}}
 require(['core_courseformat/local/content'], function(component) {
-    component.init('{{uniqid}}-course-format', {}, {{sectionreturn}});
+    component.init('#mt-{{uniqid}}-course-format',
+        {
+            SECTION: `ul.menutopic [data-for='section']`,
+            SECTION_CMLIST: `ul.menutopic [data-for='cmlist']`,
+            CM: `ul.menutopic [data-for='cmitem']`,
+        },
+        {{sectionreturn}});
 });
 {{/js}}

@@ -37,7 +37,8 @@
     z-index: 9998;
 }
 
-#format_menutopic_menu.format-menutopic-menu ul {
+#format_menutopic_menu.format-menutopic-menu .submenu-body-content,
+#format_menutopic_menu.format-menutopic-menu .menu-body-content {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -48,58 +49,58 @@
     justify-content: center;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content > li {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem {
     border: 1px solid #ccc;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content li a {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem a {
     text-decoration: none;
     padding: 5px 12px;
     display: block;
     white-space: nowrap;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content .submenu-body-content li a {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .submenu-body-content .menuitem a {
     border-bottom: 1px solid #ccc;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content li a:hover {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem a:hover {
     background-color: #ccc;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content li ul {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem .submenu-body-content {
     display: none;
     position: absolute;
     min-width: 150px;
     border: 1px solid #ccc;
 }
 
-#format_menutopic_menu.format-menutopic-menu .menu-body-content li:hover > ul {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem:hover > .submenu-body-content {
     display: block;
 }
 
-#format_menutopic_menu.format-menutopic-menu li.current {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem.current {
     background-color: #ccc;
 }
 
-#format_menutopic_menu.format-menutopic-menu li.current::before {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem.current::before {
     content: unset;
 }
 
-#format_menutopic_menu.format-menutopic-menu li.disabled {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem.disabled {
     background-color: #eee;
 }
 
-#format_menutopic_menu.format-menutopic-menu li.disabled a {
+#format_menutopic_menu.format-menutopic-menu .menu-body-content .menuitem.disabled a {
     color: #aaa;
 }
 
 /* MIDDLE MENU */
-#region-main #format_menutopic_menu.format-menutopic-menu ul.submenu-body-content {
+#region-main #format_menutopic_menu.format-menutopic-menu .submenu-body-content {
     box-shadow: 5px 10px 12px -4px #888;
 }
 
-#region-main #format_menutopic_menu.format-menutopic-menu .menu-level-1 ul.submenu-body-content {
+#region-main #format_menutopic_menu.format-menutopic-menu .menu-level-1 .submenu-body-content {
     left: 100%;
     top: 0;
 }
@@ -155,14 +156,14 @@
     right: 0;
 }
 
-#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-body-content > li,
-#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-body-content > li {
+#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem,
+#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem {
     position: relative;
     white-space: normal;
 }
 
-#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-body-content > li,
-#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-body-content > li a {
+#block-region-side-pre #format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem,
+#nav-drawer #format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem a {
     white-space: normal;
 }
 
@@ -193,11 +194,11 @@
     box-shadow: -5px 10px 12px -4px #888;
 }
 
-#block-region-side-post #format_menutopic_menu.format-menutopic-menu .menu-body-content > li {
+#block-region-side-post #format_menutopic_menu.format-menutopic-menu .menu-body-content > .menuitem {
     position: relative;
 }
 
-#block-region-side-post #format_menutopic_menu.format-menutopic-menu li a {
+#block-region-side-post #format_menutopic_menu.format-menutopic-menu .menuitem a {
     padding-left: 20px;
 }
 
@@ -366,6 +367,11 @@
     line-height: 16px;
 }
 
+.format-menutopic #navbarmenutopic .navbar-nav .dropdown-menu .nav-item,
+.format-menutopic #navbarmenutopic .navbar-nav .submenu-body-content .nav-item {
+    text-align: left;
+}
+
 .format-menutopic .navbar:not(.navbar-dark) #navbarmenutopic .navbar-nav .nav-item.menu-level-0.active {
     border-bottom: solid 3px var(--primary);
 }
@@ -505,6 +511,19 @@
 /* The jump list if exist */
 .format-menutopic .single-section .section-navigation.mdl-bottom div:nth-child(2) {
     max-width: calc(100% - 210px);
+}
+
+/* Dropdown submenu styles */
+.format-menutopic .dropdown-menu .dropdown-submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    border: 1px solid #ccc;
+}
+
+.format-menutopic .dropdown-menu:hover > .nav-item:hover > .dropdown-submenu  {
+    display: block;
 }
 
 /* The slide navigation is only available to wide screens */

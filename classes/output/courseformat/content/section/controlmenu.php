@@ -24,6 +24,10 @@
 
 namespace format_menutopic\output\courseformat\content\section;
 
+
+use core\output\action_menu\link_secondary;
+use core\output\pix_icon;
+use core\url;
 use format_topics\output\courseformat\content\section\controlmenu as controlmenu_format_topics;
 
 /**
@@ -81,13 +85,12 @@ class controlmenu extends controlmenu_format_topics {
                 $url->param('section', $section->section);
                 $url->param('move', -1);
                 $strmoveup = get_string('moveleft');
-                $movecontrols['moveup'] = [
-                    'url' => $url,
-                    'icon' => $rtl ? 't/right' : 't/left',
-                    'name' => $strmoveup,
-                    'pixattr' => ['class' => ''],
-                    'attr' => ['class' => 'icon'],
-                ];
+                $movecontrols['moveup'] = new link_secondary(
+                    url: $url,
+                    icon: new pix_icon('i/up', ''),
+                    text: $strmoveup,
+                    attributes: ['class' => 'icon moveup'],
+                );
             }
 
             $url = clone($baseurl);
@@ -95,13 +98,12 @@ class controlmenu extends controlmenu_format_topics {
                 $url->param('section', $section->section);
                 $url->param('move', 1);
                 $strmovedown = get_string('moveright');
-                $movecontrols['movedown'] = [
-                    'url' => $url,
-                    'icon' => ($rtl ? 't/left' : 't/right'),
-                    'name' => $strmovedown,
-                    'pixattr' => ['class' => ''],
-                    'attr' => ['class' => 'icon'],
-                ];
+                $movecontrols['movedown'] = new link_secondary(
+                    url: $url,
+                    icon: new pix_icon('i/down', ''),
+                    text: $strmovedown,
+                    attributes: ['class' => 'icon movedown'],
+                );
             }
         }
 
@@ -113,19 +115,36 @@ class controlmenu extends controlmenu_format_topics {
                 'id' => $section->id,
                 'sr' => $section->section - 1,
                 'delete' => 1,
-                'sesskey' => sesskey(), ]);
-            $parentcontrols['delete']['url'] = $url;
-            unset($parentcontrols['delete']['attr']['data-action']);
+                'sesskey' => sesskey(),
+            ]);
+
+            $parentcontrols['delete'] = new link_secondary(
+                url: $url,
+                icon: new pix_icon('i/delete', ''),
+                text: get_string('delete'),
+                attributes: ['class' => 'editing_delete text-danger'],
+            );
         }
 
         // Create the permalink according to the Menutopic format.
         if (array_key_exists("permalink", $parentcontrols)) {
-            $sectionlink = new \moodle_url(
-                '/course/view.php',
-                ['id' => $course->id, 'sectionid' => $section->id],
-                'menu-tree-start');
+            $sectionlink = new \moodle_url('/course/view.php',
+                [
+                    'id' => $course->id,
+                    'sectionid' => $section->id,
+                ],
+                'tabs-tree-start'
+            );
 
-            $parentcontrols['permalink']['url'] = $sectionlink;
+            $parentcontrols['permalink'] = new link_secondary(
+                url: $sectionlink,
+                icon: new pix_icon('i/link', ''),
+                text: get_string('sectionlink', 'course'),
+                attributes: [
+                    'class' => 'icon',
+                    'data-action' => 'permalink',
+                ],
+            );
         }
 
         // If the edit key exists, we are going to insert our controls after it.

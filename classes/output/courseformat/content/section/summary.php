@@ -49,7 +49,7 @@ class summary extends summary_base {
     protected $format;
 
     /** @var section_info the course section class */
-    private $section;
+    protected $section;
 
     /** @var renderer_base the renderer output class */
     private $output;
@@ -169,7 +169,9 @@ class summary extends summary_base {
 
                 // ToDo: implement show course badges, completion, etc, when template is active.
                 $cmdata->hascompletion = isset($cmdata->completion) && $cmdata->completion;
-                $hasavailability = isset($cmdata->modavailability) ? $cmdata->modavailability->hasmodavailability : false;
+                $hasavailability = isset($cmdata->modavailability) && is_object($cmdata->modavailability) ?
+                                                                                $cmdata->modavailability->hasmodavailability :
+                                                                                false;
 
                 $cmdata->showinlinehelp = false;
                 if ($cmdata->hascompletion

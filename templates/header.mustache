@@ -61,11 +61,13 @@
 
     {{#initialsection}}
     <div class="single-section general-section">
-        <ul class="{{format}}">
-            {{$ format_menutopic/local/content/section }}
-                {{> format_menutopic/local/content/section }}
-            {{/ format_menutopic/local/content/section }}
-        </ul>
+        <div class="course-content">
+            <ul class="{{format}}">
+                {{$ format_menutopic/local/content/section }}
+                    {{> format_menutopic/local/content/section }}
+                {{/ format_menutopic/local/content/section }}
+            </ul>
+        </div>
     </div>
     {{/initialsection}}
 

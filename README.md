@@ -1,6 +1,6 @@
 # COURSE FORMAT menutopic
 
-Package tested in: moodle 4.4+, 4.5+.
+Package tested in: moodle 5.0+.
 
 ## QUICK INSTALL
 Download zip package, extract the menutopic folder and upload this folder into course/format/.
@@ -32,6 +32,9 @@ A simple UI to edit menu structure.
 * Task: change the course index according the course menu.
 
 ## IN VERSION
+
+### 2025062301
+* Compatibility with moodle 5.0
 
 ### 2025010201
 * Compatibility with moodle 4.4 and 4.5.
