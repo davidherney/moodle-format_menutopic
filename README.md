@@ -33,6 +33,9 @@ A simple UI to edit menu structure.
 
 ## IN VERSION
 
+### 2024052005:
+* Fixed duplicated section 0
+
 ### 2024052004:
 * Implementation: "Not link in parent items".
 

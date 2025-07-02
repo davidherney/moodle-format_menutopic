@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024052004.01; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2024052005; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2023041800; // Requires this Moodle version.
 $plugin->component = 'format_menutopic'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'michelle-4.2.4';
+$plugin->release = 'michelle-4.2.5';
 $plugin->supported = [402, 403];

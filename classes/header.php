@@ -40,6 +40,11 @@ class header implements \renderable, \templatable {
     private $format;
 
     /**
+     * @var stdClass Local format data.
+     */
+    private $formatdata;
+
+    /**
      * Constructor.
      *
      * @param \format_menutopic $format Course format instance.
