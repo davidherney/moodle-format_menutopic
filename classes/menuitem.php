@@ -30,7 +30,6 @@ namespace format_menutopic;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class menuitem {
-
     /**
      * @var int Section index.
      */
@@ -159,5 +158,4 @@ class menuitem {
     public function clean_submenu(): void {
         $this->submenu = new \format_menutopic\menu();
     }
-
 }

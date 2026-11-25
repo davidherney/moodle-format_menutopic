@@ -335,7 +335,7 @@
     border: 1px solid #ccc;
 }
 
-.format-menutopic #id_treeeditgeneral .form-inline .form-control-static {
+.format-menutopic #id_treeeditgeneral .form-control-static {
     display: inline;
     width: 100%;
 }
@@ -373,22 +373,11 @@
 }
 
 .format-menutopic .navbar:not(.navbar-dark) #navbarmenutopic .navbar-nav .nav-item.menu-level-0.active {
-    border-bottom: solid 3px var(--primary);
-}
-
-.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item span.iconhelp i:before,
-.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item {
-    color: var(--dark);
-}
-
-.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item:hover span.iconhelp i:before,
-.format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item:hover {
-    color: var(--light);
+    border-bottom: solid 3px var(--bs-primary);
 }
 
 .format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.current span.iconhelp i:before,
 .format-menutopic #navbarmenutopic .dropdown-menu-dark .dropdown-item.current {
-    color: var(--light);
     font-weight: bold;
 }
 
@@ -421,7 +410,7 @@
     margin: 0;
 }
 
-.format-menutopic #format_menutopic_menu nav.notlinkinparent .menu-withsubitems > a {
+#format_menutopic_menu.format-menutopic-menu nav.notlinkinparent .menu-withsubitems > a {
     pointer-events: none;
 }
 
@@ -513,17 +502,26 @@
     max-width: calc(100% - 210px);
 }
 
-/* Dropdown submenu styles */
+/* Dropdown submenu styles. Scoped to .dropdown-submenu so the HTML menu is unchanged. */
 .format-menutopic .dropdown-menu .dropdown-submenu {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 10px;
+    top: 0;
+    inset-inline-start: 100%;
     border: 1px solid #ccc;
 }
 
+.format-menutopic .dropdown-menu .dropdown-submenu.show,
 .format-menutopic .dropdown-menu:hover > .nav-item:hover > .dropdown-submenu {
     display: block;
+}
+
+@media (max-width: 991.98px) {
+    .format-menutopic .dropdown-menu .dropdown-submenu {
+        position: static;
+        top: auto;
+        inset-inline-start: auto;
+    }
 }
 
 /* The slide navigation is only available to wide screens */

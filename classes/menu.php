@@ -30,7 +30,6 @@ namespace format_menutopic;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class menu {
-
     /**
      * @var int Menu item level.
      */
@@ -86,17 +85,13 @@ class menu {
      * @param bool $removetopic true if remove item from the menu
      */
     public function remove_topic($section, $onlyhide = false, $removetopic = true) {
-
         foreach ($this->menuitems as $key => $item) {
-
             if ($item->topicnumber == $section) {
-
                 if ($onlyhide) {
                     $item->disabled = true;
                     $item->hidden = false;
                     $item->get_submenu()->remove_topic($section, $onlyhide, $removetopic);
                 } else {
-
                     // Remove the current item from the menu.
                     unset($this->menuitems[$key]);
                     continue;
@@ -106,12 +101,10 @@ class menu {
                     $item->topicnumber = null;
                     $item->clean_submenu();
                 }
-
             } else {
                 $item->get_submenu()->remove_topic($section, $onlyhide, $removetopic);
             }
         }
-
     }
 
     /**
@@ -121,10 +114,8 @@ class menu {
      * @return array of object
      */
     public function get_topics($section): ?array {
-
         $topics = [];
         foreach ($this->menuitems as $key => $item) {
-
             if ($item->topicnumber == $section) {
                 $topics[] = $item;
             } else {
@@ -142,13 +133,11 @@ class menu {
      * @return array of object.
      */
     public function get_list(int $courseid): array {
-
         $menutree = [];
 
         $anchortomenutree = get_config('format_menutopic', 'anchortomenutree');
 
         foreach ($this->menuitems as $menuitem) {
-
             if (!empty($menuitem->url)) {
                 $url = $menuitem->url;
             } else {
@@ -157,9 +146,11 @@ class menu {
             }
 
             $current = $menuitem->current;
-            if (is_numeric($menuitem->topicnumber)
-                    && is_numeric($this->currentsection)
-                    && $menuitem->topicnumber == $this->currentsection) {
+            if (
+                is_numeric($menuitem->topicnumber)
+                && is_numeric($this->currentsection)
+                && $menuitem->topicnumber == $this->currentsection
+            ) {
                 $current = true;
             }
 

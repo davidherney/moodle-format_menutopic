@@ -36,7 +36,6 @@ use templatable;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class edition implements renderable, templatable {
-
     /**
      * @var object $course
      */
@@ -101,8 +100,10 @@ class edition implements renderable, templatable {
         $menu = new \format_menutopic\menu();
 
         foreach ($options as $option) {
-            $item = new \format_menutopic\menuitem($url . '&menuaction=' . $option,
-                                                    get_string($option . '_editmenu', 'format_menutopic'));
+            $item = new \format_menutopic\menuitem(
+                $url . '&menuaction=' . $option,
+                get_string($option . '_editmenu', 'format_menutopic')
+            );
 
             if ($menuaction == $option) {
                 $item->current = true;
@@ -119,9 +120,8 @@ class edition implements renderable, templatable {
         if ($displayform->is_cancelled()) {
             redirect($coursecancellink);
         } else if ($data = $displayform->get_data()) {
-
             // Save the data according to the action form.
-            switch($menuaction) {
+            switch ($menuaction) {
                 case 'config':
                     $values = serialize($data);
                     $formatdata->config = $values;
@@ -151,9 +151,8 @@ class edition implements renderable, templatable {
         }
 
         // Load specific data according to the action form.
-        switch($menuaction) {
+        switch ($menuaction) {
             case 'tree':
-
                 $modinfo = get_fast_modinfo($this->course);
                 $sections = $modinfo->get_section_info_all();
 

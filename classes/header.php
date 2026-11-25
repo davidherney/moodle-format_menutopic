@@ -33,14 +33,13 @@ namespace format_menutopic;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class header implements \renderable, \templatable {
-
     /**
      * @var \format_menutopic
      */
     private $format;
 
     /**
-     * @var stdClass Local format data.
+     * @var object Local format data.
      */
     private $formatdata;
 
@@ -56,8 +55,8 @@ class header implements \renderable, \templatable {
     /**
      * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
      *
-     * @param renderer_base $output typically, the renderer that's calling this function
-     * @return stdClass data context for a mustache template
+     * @param \renderer_base $output typically, the renderer that's calling this function
+     * @return object data context for a mustache template
      */
     public function export_for_template(\renderer_base $output) {
         global $COURSE, $PAGE, $CFG;
@@ -113,10 +112,8 @@ class header implements \renderable, \templatable {
         $initialsection = null;
 
         if (!$inpopup && (in_array($PAGE->pagetype, $pagesavailable) || preg_match($patternavailable, $PAGE->pagetype))) {
-
             // General section if non-empty and course_display is multiple.
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE) {
-
                 // Load the section 0 and export data for template.
                 $modinfo = $this->format->get_modinfo();
                 $section0 = $modinfo->get_section_info(0);
@@ -125,7 +122,6 @@ class header implements \renderable, \templatable {
 
                 $sectionoutput = new \format_menutopic\output\renderer($PAGE, null);
                 $initialsection = $section->export_for_template($sectionoutput);
-
             }
 
             $data->initialsection = $initialsection;

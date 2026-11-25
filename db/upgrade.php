@@ -30,8 +30,5 @@
  * @return bool result
  */
 function xmldb_format_menutopic_upgrade($oldversion) {
-
     return true;
 }
-
-

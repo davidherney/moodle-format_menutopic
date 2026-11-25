@@ -25,7 +25,7 @@
 use core_courseformat\output\local\content as content_base;
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot. '/course/format/lib.php');
+require_once($CFG->dirroot . '/course/format/lib.php');
 
 /**
  * Main class for the menutopic course format.
@@ -35,7 +35,6 @@ require_once($CFG->dirroot. '/course/format/lib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_menutopic extends core_courseformat\base {
-
     /** @var int Only if theme not support "usescourseindex" */
     const SECTIONSNAVIGATION_SUPPORT = 'courseindex';
 
@@ -112,7 +111,6 @@ class format_menutopic extends core_courseformat\base {
         $course = $this->get_course();
 
         if (!isset($section) && ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
-
             if ($sectionid <= 0) {
                 $section = optional_param('section', -1, PARAM_INT);
             }
@@ -141,9 +139,12 @@ class format_menutopic extends core_courseformat\base {
         }
 
         if ($this->printable) {
-            if (!self::$loaded && isset($section) && $courseid &&
-                    ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')) {
-
+            if (
+                !self::$loaded
+                && isset($section)
+                && $courseid
+                && ($PAGE->pagetype == 'course-view-menutopic' || $PAGE->pagetype == 'course-view')
+            ) {
                 self::$loaded = true;
 
                 $this->singlesection = $section;
@@ -167,11 +168,12 @@ class format_menutopic extends core_courseformat\base {
 
                 // Check if the display section is available.
                 if ($realsection === null || !$sections[$realsection]->uservisible) {
-
                     if ($realsection) {
-                        self::$formatmsgs[] = get_string('hidden_message',
-                                                            'format_menutopic',
-                                                            $this->get_section_name($realsection));
+                        self::$formatmsgs[] = get_string(
+                            'hidden_message',
+                            'format_menutopic',
+                            $this->get_section_name($realsection)
+                        );
                     }
 
                     $valid = false;
@@ -184,11 +186,9 @@ class format_menutopic extends core_courseformat\base {
                         }
 
                         $k++;
-
                     } while (!$valid && $k <= $numsections);
 
                     $realsection = $valid ? $k : 0;
-
                 }
 
                 $realsection = $realsection ?? 0;
@@ -200,7 +200,6 @@ class format_menutopic extends core_courseformat\base {
                 $PAGE->set_url('/course/view.php', $urlparams);
             }
         }
-
     }
 
     /**
@@ -249,9 +248,7 @@ class format_menutopic extends core_courseformat\base {
         $section = $this->get_section($section);
         if ((string)$section->name !== '') {
             $coursecontext = $this->get_context();
-
-            return format_string($section->name, true,
-                ['context' => $coursecontext]);
+            return format_string($section->name, true, ['context' => $coursecontext]);
         } else {
             return $this->get_default_section_name($section);
         }
@@ -391,8 +388,11 @@ class format_menutopic extends core_courseformat\base {
         // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
             $selectedsection = $this->get_sectionnum();
-            if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
-                    $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+            if (
+                $selectedsection !== null
+                && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0')
+                && $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)
+            ) {
                 $navigation->includesectionnum = $selectedsection;
             }
         }
@@ -451,9 +451,8 @@ class format_menutopic extends core_courseformat\base {
     /**
      * Definitions of the additional options that this course format uses for course.
      *
-     * Topics format uses the following options:
+     * Menutopic format uses the following options:
      * - coursedisplay
-     * - numsections
      * - hiddensections
      *
      * @param bool $foreditform
@@ -464,10 +463,6 @@ class format_menutopic extends core_courseformat\base {
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
             $courseformatoptions = [
-                'numsections' => [
-                    'default' => $courseconfig->numsections,
-                    'type' => PARAM_INT,
-                ],
                 'hiddensections' => [
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
@@ -478,26 +473,13 @@ class format_menutopic extends core_courseformat\base {
                 ],
             ];
         }
+
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
-            $courseconfig = get_config('moodlecourse');
-            $max = $courseconfig->maxsections;
-            if (!isset($max) || !is_numeric($max)) {
-                $max = 52;
-            }
-            $sectionmenu = [];
-            for ($i = 0; $i <= $max; $i++) {
-                $sectionmenu[$i] = "$i";
-            }
             $courseformatoptionsedit = [
-                'numsections' => [
-                    'label' => new lang_string('numberweeks'),
-                    'element_type' => 'select',
-                    'element_attributes' => [$sectionmenu],
-                ],
                 'hiddensections' => [
                     'label' => new lang_string('hiddensections'),
                     'help' => 'hiddensections',
-                    'help_component' => 'moodle',
+                    'help_component' => 'format_menutopic',
                     'element_type' => 'select',
                     'element_attributes' => [
                         [
@@ -534,24 +516,19 @@ class format_menutopic extends core_courseformat\base {
      * @return array array of references to the added form elements.
      */
     public function create_edit_form_elements(&$mform, $forsection = false) {
+        global $COURSE;
         $elements = parent::create_edit_form_elements($mform, $forsection);
 
-        // Increase the number of sections combo box values if the user has increased the number of sections
-        // using the icon on the course page beyond course 'maxsections' or course 'maxsections' has been
-        // reduced below the number of sections already set for the course on the site administration course
-        // defaults page.  This is so that the number of sections is not reduced leaving unintended orphaned
-        // activities / resources.
-        if (!$forsection) {
-            $maxsections = get_config('moodlecourse', 'maxsections');
-            $numsections = $mform->getElementValue('numsections');
-            $numsections = $numsections[0];
-            if ($numsections > $maxsections) {
-                $element = $mform->getElement('numsections');
-                for ($i = $maxsections + 1; $i <= $numsections; $i++) {
-                    $element->addOption("$i", $i);
-                }
-            }
+        if (!$forsection && (empty($COURSE->id) || $COURSE->id == SITEID)) {
+            // New courses are created with the site default number of sections.
+            // Existing courses keep only the sections already stored.
+            $courseconfig = get_config('moodlecourse');
+            $element = $mform->addElement('hidden', 'numsections');
+            $mform->setType('numsections', PARAM_INT);
+            $mform->setDefault('numsections', $courseconfig->numsections);
+            array_unshift($elements, $element);
         }
+
         return $elements;
     }
 
@@ -559,8 +536,6 @@ class format_menutopic extends core_courseformat\base {
      * Updates format options for a course.
      *
      * In case if course format was changed to 'menutopic', we try to copy special options from the previous format.
-     * If previous course format did not have the options, we populate it with the
-     * current number of sections and default options.
      *
      * @param stdClass|array $data return value from {@see moodleform::get_data()} or array with data
      * @param stdClass $oldcourse if this function is called from {@see update_course()}
@@ -568,25 +543,14 @@ class format_menutopic extends core_courseformat\base {
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
-        global $DB;
-
+        $data = (array)$data;
         if ($oldcourse !== null) {
-            $data = (array)$data;
             $oldcourse = (array)$oldcourse;
             $options = $this->course_format_options();
             foreach ($options as $key => $unused) {
                 if (!array_key_exists($key, $data)) {
                     if (array_key_exists($key, $oldcourse)) {
                         $data[$key] = $oldcourse[$key];
-                    } else if ($key === 'numsections') {
-                        // If previous format does not have the field 'numsections' and $data['numsections'] is not set,
-                        // we fill it with the maximum section number from the DB.
-                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?',
-                                        [$this->courseid]);
-                        if ($maxsection) {
-                            // If there are no sections, or just default 0-section, 'numsections' will be set to default.
-                            $data['numsections'] = $maxsection;
-                        }
                     }
                 }
             }
@@ -666,7 +630,12 @@ class format_menutopic extends core_courseformat\base {
             // Format 'topics' allows to set and remove markers in addition to common section actions.
             $coursecontext = $this->get_context();
             require_capability('moodle/course:setcurrentsection', $coursecontext);
-            course_set_marker($this->courseid, ($action === 'setmarker') ? $section->section : 0);
+            if ($action === 'setmarker') {
+                $sectioninfo = get_fast_modinfo($this->courseid)->get_section_info($section->section);
+                \core_courseformat\formatactions::section($this->courseid)->set_marker($sectioninfo, true);
+            } else {
+                \core_courseformat\formatactions::section($this->courseid)->remove_all_markers();
+            }
             return null;
         }
 
@@ -757,17 +726,6 @@ class format_menutopic extends core_courseformat\base {
             $formatdata->autobuildtree = true;
         }
 
-        // Make sure all sections are created.
-        if (count($formatdata->sections) <= $course->numsections) {
-            course_create_sections_if_missing($course, range(0, $course->numsections));
-            $modinfo = get_fast_modinfo($COURSE);
-            $course = course_get_format($COURSE)->get_course();
-            $course->realcoursedisplay = $course->coursedisplay;
-            $course->coursedisplay = COURSE_DISPLAY_MULTIPAGE;
-            $formatdata->sections = $modinfo->get_section_info_all();
-            $formatdata->modinfo = $modinfo;
-        }
-
         // Load Menu configuration.
         $configmenu = new \stdClass();
         $configmenu->cssdefault = true;
@@ -821,15 +779,17 @@ class format_menutopic extends core_courseformat\base {
 
         $formatdata->configmenu = $configmenu;
 
+        // List only sections that already exist. Do not create empty sections up to a stored numsections value.
+        $lastsection = $this->get_last_section_number();
         $section = 0;
 
-        while ($section <= $course->numsections) {
+        while ($section <= $lastsection) {
             if ($course->realcoursedisplay == COURSE_DISPLAY_MULTIPAGE && $section == 0) {
                 $section++;
                 continue;
             }
 
-            if (count($formatdata->sections) <= $section) {
+            if (!isset($formatdata->sections[$section])) {
                 $section++;
                 continue;
             }
@@ -844,11 +804,9 @@ class format_menutopic extends core_courseformat\base {
             }
 
             $coursecontext = $this->get_context();
-            $canviewhidden = has_capability('moodle/course:viewhiddensections', $coursecontext)
-                                            || !$course->hiddensections;
+            $canviewhidden = has_capability('moodle/course:viewhiddensections', $coursecontext) || !$course->hiddensections;
 
             if ($showsection || $canviewhidden || !$course->hiddensections) {
-
                 // Check if display available message is required.
                 $sectiontpl = new content_base\section($this, $thissection);
                 $availabilityclass = $this->get_output_classname('content\\section\\availability');
@@ -884,7 +842,6 @@ class format_menutopic extends core_courseformat\base {
                         $subitem->availablemessage = $OUTPUT->render($availability);
                     }
                 }
-
             } else {
                 if (!$formatdata->autobuildtree) {
                     $formatdata->menu->remove_topic($section, false, true);
@@ -899,4 +856,16 @@ class format_menutopic extends core_courseformat\base {
         return $formatdata;
     }
 
+    /**
+     * Menutopic supports the activity previous/next footer.
+     *
+     * The site setting format_menutopic/enablelinearnav turns the footer on or off.
+     * This is separate from the format's own section navigation.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public static function uses_linear_navigation(): bool {
+        return true;
+    }
 }

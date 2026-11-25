@@ -27,8 +27,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/filelib.php');
-require_once($CFG->libdir.'/completionlib.php');
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/completionlib.php');
 
 // Horrible backwards compatible parameter aliasing.
 if ($topic = optional_param('topic', 0, PARAM_INT)) {
@@ -45,7 +45,12 @@ $course = course_get_format($course)->get_course();
 
 if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
     $course->marker = $marker;
-    course_set_marker($course->id, $marker);
+    if ($marker == 0) {
+        \core_courseformat\formatactions::section($course->id)->remove_all_markers();
+    } else {
+        $sectioninfo = get_fast_modinfo($course->id)->get_section_info($marker);
+        \core_courseformat\formatactions::section($course->id)->set_marker($sectioninfo, true);
+    }
 }
 
 // Menutopic format is always multipage.

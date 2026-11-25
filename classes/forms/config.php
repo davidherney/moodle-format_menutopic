@@ -32,7 +32,6 @@ namespace format_menutopic\forms;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config extends \moodleform {
-
     /**
      * Defines the form fields.
      */
@@ -49,10 +48,11 @@ class config extends \moodleform {
         $config->displaynavigation = 'nothing';
         $config->nodesnavigation = '';
 
-        if (is_object($this->_customdata['format_data'])
-                && property_exists($this->_customdata['format_data'], 'config')
-                && !empty($this->_customdata['format_data']->config)) {
-
+        if (
+            is_object($this->_customdata['format_data'])
+            && property_exists($this->_customdata['format_data'], 'config')
+            && !empty($this->_customdata['format_data']->config)
+        ) {
             $configsaved = @unserialize($this->_customdata['format_data']->config);
 
             if (!is_object($configsaved)) {

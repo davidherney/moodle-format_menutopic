@@ -32,7 +32,6 @@ namespace format_menutopic\forms;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class tree extends \moodleform {
-
     /**
      * Defines the form fields.
      */
@@ -43,8 +42,11 @@ class tree extends \moodleform {
 
         $treecode = '';
 
-        if (is_object($this->_customdata['format_data']) && property_exists($this->_customdata['format_data'], 'tree')
-                && !empty($this->_customdata['format_data']->tree)) {
+        if (
+            is_object($this->_customdata['format_data'])
+            && property_exists($this->_customdata['format_data'], 'tree')
+            && !empty($this->_customdata['format_data']->tree)
+        ) {
             $treecode = stripslashes($this->_customdata['format_data']->tree);
         } else {
             $treecodeobject = new \stdClass();
@@ -55,7 +57,8 @@ class tree extends \moodleform {
                 $init = 1;
             }
 
-            for ($i = 0; $i < ($course->numsections + 1 - $init); $i++) {
+            $numsections = course_get_format($course)->get_last_section_number();
+            for ($i = 0; $i < ($numsections + 1 - $init); $i++) {
                 $treecodeobject->topics[$i] = new \stdClass();
                 $treecodeobject->topics[$i]->name = get_string('template_namemenutopic', 'format_menutopic', $i + $init);
                 $treecodeobject->topics[$i]->subtopics = [];
@@ -75,8 +78,12 @@ class tree extends \moodleform {
         $mform->setType('treecode', PARAM_RAW);
         $mform->setDefault('treecode', $treecode);
 
-        $mform->addElement('static', 'treecontainer', get_string('tree_struct', 'format_menutopic'),
-            '<div id="treecontainer"></div>');
+        $mform->addElement(
+            'static',
+            'treecontainer',
+            get_string('tree_struct', 'format_menutopic'),
+            '<div id="treecontainer"></div>'
+        );
 
         $mform->addElement('hidden', 'id', $course->id);
         $mform->setType('id', PARAM_INT);

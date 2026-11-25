@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025062301; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2025021400; // Requires this Moodle version.
+$plugin->version = 2026112401; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2026100200; // Requires this Moodle version.
 $plugin->component = 'format_menutopic'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'michelle-5.0.1';
-$plugin->dependencies = ['format_topics' => 2024121800];
-$plugin->supported = [500, 500];
+$plugin->release = 'michelle-5.3.0';
+$plugin->dependencies = ['format_topics' => 2026100500];
+$plugin->supported = [503, 503];

@@ -38,8 +38,7 @@ use renderable;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class content extends content_base {
-
-    /** @var stdClass Local format data */
+    /** @var object Local format data */
     private static $formatdata;
 
     /**
@@ -61,12 +60,11 @@ class content extends content_base {
         return 'format_menutopic/local/content';
     }
 
-
     /**
      * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
      *
      * @param \renderer_base $output typically, the renderer that's calling this function
-     * @return stdClass data context for a mustache template
+     * @return object data context for a mustache template
      */
     public function export_for_template(\renderer_base $output) {
         global $PAGE;
@@ -81,13 +79,14 @@ class content extends content_base {
             'title' => $format->page_title(), // This method should be in the course_format class.
             'format' => $format->get_format(),
             'sectionreturn' => 0,
+            // Mustache does not print null. Pass the string so the component receives a JS null.
+            'pagesectionid' => $format->get_sectionid() ?? 'null',
         ];
 
         $data->hasnavigation = true;
 
         // The current section format has extra navigation.
         if ($currentsection || $currentsection === 0) {
-
             $usessectionsnavigation = isset($format::$formatdata->configmenu->displaynavigation) ?
                                             $format::$formatdata->configmenu->displaynavigation : null;
 
@@ -96,14 +95,17 @@ class content extends content_base {
             }
 
             if ($usessectionsnavigation != \format_menutopic::SECTIONSNAVIGATION_NOT) {
-                if ($usessectionsnavigation != \format_menutopic::SECTIONSNAVIGATION_SUPPORT ||
-                        !$PAGE->theme->usescourseindex) {
-
+                if (
+                    $usessectionsnavigation != \format_menutopic::SECTIONSNAVIGATION_SUPPORT
+                    || !$PAGE->theme->usescourseindex
+                ) {
                     $sectionnavigation = new $this->sectionnavigationclass($format, $currentsection);
 
                     // Not show navigation in top section if is not both or top.
-                    if ($usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_BOTH ||
-                            $usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_TOP) {
+                    if (
+                        $usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_BOTH
+                        || $usessectionsnavigation == \format_menutopic::SECTIONSNAVIGATION_TOP
+                    ) {
                         $data->sectionnavigation = $sectionnavigation->export_for_template($output);
                     }
 
@@ -156,8 +158,12 @@ class content extends content_base {
             // The course/view.php check the section existence but the output can be called
             // from other parts so we need to check it.
             if (!$thissection) {
-                throw new \moodle_exception('unknowncoursesection', 'error', course_get_url($course),
-                    format_string($course->fullname));
+                throw new \moodle_exception(
+                    'unknowncoursesection',
+                    'error',
+                    course_get_url($course),
+                    format_string($course->fullname)
+                );
             }
 
             $section = new $this->sectionclass($format, $thissection);
@@ -193,11 +199,9 @@ class content extends content_base {
      * @return section_info[] an array of section_info to display
      */
     protected function get_sections_to_display(course_modinfo $modinfo): array {
-
         $format = $this->format;
         $sections = [$modinfo->get_section_info($format->get_sectionnum())];
 
         return $sections;
     }
-
 }

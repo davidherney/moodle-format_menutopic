@@ -32,7 +32,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_format_menutopic_plugin extends backup_format_plugin {
-
     /**
      * Returns the course format information to attach to course element.
      */

@@ -27,7 +27,6 @@ use moodle_page;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends section_renderer {
-
     /**
      * Constructor method, calls the parent constructor.
      *
@@ -54,5 +53,4 @@ class renderer extends section_renderer {
 
         return $this->render_from_template($edition->get_template_name($this), $edition->export_for_template($this));
     }
-
 }

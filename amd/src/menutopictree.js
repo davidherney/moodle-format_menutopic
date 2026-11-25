@@ -16,13 +16,14 @@
 /**
  * JavaScript library for the menutopic course format.
  *
+ * @module    format_menutopic/menutopictree
  * @copyright 2018 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import $ from 'jquery';
 import {get_strings as getStrings} from 'core/str';
 import Notification from 'core/notification';
-import ModalFactory from 'core/modal_factory';
+import ModalSaveCancel from 'core/modal_save_cancel';
 import ModalEvents from 'core/modal_events';
 import Log from 'core/log';
 
@@ -291,14 +292,11 @@ export const init = () => {
     // End of Load strings.
 
     if (loaded) {
-
         var editBody = $('#editsheetform').html();
-        ModalFactory.create({
-            type: ModalFactory.types.SAVE_CANCEL,
+        ModalSaveCancel.create({
             title: s.update,
             body: editBody
-        })
-        .done(function(modal) {
+        }).then(function(modal) {
             var $modalBody = modal.getBody();
             $modalBody.find('#select_topic').on('change', treeController.changeTopic);
             modal.getRoot().on(ModalEvents.save, function() {
@@ -308,7 +306,8 @@ export const init = () => {
                 $currentNode.data('target', $modalBody.find('#select_target').val());
             });
             $editWindow = modal;
-        });
+            return modal;
+        }).catch(Notification.exception);
 
         $('#id_submitbutton').on('click', treeController.saveTreeConfig);
 

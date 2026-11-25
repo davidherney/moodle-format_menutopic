@@ -26,7 +26,6 @@ namespace format_menutopic\output\courseformat\content;
 
 use core_courseformat\base as course_format;
 use core_courseformat\output\local\content\section as section_base;
-use stdClass;
 
 /**
  * Base class to render a course section.
@@ -36,46 +35,8 @@ use stdClass;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class section extends section_base {
-
     /** @var course_format the course format */
     protected $format;
-
-    /**
-     * Export this data so it can be used as the context for a mustache template.
-     *
-     * @param \renderer_base $output typically, the renderer that's calling this function
-     * @return array data context for a mustache template
-     */
-    public function export_for_template(\renderer_base $output): stdClass {
-        global $PAGE;
-
-        $format = $this->format;
-        $course = $format->get_course();
-        $section = $this->section;
-
-        $summary = new $this->summaryclass($format, $section);
-
-        $data = (object)[
-            'num' => $section->section ?? '0',
-            'id' => $section->id,
-            'sectionreturnid' => $format->get_sectionnum(),
-            'insertafter' => false,
-            'summary' => $summary->export_for_template($output),
-            'highlightedlabel' => $format->get_section_highlighted_name(),
-            'sitehome' => $course->id == SITEID,
-            'editing' => $PAGE->user_is_editing(),
-        ];
-
-        $haspartials = [];
-        $haspartials['availability'] = $this->add_availability_data($data, $output);
-        $haspartials['visibility'] = $this->add_visibility_data($data, $output);
-        $haspartials['editor'] = $this->add_editor_data($data, $output);
-        $haspartials['header'] = $this->add_header_data($data, $output);
-        $haspartials['cm'] = $this->add_cm_data($data, $output);
-        $this->add_format_data($data, $haspartials, $output);
-
-        return $data;
-    }
 
     /**
      * Get the section number.

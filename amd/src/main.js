@@ -16,11 +16,13 @@
 /**
  * General actions for the menutopic course format.
  *
+ * @module    format_menutopic/main
  * @copyright 2018 David Herney Bernal - cirano
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import $ from 'jquery';
-import ModalFactory from 'core/modal_factory';
+import Modal from 'core/modal';
+import Notification from 'core/notification';
 import {get_strings as getStrings} from 'core/str';
 import Log from 'core/log';
 
@@ -81,25 +83,25 @@ export const init = () => {
             }
 
             // Show the content in a modal window.
-            ModalFactory.create({
+            Modal.create({
                 'title': title,
                 'body': '',
-            }).done(function(modal) {
+            }).then(function(modal) {
 
                 var contenthtml = $content.html();
 
                 // Uncomment html in contenthtml. The comment is used in order to load content with tags not inline.
                 contenthtml = contenthtml.replace(/<!--([\s\S]*?)-->/g, function(match, p1) {
                     return p1;
-                  }
-                );
+                });
 
                 var $modalBody = modal.getBody();
                 $modalBody.css('min-height', '150px');
                 $modalBody.append(contenthtml);
                 modal.show();
                 $content.data('modal', modal);
-            });
+                return modal;
+            }).catch(Notification.exception);
         });
     });
 
@@ -121,13 +123,14 @@ export const init = () => {
             }
 
             // Show the content in a modal window.
-            ModalFactory.create({
+            Modal.create({
                 'title': title,
                 'body': $content.html()
-            }).done(function(modal) {
+            }).then(function(modal) {
                 modal.show();
                 $content.data('modal', modal);
-            });
+                return modal;
+            }).catch(Notification.exception);
         });
     });
 };

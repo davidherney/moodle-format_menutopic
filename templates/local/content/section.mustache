@@ -68,7 +68,7 @@
         "iscurrent": true,
         "currentlink": "<span class=\"accesshide\">This topic</span>",
         "availability": {
-            "info": "<span class=\"badge badge-info\">Hidden from students</span>",
+            "info": "<span class=\"badge bg-info\">Hidden from students</span>",
             "hasavailability": true
         },
         "summary": {
@@ -80,7 +80,8 @@
         },
         "cmcontrols": "[Add an activity or resource]",
         "iscoursedisplaymultipage": true,
-        "sectionreturnid": 0,
+        "sectionreturnnum": 0,
+        "sectionname": "Section title",
         "contentcollapsed": false,
         "insertafter": true,
         "numsections": 42,
@@ -95,10 +96,12 @@
             {{#ishidden}} hidden {{/ishidden}} {{#iscurrent}} current {{/iscurrent}}
             {{#isstealth}} orphaned {{/isstealth}}"
     data-sectionid="{{num}}"
-    data-sectionreturnid="{{sectionreturnid}}"
+    data-sectionreturnnum="{{sectionreturnnum}}"
+    {{#returnoptions}}data-returnoptions='{{.}}'{{/returnoptions}}
     data-for="section"
     data-id="{{id}}"
     data-number="{{num}}"
+    data-sectionname="{{sectionname}}"
 >
     <div class="course-section-header d-flex"
         data-for="section_title"
@@ -106,7 +109,7 @@
         data-number="{{num}}"
     >
         {{#restrictionlock}}
-            <div class="align-self-center ml-2">
+            <div class="align-self-center ms-2">
                 {{#pix}}t/unlock, core{{/pix}}
             </div>
         {{/restrictionlock}}
@@ -115,21 +118,6 @@
                 {{> core_courseformat/local/content/section/badges }}
             {{/ core_courseformat/local/content/section/badges }}
         </div>
-        {{#collapsemenu}}
-        <div class="flex-fill d-flex justify-content-end mr-2 align-self-start mt-2">
-            <a
-                id="collapsesections"
-                class="section-collapsemenu"
-                href="#"
-                aria-expanded="true"
-                role="button"
-                data-toggle="toggleall"
-            >
-                <span class="collapseall text-nowrap">{{#str}}collapseall{{/str}}</span>
-                <span class="expandall text-nowrap">{{#str}}expandall{{/str}}</span>
-            </a>
-        </div>
-        {{/collapsemenu}}
         {{#controlmenu}}
             {{$ core_courseformat/local/content/section/controlmenu }}
                 {{> core_courseformat/local/content/section/controlmenu }}

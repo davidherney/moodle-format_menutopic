@@ -32,7 +32,6 @@ namespace format_menutopic\forms;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class csstemplate extends \moodleform {
-
     /**
      * Defines the form fields.
      */

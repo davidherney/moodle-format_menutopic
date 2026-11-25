@@ -150,6 +150,7 @@ require(['core_courseformat/local/content'], function(component) {
             SECTION_CMLIST: `ul.menutopic [data-for='cmlist']`,
             CM: `ul.menutopic [data-for='cmitem']`,
         },
-        {{sectionreturn}});
+        {{sectionreturn}},
+        {{#pagesectionid}}{{.}}{{/pagesectionid}}{{^pagesectionid}}null{{/pagesectionid}});
 });
 {{/js}}

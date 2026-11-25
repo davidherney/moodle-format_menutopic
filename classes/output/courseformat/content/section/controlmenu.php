@@ -24,7 +24,6 @@
 
 namespace format_menutopic\output\courseformat\content\section;
 
-
 use core\output\action_menu\link_secondary;
 use core\output\pix_icon;
 use core\url;
@@ -38,11 +37,10 @@ use format_topics\output\courseformat\content\section\controlmenu as controlmenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class controlmenu extends controlmenu_format_topics {
-
-    /** @var course_format the course format class */
+    /** @var \course_format the course format class */
     protected $format;
 
-    /** @var section_info the course section class */
+    /** @var \section_info the course section class */
     protected $section;
 
     /**
@@ -53,59 +51,9 @@ class controlmenu extends controlmenu_format_topics {
      * @return array of edit control items
      */
     public function section_control_items() {
-        global $USER;
-
         $format = $this->format;
         $section = $this->section;
         $course = $format->get_course();
-        $sectionreturn = $format->get_sectionnum();
-
-        $coursecontext = $this->format->get_context();
-        $numsections = $format->get_last_section_number();
-        $isstealth = $section->section > $numsections;
-
-        if ($sectionreturn) {
-            $url = course_get_url($course, $section->section);
-        } else {
-            $url = course_get_url($course);
-        }
-        $url->param('sesskey', sesskey());
-
-        $othercontrols = [];
-
-        $movecontrols = [];
-        if ($section->section && !$isstealth && has_capability('moodle/course:movesections', $coursecontext, $USER)) {
-            $baseurl = course_get_url($course);
-            $baseurl->param('sesskey', sesskey());
-            $rtl = right_to_left();
-
-            // Legacy move up and down links.
-            $url = clone($baseurl);
-            if ($section->section > 1) { // Add a arrow to move section up.
-                $url->param('section', $section->section);
-                $url->param('move', -1);
-                $strmoveup = get_string('moveleft');
-                $movecontrols['moveup'] = new link_secondary(
-                    url: $url,
-                    icon: new pix_icon('i/up', ''),
-                    text: $strmoveup,
-                    attributes: ['class' => 'icon moveup'],
-                );
-            }
-
-            $url = clone($baseurl);
-            if ($section->section < $numsections) { // Add a arrow to move section down.
-                $url->param('section', $section->section);
-                $url->param('move', 1);
-                $strmovedown = get_string('moveright');
-                $movecontrols['movedown'] = new link_secondary(
-                    url: $url,
-                    icon: new pix_icon('i/down', ''),
-                    text: $strmovedown,
-                    attributes: ['class' => 'icon movedown'],
-                );
-            }
-        }
 
         $parentcontrols = parent::section_control_items();
 
@@ -128,7 +76,8 @@ class controlmenu extends controlmenu_format_topics {
 
         // Create the permalink according to the Menutopic format.
         if (array_key_exists("permalink", $parentcontrols)) {
-            $sectionlink = new \moodle_url('/course/view.php',
+            $sectionlink = new \moodle_url(
+                '/course/view.php',
                 [
                     'id' => $course->id,
                     'sectionid' => $section->id,
@@ -147,33 +96,6 @@ class controlmenu extends controlmenu_format_topics {
             );
         }
 
-        // If the edit key exists, we are going to insert our controls after it.
-        $merged = [];
-        $editcontrolexists = array_key_exists("edit", $parentcontrols);
-        $visibilitycontrolexists = array_key_exists("visibility", $parentcontrols);
-
-        if (!$editcontrolexists) {
-            $merged = array_merge($merged, $othercontrols);
-
-            if (!$visibilitycontrolexists) {
-                $merged = array_merge($merged, $movecontrols);
-            }
-        }
-
-        // We can't use splice because we are using associative arrays.
-        // Step through the array and merge the arrays.
-        foreach ($parentcontrols as $key => $action) {
-            $merged[$key] = $action;
-            if ($key == "edit") {
-                // If we have come to the edit key, merge these controls here.
-                $merged = array_merge($merged, $othercontrols);
-            }
-
-            if (($key == "edit" && !$visibilitycontrolexists) || $key == "visibility") {
-                $merged = array_merge($merged, $movecontrols);
-            }
-        }
-
-        return $merged;
+        return $parentcontrols;
     }
 }
